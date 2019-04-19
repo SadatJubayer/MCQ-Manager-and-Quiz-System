@@ -1,19 +1,19 @@
-package student;
+package gui.student;
 
 import java.lang.*;
 import javax.swing.*;
 
-public class StudentSignup extends JFrame {
+public class StudentHome extends JFrame {
     private JLabel usernameLabel, passwordLabel, email;
     private JTextField usernameField, emailField;
     private JPasswordField passwordField;
     private JButton loginButton, signupButton;
     private JPanel panel;
 
-    public StudentSignup() {
+    public StudentHome() {
 
-        super("Student Signup");
-        this.setSize(800, 500);
+        super("Student Home");
+        this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         panel = new JPanel();

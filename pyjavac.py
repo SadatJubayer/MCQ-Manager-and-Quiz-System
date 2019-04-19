@@ -4,7 +4,7 @@ import os
 
 # give your root directory here, between the ' ' (absolute path)
 #exmple: root_dir=('C://your_folder')
-root_dir = ('')
+root_dir = os.getcwd()
 
 
 print('scanning....')

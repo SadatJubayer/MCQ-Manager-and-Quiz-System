@@ -1,5 +1,6 @@
 package gui.teacher;
 
+import gui.student.*;
 import dbfunctions.Teacherdb;
 import gui.teacher.TeacherHome;
 
@@ -14,7 +15,7 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
     private JLabel headerOne, usernameLabel, passwordLabel, singupText;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JButton loginButton, signupButton, homeButton, backButton;
+    private JButton loginButton, signupButton, homeButton, backButton, tempBtn;
     private JPanel panel;
     private JSeparator separator;
     private JOptionPane errorMessage, errorPane;
@@ -33,10 +34,10 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         panel = new JPanel();
-        //myColor = new Color(48, 95, 114, 40);
+        // myColor = new Color(48, 95, 114, 40);
         panel.setBackground(color.getBgColor());
         panel.setOpaque(false);
-        //panel.setBackground(myColor);
+        // panel.setBackground(myColor);
         panel.setLayout(null);
 
         // Separator
@@ -81,6 +82,14 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
         loginButton.setBackground(color.getButtonColor());
         panel.add(loginButton);
 
+        tempBtn = new JButton("Go to Student Page");
+        tempBtn.setBounds(60, 400, 500, 100);
+        tempBtn.setFont(font.getprimaryFont());
+        tempBtn.setForeground(color.getBgColor());
+        tempBtn.setBackground(color.getButtonColor());
+        tempBtn.addActionListener(this);
+        panel.add(tempBtn);
+
         singupText = new JLabel("Don't have an account?");
         singupText.setFont(font.getSmallFont());
         singupText.setForeground(color.getTextColor());
@@ -105,7 +114,15 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
     // Action Listeners
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == loginButton) {
+
+        if (e.getSource() == tempBtn) {
+            dispose();
+            StudentHome sh = new StudentHome();
+            sh.setLocationRelativeTo(null);
+            sh.setVisible(true);
+        }
+
+        else if (e.getSource() == loginButton) {
 
             if (usernameField.getText().equals("") || passwordField.getText().equals("")) {
                 errorMessage = new JOptionPane();

@@ -7,8 +7,6 @@ import classes.Course;
 
 import javax.swing.border.EmptyBorder;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;

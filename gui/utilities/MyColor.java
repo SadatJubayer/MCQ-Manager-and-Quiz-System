@@ -1,4 +1,4 @@
-package kutta;
+package gui.utilities;
 
 import java.awt.Color;
 
@@ -25,7 +25,7 @@ public class MyColor {
     }
 
     public static Color dangerColor() {
-        return new Color(255, 53, 71);
+        return new Color(201, 48, 44);
     }
 
     public static Color warningColor() {

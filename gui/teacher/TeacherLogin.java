@@ -117,7 +117,7 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
 
         if (e.getSource() == tempBtn) {
             dispose();
-            StudentHome sh = new StudentHome();
+            StudentHome sh = new StudentHome(this);
             sh.setLocationRelativeTo(null);
             sh.setVisible(true);
         }

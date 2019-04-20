@@ -201,10 +201,7 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
         } else if (e.getSource() == publish) {
 
-            this.dispose();
-            CoursePage cc = new CoursePage(teacher, course);
-            cc.setLocationRelativeTo(null);
-            cc.setVisible(true);
+            Examdb.publishExam(examId);
 
         } else if (e.getSource() == backButton) {
             this.dispose();
@@ -248,6 +245,11 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
             int indice = c.get(selected).getId();
             examId = indice;
             int str = c.get(selected).getDuration();
+
+            // for disabling button
+            if (c.get(selected).getIsPublished() == 1) {
+                publish.setEnabled(false);
+            }
 
             num2.setText(Integer.toString(str));
 

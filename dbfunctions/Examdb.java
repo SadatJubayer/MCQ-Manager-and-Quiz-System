@@ -92,6 +92,7 @@ public class Examdb {
         }
     }
 
+
     public static void runExam(int examId) {
         DB db = DB.getDB();
         List<Question> questionList = Examdb.getExamQuestions(examId);

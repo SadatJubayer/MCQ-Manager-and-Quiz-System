@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2019 at 03:52 PM
+-- Generation Time: Apr 20, 2019 at 10:24 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -43,7 +43,26 @@ INSERT INTO `course` (`id`, `name`, `teacherId`) VALUES
 (2, 'matha course', 2),
 (3, 'filmology', 4),
 (4, 'amder deshta', 1),
-(8, 'sadat', 1);
+(8, 'sadat', 1),
+(9, 'Sadat', 4),
+(12, 's', 4),
+(13, 'dfs', 1),
+(14, 'sdfsd', 1),
+(16, 'sdfsd', 1),
+(17, 'sdfsd', 1),
+(18, 'fsd', 1),
+(19, 'sdfesd', 1),
+(20, 'sdfsd', 1),
+(21, 'sdf', 1),
+(22, 'dfsdfsd', 1),
+(23, 'sfsdf', 1),
+(24, 'sdfsdf', 1),
+(25, 'sd', 1),
+(26, 'fsd', 1),
+(27, 'Computer Organization and Architecture', 1),
+(28, 'r', 4),
+(29, 'r', 4),
+(30, 'adfasdfsadfasdfsdafdwedjmg3e4ar23ehndzgjxhndhndxnhcfedx', 4);
 
 -- --------------------------------------------------------
 
@@ -258,7 +277,8 @@ INSERT INTO `question` (`id`, `courseId`, `description`, `choiceOne`, `choiceTwo
 (15, 3, '\'live from dhaka\' is a debut film by', 'srijit mukherjee', 'mostofa sarwar farooky', 'abdullah mohammad saad', 'tauquir ahmed', 'abdullah mohammad saad'),
 (16, 1, 'amader guu', 'gu1', 'gu2', 'gu3', 'gu4', 'gu3'),
 (18, 1, 'fafds', 'fsdffff', 'fdf', 'f', 'f', 'f'),
-(21, 1, 'xxxx', 'ffsd', 'dfrdsfds', 'f', 'sdfs', 'sdfs');
+(21, 1, 'xxxx', 'ffsd', 'dfrdsfds', 'f', 'sdfs', 'sdfs'),
+(22, 9, 'sadat er baper name ki?', 'roni', 'avishek', 'sayom', 'rafique jubayer', 'rafique jubayer');
 
 -- --------------------------------------------------------
 
@@ -384,7 +404,7 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `course_student`
@@ -396,19 +416,19 @@ ALTER TABLE `course_student`
 -- AUTO_INCREMENT for table `exam`
 --
 ALTER TABLE `exam`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `exam_question`
 --
 ALTER TABLE `exam_question`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `request`
@@ -455,8 +475,8 @@ ALTER TABLE `exam`
 -- Constraints for table `exam_question`
 --
 ALTER TABLE `exam_question`
-  ADD CONSTRAINT `fk_exam_question` FOREIGN KEY (`examId`) REFERENCES `exam` (`id`),
-  ADD CONSTRAINT `fk_exam_question_question_id` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`);
+  ADD CONSTRAINT `fk_exam_question` FOREIGN KEY (`examId`) REFERENCES `exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_exam_question_question_id` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `question`

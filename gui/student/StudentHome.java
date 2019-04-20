@@ -1,6 +1,9 @@
 package gui.student;
 
 import javax.swing.*;
+
+import classes.Teacher;
+
 import java.awt.event.*;
 import java.awt.*;
 
@@ -16,11 +19,11 @@ public class StudentHome extends JFrame implements ActionListener {
     private JLabel navBar, welcome, courses;
     private JButton logoutButton, registration;
 
+    private Teacher teacher;
+
     private JPanel panel;
 
-    private Home teacher;
-
-    public StudentHome(Home teacher) {
+    public StudentHome(Teacher teacher) {
 
         super("Student Home");
         this.teacher = teacher;
@@ -89,8 +92,6 @@ public class StudentHome extends JFrame implements ActionListener {
 
         if (action.equals(logoutButton.getText())) {
             dispose();
-            teacher.setLocationRelativeTo(null);
-            teacher.setVisible(true);
         } else {
 
         }

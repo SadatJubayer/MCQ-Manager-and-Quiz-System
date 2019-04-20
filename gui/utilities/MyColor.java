@@ -4,8 +4,12 @@ import java.awt.Color;
 
 public class MyColor {
 
-    public static Color textColor() {
+    public static Color whiteColor() {
         return Color.white;
+    }
+
+    public static Color textColor() {
+        return new Color(116, 116, 116);
     }
 
     public static Color primaryColor() {
@@ -54,6 +58,13 @@ public class MyColor {
 
     public static Color navbarColor() {
         return new Color(120, 144, 156);
+    }
+
+    public static Color redColor() {
+        return new Color(255, 82, 82);
+    }
+    public static Color whiteBg() {
+        return new Color(246, 245, 247);
     }
 
 }

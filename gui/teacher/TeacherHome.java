@@ -211,6 +211,9 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
         } else if (e.getSource() == logoutButton) {
             this.dispose();
+            Home home = new Home();
+            home.setLocationRelativeTo(null);
+            home.setResizable(false);
             home.setVisible(true);
 
         } else if (e.getSource() == deleteButton) {

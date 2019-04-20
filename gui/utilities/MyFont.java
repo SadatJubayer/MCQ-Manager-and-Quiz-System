@@ -28,7 +28,7 @@ public class MyFont {
     }
 
     public static Font headerFont() {
-        return new Font("Roboto", Font.PLAIN, 25);
+        return new Font("Roboto", Font.BOLD, 35);
     }
 
     public static Font mediumFont() {

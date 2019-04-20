@@ -3,9 +3,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
 
-import gui.teacher.*;
 import gui.Home;
-import gui.Homes; /// fsdfsdffssd
+import gui.teacher.*;
 import classes.Course;
 import dbfunctions.*;
 import database.*;

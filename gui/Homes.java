@@ -1,33 +1,34 @@
-package gui.teacher;
+package gui;
 
 import gui.student.*;
+import gui.teacher.*;
+
 import dbfunctions.Teacherdb;
-import gui.teacher.TeacherHome;
 
 import gui.components.MyColor;
 import gui.components.MyFont;
 
+import gui.utilities.*;
+
 import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
-public class TeacherLogin extends JFrame implements ActionListener, MouseListener {
-    private JLabel headerOne, usernameLabel, passwordLabel, singupText;
+public class Homes extends JFrame implements ActionListener, MouseListener {
+    private JLabel textLabel, usernameLabel, passwordLabel, singupText, boxOne, boxTwo;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton, signupButton, homeButton, backButton, tempBtn;
     private JPanel panel;
-    private JSeparator separator;
     private JOptionPane errorMessage, errorPane;
 
     // Components
     private MyColor color;
     private MyFont font;
 
-    public TeacherLogin() {
-
-        super("Teacher Login");
-
+    public Homes() {
+        super("Home");
         color = new MyColor();
         font = new MyFont();
 
@@ -40,64 +41,72 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
         // panel.setBackground(myColor);
         panel.setLayout(null);
 
-        // Separator
-        separator = new JSeparator(JSeparator.VERTICAL);
-        separator.setBounds(499, 50, 2, 550);
-        panel.add(separator);
-
         // Teacher Login Elements
 
-        headerOne = new JLabel("Teacher Login");
-        headerOne.setBounds(200, 110, 300, 40);
-        headerOne.setFont(font.getHeaderFont());
-        headerOne.setForeground(color.getTextColor());
-        panel.add(headerOne);
+        textLabel = new JLabel("Sign in");
+        textLabel.setBounds(245, 110, 300, 60);
+        textLabel.setFont(font.getHeaderFont());
+        textLabel.setForeground(Color.black);
+        panel.add(textLabel);
 
         usernameLabel = new JLabel("Username: ");
         usernameLabel.setFont(font.getprimaryFont());
-        usernameLabel.setBounds(60, 200, 120, 40);
+        usernameLabel.setBounds(130, 200, 120, 30);
         usernameLabel.setForeground(color.getTextColor());
         panel.add(usernameLabel);
 
         usernameField = new JTextField();
-        usernameField.setBounds(160, 200, 300, 40);
+        usernameField.setBounds(130, 240, 340, 40);
         usernameField.setFont(font.getprimaryFont());
         panel.add(usernameField);
 
         passwordLabel = new JLabel("Password: ");
         passwordLabel.setFont(font.getprimaryFont());
         passwordLabel.setForeground(color.getTextColor());
-        passwordLabel.setBounds(60, 260, 120, 40);
+        passwordLabel.setBounds(130, 290, 120, 40);
         panel.add(passwordLabel);
 
         passwordField = new JPasswordField();
         passwordField.setFont(font.getprimaryFont());
-        passwordField.setBounds(160, 260, 300, 40);
+        passwordField.setBounds(130, 330, 340, 40);
         panel.add(passwordField);
 
-        loginButton = new JButton("Login");
-        loginButton.setBounds(60, 330, 400, 40);
+        loginButton = new JButton("SIGN IN");
+        loginButton.setBounds(225, 400, 150, 50);
         loginButton.setFont(font.getprimaryFont());
         loginButton.setForeground(color.getBgColor());
-        loginButton.setBackground(color.getButtonColor());
+        loginButton.setBackground(color.getsecondaryButtonColor());
         panel.add(loginButton);
 
-        tempBtn = new JButton("Go to Student Page");
-        tempBtn.setBounds(60, 400, 500, 100);
-        tempBtn.setFont(font.getprimaryFont());
-        tempBtn.setForeground(color.getBgColor());
-        tempBtn.setBackground(color.getButtonColor());
-        tempBtn.addActionListener(this);
-        panel.add(tempBtn);
+        // tempBtn = new JButton("Go to Student Page");
+        // tempBtn.setBounds(60, 500, 400, 100);
+        // tempBtn.setFont(font.getprimaryFont());
+        // tempBtn.setForeground(color.getBgColor());
+        // tempBtn.setBackground(color.getButtonColor());
+        // tempBtn.addActionListener(this);
+        // panel.add(tempBtn);
 
-        singupText = new JLabel("Don't have an account?");
+        singupText = new JLabel("Forget your password?");
         singupText.setFont(font.getSmallFont());
         singupText.setForeground(color.getTextColor());
-        singupText.setBounds(60, 400, 300, 40);
+        singupText.setBounds(225, 500, 300, 40);
         panel.add(singupText);
 
-        signupButton = new JButton("Sign up");
-        signupButton.setBounds(250, 400, 210, 40);
+        textLabel = new JLabel("Hello, there!");
+        textLabel.setBounds(583, 200, 300, 60);
+        textLabel.setFont(font.getHeaderFont());
+        textLabel.setForeground(Color.white);
+        panel.add(textLabel);
+
+        textLabel = new JLabel("Don't have an account?");
+        textLabel.setBounds(590, 280, 300, 60);
+        textLabel.setFont(font.getMediumFont());
+        textLabel.setForeground(Color.white);
+        panel.add(textLabel);
+
+        signupButton = new JButton("SIGN  UP");
+        signupButton.setBounds(630, 350, 145, 45);
+        signupButton.setBorder(new LineBorder(Color.white));
         signupButton.setFont(font.getprimaryFont());
         signupButton.setForeground(color.getBgColor());
         signupButton.setBackground(color.getsecondaryButtonColor());
@@ -108,6 +117,20 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
         loginButton.addMouseListener(this);
         signupButton.addMouseListener(this);
 
+        boxOne = new JLabel();
+        boxOne.setBounds(100, 80, 400, 500);
+        boxOne.setFont(font.getHeaderFont());
+        boxOne.setOpaque(true);
+        boxOne.setBackground(Color.white);
+        panel.add(boxOne);
+
+        boxOne = new JLabel();
+        boxOne.setBounds(500, 80, 400, 500);
+        boxOne.setFont(font.getHeaderFont());
+        boxOne.setOpaque(true);
+        boxOne.setBackground(color.getsecondaryButtonColor());
+        panel.add(boxOne);
+
         this.add(panel);
     }
 
@@ -115,44 +138,6 @@ public class TeacherLogin extends JFrame implements ActionListener, MouseListene
 
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == tempBtn) {
-            dispose();
-            StudentHome sh = new StudentHome(this);
-            sh.setLocationRelativeTo(null);
-            sh.setVisible(true);
-        }
-
-        else if (e.getSource() == loginButton) {
-
-            if (usernameField.getText().equals("") || passwordField.getText().equals("")) {
-                errorMessage = new JOptionPane();
-                errorMessage.setFont(font.getprimaryFont());
-                errorMessage.showMessageDialog(null, "username or password can not be empty", "Wrong Input!",
-                        JOptionPane.WARNING_MESSAGE);
-            }
-
-            else {
-
-                String name = usernameField.getText();
-                String pass = passwordField.getText();
-
-                if (Teacherdb.login(name, pass) == -1) {
-                    errorPane = new JOptionPane();
-                    errorPane.setFont(font.getprimaryFont());
-                    errorPane.showMessageDialog(null, "Username or Password is incorrect", "Wrong Information!",
-                            JOptionPane.WARNING_MESSAGE);
-                } else {
-                    String teacherID = Integer.toString(Teacherdb.login(name, pass));
-                    dispose();
-                    TeacherHome teacherHome = new TeacherHome(name, teacherID);
-                    teacherHome.setLocationRelativeTo(null);
-                    teacherHome.setVisible(true);
-                }
-            }
-
-        } else if (e.getSource() == signupButton) {
-
-        }
     }
 
     // Mouse listeners

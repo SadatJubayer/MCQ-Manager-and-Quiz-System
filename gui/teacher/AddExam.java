@@ -3,6 +3,8 @@ package gui.teacher;
 import gui.components.*;
 import dbfunctions.Examdb;
 
+import classes.*;
+
 import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
@@ -24,13 +26,16 @@ public class AddExam extends JFrame implements ActionListener {
 
     JToggleButton toggleButton;
 
-    public AddExam(String tName, String tId, int cId) {
+    // navigation
+    private Teacher teacher;
+    private Course course;
+
+    public AddExam(Teacher teacher, Course course) {
 
         super("Add Exam");
 
-        teacherName = tName;
-        teacherId = tId;
-        courseId = cId;
+        this.teacher = teacher;
+        this.course = course;
 
         color = new MyColor();
         font = new MyFont();
@@ -42,7 +47,7 @@ public class AddExam extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         // Navbar
-        welcome = new JLabel("welcome");
+        welcome = new JLabel(course.getName());
         welcome.setFont(font.getprimaryFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -130,20 +135,17 @@ public class AddExam extends JFrame implements ActionListener {
 
             else {
 
-                System.out.println("Boss ami eljanme asi");
-
+                // TODO: add hh:MM
                 String descripton = examNameField.getText();
                 int duration = Integer.parseInt(examDurationField.getText());
                 int numberOfQuestion = Integer.parseInt(numberOfQuestionField.getText());
 
                 // Database checking here
-                Examdb.createExam(courseId, descripton, numberOfQuestion, duration);
+                Examdb.createExam(course.getId(), descripton, numberOfQuestion, duration);
 
                 examNameField.setText("");
                 examDurationField.setText("");
                 numberOfQuestionField.setText("");
-
-                System.out.println("Bos ami einite");
 
                 // Go back to home
                 successPane = new JOptionPane();
@@ -155,7 +157,7 @@ public class AddExam extends JFrame implements ActionListener {
 
         } else if (e.getSource() == backButton) {
             dispose();
-            ExamPage tm = new ExamPage(teacherName, teacherId, courseId);
+            ExamPage tm = new ExamPage(teacher, course);
             tm.setLocationRelativeTo(null);
             tm.setVisible(true);
         }

@@ -1,4 +1,6 @@
+
 DEL /S /Q *.class
+
 
 @echo.
 

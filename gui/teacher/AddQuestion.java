@@ -2,15 +2,13 @@ package gui.teacher;
 
 import gui.components.*;
 import dbfunctions.*;
-import classes.Question;
+import classes.*;
 import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
 public class AddQuestion extends JFrame implements ActionListener {
-
-    private String teacherName, teacherId;
 
     private int courseId;
 
@@ -30,13 +28,17 @@ public class AddQuestion extends JFrame implements ActionListener {
 
     JToggleButton toggleButton;
 
-    public AddQuestion(String name, String ID, int cId) {
+    // navigation
+    private Teacher teacher;
+    private Course course;
+
+    public AddQuestion(Teacher teacher, Course course) {
 
         super("Add Question");
 
-        teacherName = name;
-        teacherId = ID;
-        courseId = cId;
+        // private navigation
+        this.teacher = teacher;
+        this.course = course;
 
         color = new MyColor();
         font = new MyFont();
@@ -48,7 +50,7 @@ public class AddQuestion extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         // Navbar
-        welcome = new JLabel(name);
+        welcome = new JLabel(course.getName());
         welcome.setFont(font.getprimaryFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -216,8 +218,8 @@ public class AddQuestion extends JFrame implements ActionListener {
                 }
                 System.out
                         .println(questionItself + choice1 + choice2 + choice3 + choice4 + "Correct: " + correctChoice);
-                Questiondb.insertQuestion(
-                        new Question(courseId, questionItself, choice1, choice2, choice3, choice4, correctChoice));
+                Questiondb.insertQuestion(new Question(course.getId(), questionItself, choice1, choice2, choice3,
+                        choice4, correctChoice));
                 // Database checking here
 
                 // Go back to home
@@ -236,7 +238,7 @@ public class AddQuestion extends JFrame implements ActionListener {
 
         {
             dispose();
-            CoursePage tm = new CoursePage(teacherName, teacherId, courseId);
+            CoursePage tm = new CoursePage(teacher, course);
             tm.setLocationRelativeTo(null);
             tm.setVisible(true);
         } else {

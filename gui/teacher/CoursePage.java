@@ -1,10 +1,14 @@
 package gui.teacher;
 
+import gui.Home;
 import gui.components.*;
 import dbfunctions.Questiondb;
 import dbfunctions.Coursedb;
 import classes.Course;
 import classes.Question;
+
+//navigation
+import classes.Teacher;
 
 import java.util.List;
 import javax.swing.*;
@@ -19,10 +23,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
     private JScrollPane scrollPane;
 
-    private int courseId, questionId;
     private JList questionList;
-
-    private String TeacherName, teacherId;
     JOptionPane confirmDelete;
 
     private JPanel panel;
@@ -32,13 +33,22 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
     private MyColor color;
     private MyFont font;
 
-    public CoursePage(String tName, String tId, int courseId) {
+    private int questionId;
+
+    // navigation
+    private Teacher teacher;
+    // private Home home;
+    private Course course;
+
+    public CoursePage(Teacher teacher, Course course) {
 
         super("Course page");
 
-        this.TeacherName = tName;
-        this.courseId = courseId;
-        this.teacherId = tId;
+        // got from navigation
+        // this.home = home;
+        this.teacher = teacher;
+        this.course = course;
+
         // this.teacherId = Integer.toString(courseId);
 
         // UI Elements
@@ -53,7 +63,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
         // Navbar
 
-        welcome = new JLabel("Welcome re");
+        welcome = new JLabel("Welcome " + teacher.getName());
         welcome.setFont(font.getMediumFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -179,7 +189,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         title.setBounds(280, 75, 300, 25);
         panel.add(title);
 
-        courseQuestion = Questiondb.getAllQuestionList(courseId);
+        courseQuestion = Questiondb.getAllQuestionList(course.getId());
 
         int length = courseQuestion.size();
         String questionBak[] = new String[length];
@@ -227,22 +237,19 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
     }
 
-    public void getUser(String name) {
-
-    }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
 
             this.dispose();
-            TeacherHome f = new TeacherHome(TeacherName, teacherId);
+            // navigation
+            TeacherHome f = new TeacherHome(teacher);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
         } else if (e.getSource() == addQuestion) {
 
             System.out.println("Add Question Clicked");
             this.dispose();
-            AddQuestion f = new AddQuestion(TeacherName, teacherId, courseId);
+            AddQuestion f = new AddQuestion(teacher, course);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
@@ -250,7 +257,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
             System.out.println("Add Exam Clicked");
 
             this.dispose();
-            ExamPage exam = new ExamPage(TeacherName, teacherId, courseId);
+            ExamPage exam = new ExamPage(teacher, course);
             exam.setLocationRelativeTo(null);
             exam.setVisible(true);
 
@@ -269,11 +276,10 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
                 Questiondb.deleteQuestion(courseQuestion.get(questionId).getId());
                 this.dispose();
-                CoursePage cp = new CoursePage(TeacherName, teacherId, courseId);
+                CoursePage cp = new CoursePage(teacher, course);
                 cp.setLocationRelativeTo(null);
                 cp.setVisible(true);
             } else {
-                System.out.println("Mara kha taile bainchut");
             }
 
         }
@@ -293,7 +299,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
             System.out.println(selected);
 
-            List<Question> c = Questiondb.getAllQuestionList(courseId);
+            List<Question> c = Questiondb.getAllQuestionList(course.getId());
 
             String myQuestion = c.get(selected).getDescription();
             String choiceOne = c.get(selected).getChoiceOne();

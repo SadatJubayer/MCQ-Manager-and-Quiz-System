@@ -2,14 +2,16 @@ package gui.teacher;
 
 import gui.components.*;
 import dbfunctions.*;
+import gui.Home;
+
+//needed for navigation
+import classes.Teacher;
 
 import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class AddCourse extends JFrame implements ActionListener {
-
-    private String teacherName, teacherId;
 
     private JLabel courseName, courseId, courseCredit, headerOne, navBar, welcome;
     private JTextField courseNameField;
@@ -21,12 +23,16 @@ public class AddCourse extends JFrame implements ActionListener {
     private MyColor color;
     private MyFont font;
 
-    public AddCourse(String tName, String tID) {
+    // navigation
+    private Teacher teacher;
+    private Home home;
+
+    public AddCourse(Teacher teacher, Home home) {
 
         super("Add Course");
 
-        teacherName = tName;
-        teacherId = tID;
+        this.home = home;
+        this.teacher = teacher;
 
         color = new MyColor();
         font = new MyFont();
@@ -38,7 +44,7 @@ public class AddCourse extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         // Navbar
-        welcome = new JLabel(teacherName);
+        welcome = new JLabel(teacher.getName());
         welcome.setFont(font.getprimaryFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -107,24 +113,25 @@ public class AddCourse extends JFrame implements ActionListener {
 
             else {
 
-                String name = courseNameField.getText();
+                String description = courseNameField.getText();
 
                 // Database checking here
-                Coursedb.insertCourse(name, teacherId);
+                System.out.println("Course page: " + teacher.getName());
+                Coursedb.insertCourse(description, Integer.toString(teacher.getId()));
                 // Go back to home
                 successPane = new JOptionPane();
                 successPane.setFont(font.getprimaryFont());
-                successPane.showMessageDialog(null, "Course Added", "Success!", JOptionPane.WARNING_MESSAGE);
+                successPane.showMessageDialog(null, "Course Added", "Success!", JOptionPane.INFORMATION_MESSAGE);
                 courseNameField.setText("");
 
             }
 
         } else if (e.getSource() == backButton) {
-            dispose();
-            TeacherHome th = new TeacherHome(teacherName, teacherId);
-            th.setLocationRelativeTo(null);
+            this.dispose();
+            // navigatoin
+            TeacherHome th = new TeacherHome(teacher);
             th.setVisible(true);
-        } else {
+            th.setLocationRelativeTo(null);
 
         }
     }

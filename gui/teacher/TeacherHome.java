@@ -1,9 +1,12 @@
 package gui.teacher;
 
 import gui.components.*;
+import gui.Home;
+
 import dbfunctions.Coursedb;
 import dbfunctions.Teacherdb;
 import classes.Course;
+import classes.Teacher;
 
 import javax.swing.border.EmptyBorder;
 import java.util.List;
@@ -30,12 +33,17 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
     private JList courseList;
 
-    public TeacherHome(String tName, String tID) {
+    // NAVIGATION OBJECTS:
+    private Teacher teacher;
+    private Home home;
+    private Course selectedCourse;
 
-        super(tName + "'s Home");
+    public TeacherHome(Teacher teacher) {
 
-        teacherName = tName;
-        teacherId = tID;
+        // got from navigation
+        this.home = home;
+        this.teacher = teacher;
+
         // UI Elements
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -48,7 +56,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
         // Navbar
 
-        welcome = new JLabel("Welcome, " + tName);
+        welcome = new JLabel("Welcome, " + teacher.getName());
         welcome.setFont(font.getMediumFont());
         welcome.setForeground(color.getBgColor());
         welcome.setBounds(40, 18, 400, 25);
@@ -91,7 +99,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         loginSuccess = new JLabel("Please Select a course");
         loginSuccess.setFont(font.getMediumFont());
         loginSuccess.setForeground(color.getNavbarColor());
-        loginSuccess.setBounds(360, 90, 400, 25);
+        loginSuccess.setBounds(360, 90, 600, 25);
         panel.add(loginSuccess);
 
         studentNumber = new JLabel("Students");
@@ -135,23 +143,29 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         panel.add(boxTwo);
 
         // Combobox
-        List<Course> course = Coursedb.getCourseList(teacherId);
+        List<Course> course = Coursedb.getCourseList(Integer.toString(teacher.getId()));
 
         int length = course.size();
         coursess = new String[length];
         int i = 0;
         for (Course c : course) {
-            coursess[i] = c.getName();
+            coursess[i] = c.getName(); // c = courseList
             i++;
         }
         courseList = new JList(coursess);
         courseList.setFont(font.getMediumFont());
         courseList.setBorder(new EmptyBorder(10, 10, 10, 10));
         courseList.setForeground(color.getTextColor());
-        courseList.setBounds(40, 150, 300, 450);
+
         courseList.addMouseListener(this);
 
-        panel.add(courseList);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setViewportView(courseList);
+        scrollPane.setBounds(40, 150, 300, 450);
+
+        panel.add(scrollPane);
 
         goToButton = new JButton("Go to Course");
         goToButton.setBounds(360, 500, 400, 50);
@@ -178,34 +192,32 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
     }
 
-    public void getUser(String name) {
-
-    }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addCourse) {
             this.dispose();
-            AddCourse f = new AddCourse(teacherName, teacherId);
+            // NAVIGATION
+            System.out.println("action performed: add course: " + teacher.getName());
+            AddCourse f = new AddCourse(teacher, home);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
         } else if (e.getSource() == goToButton) {
 
             this.dispose();
-            CoursePage cc = new CoursePage(teacherName, teacherId, courseId);
+            // navigation
+            CoursePage cc = new CoursePage(teacher, selectedCourse);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
 
         } else if (e.getSource() == logoutButton) {
             this.dispose();
-            TeacherLogin tg = new TeacherLogin();
-            tg.setLocationRelativeTo(null);
-            tg.setVisible(true);
+            home.setVisible(true);
 
         } else if (e.getSource() == deleteButton) {
             Coursedb.deleteCourse(courseId);
             dispose();
-            TeacherHome teacherHome = new TeacherHome(teacherName, teacherId);
+            // NAVIGATION
+            TeacherHome teacherHome = new TeacherHome(teacher);
             teacherHome.setLocationRelativeTo(null);
             teacherHome.setVisible(true);
 
@@ -225,10 +237,12 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
             // System.out.println(selected);
 
-            List<Course> c = Coursedb.getCourseList(teacherId);
+            List<Course> c = Coursedb.getCourseList(Integer.toString(teacher.getId()));
+
+            selectedCourse = c.get(selected);
 
             int indice = c.get(selected).getId();
-            courseId = indice;
+            courseId = selected;
             theCourse = c.get(selected).getName();
 
             loginSuccess.setText(theCourse + " is now selected");

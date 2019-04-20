@@ -51,4 +51,8 @@ public class MyFont {
         return new Font("Roboto", Font.PLAIN, 10);
     }
 
+    public static Font montserrat() {
+        return new Font("Montserrat", Font.PLAIN, 15);
+    }
+
 }

@@ -15,9 +15,9 @@ import classes.Teacher;
 
 public class Teacherdb {
 
-    public static int login(String username, String password) {
+    public static Teacher login(String username, String password) {
         DB db = DB.getDB();
-        String sql = "SELECT id FROM teacher WHERE name=? AND password=?";
+        String sql = "SELECT * FROM teacher WHERE name=? AND password=?";
 
         ResultSetHandler<Teacher> resultSetHandler = new BeanHandler<Teacher>(Teacher.class);
 
@@ -29,18 +29,7 @@ public class Teacherdb {
             System.out.println("teacherdb login(): " + e);
         }
 
-        if (teacher == null) {
-            // System.out.println("teacher not available");
-            // GP.setProperty("teacherId", "-1");
-            return -1;
-        }
-
-        else {
-            // these global property might not be needed
-            // GlobalProperty gp = new GlobalProperty();
-            // gp.setProperty("teacherId", Integer.toString(teacher.getId()));
-            return teacher.getId();
-        }
+        return teacher;
     }
 
     // public static void logout() {

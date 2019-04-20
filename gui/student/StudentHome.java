@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 import gui.teacher.*;
+import gui.Home;
 
 // custom imports 
 import gui.utilities.MyColor;
@@ -17,9 +18,9 @@ public class StudentHome extends JFrame implements ActionListener {
 
     private JPanel panel;
 
-    private TeacherLogin teacher;
+    private Home teacher;
 
-    public StudentHome(TeacherLogin teacher) {
+    public StudentHome(Home teacher) {
 
         super("Student Home");
         this.teacher = teacher;

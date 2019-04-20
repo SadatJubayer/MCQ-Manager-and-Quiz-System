@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 import gui.teacher.*;
+import gui.Home;
+import gui.Homes; /// fsdfsdffssd
 import classes.Course;
 import dbfunctions.*;
 import database.*;
@@ -26,10 +28,10 @@ public class Main {
         // List<Course> course = Coursedb.getCourseList("1");
         // String str = Coursedb.getNumberOfQuestions(course.get(0).getId());
 
-        TeacherLogin fl = new TeacherLogin();
-        fl.setLocationRelativeTo(null);
-        fl.setVisible(true);
-        fl.setResizable(false);
+        Home home = new Home();
+        home.setLocationRelativeTo(null);
+        home.setResizable(false);
+        home.setVisible(true);
 
         // System.out.println(Coursedb.getNumberOfQuestions(3));
 

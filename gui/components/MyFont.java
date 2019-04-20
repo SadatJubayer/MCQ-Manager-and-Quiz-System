@@ -17,7 +17,7 @@ public class MyFont {
 
         primaryFont = new Font("Roboto", Font.PLAIN, 18);
         mediumFont = new Font("Roboto", Font.PLAIN, 21);
-        headerFont = new Font("Roboto", Font.PLAIN, 25);
+        headerFont = new Font("Roboto", Font.BOLD, 40);
         smallFont = new Font("Roboto", Font.PLAIN, 16);
         tinyFont = new Font("Roboto", Font.PLAIN, 10);
         bigFont = new Font("Roboto", Font.PLAIN, 40);

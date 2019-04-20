@@ -4,8 +4,8 @@ import gui.components.*;
 import dbfunctions.Coursedb;
 import dbfunctions.Teacherdb;
 import dbfunctions.Examdb;
-import classes.Course;
-import classes.Exam;
+
+import classes.*;
 
 import javax.swing.border.EmptyBorder;
 import java.util.List;
@@ -36,13 +36,16 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
     private JList examList;
 
-    public ExamPage(String tName, String tId, int cId) {
+    // navigation
+    private Teacher teacher;
+    private Course course;
+
+    public ExamPage(Teacher teacher, Course course) {
 
         super("Exam Page");
 
-        teacherName = tName;
-        teacherId = tId;
-        courseId = cId;
+        this.teacher = teacher;
+        this.course = course;
         // UI Elements
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -137,7 +140,7 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
         // Combobox
 
-        List<Exam> exam = Examdb.getExamList(courseId);
+        List<Exam> exam = Examdb.getExamList(course.getId());
 
         int length = exam.size();
         exams = new String[length];
@@ -189,27 +192,23 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
     }
 
-    public void getUser(String name) {
-
-    }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addExam) {
             this.dispose();
-            AddExam f = new AddExam(teacherName, teacherId, courseId);
+            AddExam f = new AddExam(teacher, course);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
 
         } else if (e.getSource() == publish) {
 
             this.dispose();
-            CoursePage cc = new CoursePage(teacherName, teacherId, courseId);
+            CoursePage cc = new CoursePage(teacher, course);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
 
         } else if (e.getSource() == backButton) {
             this.dispose();
-            CoursePage cc = new CoursePage(teacherName, teacherId, courseId);
+            CoursePage cc = new CoursePage(teacher, course);
             cc.setLocationRelativeTo(null);
             cc.setVisible(true);
 
@@ -224,7 +223,7 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
                 Examdb.deleteExam(examId);
                 this.dispose();
-                ExamPage cp = new ExamPage(teacherName, teacherId, courseId);
+                ExamPage cp = new ExamPage(teacher, course);
                 cp.setLocationRelativeTo(null);
                 cp.setVisible(true);
             }
@@ -244,7 +243,7 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
             // System.out.println(selected);
 
-            List<Exam> c = Examdb.getExamList(courseId);
+            List<Exam> c = Examdb.getExamList(course.getId());
 
             int indice = c.get(selected).getId();
             examId = indice;

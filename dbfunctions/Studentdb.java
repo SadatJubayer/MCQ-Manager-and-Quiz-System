@@ -10,9 +10,8 @@ import java.math.BigInteger;
 import classes.Student;
 
 public class Studentdb {
-    /*
 
-    public static boolean login(String username, String password) {
+    public static Student login(String username, String password) {
         DB db = DB.getDB();
         String sql = "SELECT id FROM student WHERE name=? AND password=?";
 
@@ -27,15 +26,7 @@ public class Studentdb {
             System.out.println("Studentdb login(): " + e);
         }
 
-        if (student == null) {
-            System.out.println("student not available");
-            // GP.setProperty("teacherId", "-1");
-            return false;
-        }
-
-        else {
-            return true;
-        }
+            return student;
     }
 
     public static boolean signUp(String username, String password){
@@ -106,6 +97,5 @@ public class Studentdb {
     public static void sitForExam(String examId, String studentId) {
 
     }
-    */
 
 }

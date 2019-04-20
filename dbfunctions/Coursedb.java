@@ -1,6 +1,8 @@
 package dbfunctions;
 
-import classes.*;
+import classes.Student;
+import classes.Course;
+import classes.Question;
 import java.util.*;
 import database.*;
 import org.apache.commons.dbutils.*;
@@ -83,7 +85,6 @@ public class Coursedb {
     public static List<Course> getEnrolledCourseList(String studentId) {
         String sql = "SELECT * FROM course WHERE id IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
-
     }
 
     public static String getNumberOfStudents(int courseId) {
@@ -141,15 +142,19 @@ public class Coursedb {
     public static List<Student> getEnrolledStudentList(int courseId) {
         DB db = DB.getDB();
 
-        String sql = "SELECT * FROM student WHERE id IN(SELECT studentId FROM course_student WHERE courseId=?";
+        System.out.println("courseid: " + courseId);
+
+        String sql = "SELECT * FROM student WHERE id IN(SELECT studentId FROM course_student WHERE courseId=?)";
+
         List<Student> studentList = null;
 
         ResultSetHandler<List<Student>> resultSetHandler = new BeanListHandler<Student>(Student.class);
 
         try {
-            studentList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+            studentList = db.run.query(db.getConn(), sql, resultSetHandler, Integer.toString(courseId));
+            System.out.println("pagla ghura re");
         } catch (Exception e) {
-            System.out.println("getStudentList: " + e);
+            System.out.println("get Enrolled StudentList: " + e);
         }
 
         return studentList;
@@ -170,6 +175,15 @@ public class Coursedb {
         }
 
         return studentList;
+    }
+
+    // TODO: below functions
+    public static void deleteRequest(int studentId) {
+
+    }
+
+    public static void acceptRequest(int studentId) {
+
     }
 
 }

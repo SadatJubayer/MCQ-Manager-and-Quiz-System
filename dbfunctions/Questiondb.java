@@ -20,6 +20,19 @@ public class Questiondb {
         }
     }
 
+    public static void updateQuestion(Question q) {
+        DB db = DB.getDB();
+        System.out.println("updateQues: " + q.getId());
+        System.out.println("description: " + q.getDescription());
+        String sql = "UPDATE `question` SET `description` = ?, `choiceOne` = ?,`choiceTwo` = ?, `choiceThree` = ?, `choiceFour` = ?, `correctChoice` = ? WHERE `question`.`id` = ?";
+        try {
+            db.run.update(db.getConn(), sql, q.getDescription(), q.getChoiceOne(), q.getChoiceTwo(), q.getChoiceThree(),
+                    q.getChoiceFour(), q.getCorrectChoice(), q.getId());
+        } catch (Exception e) {
+            System.out.println("insertQuestion(): " + e);
+        }
+    }
+
     // the function needed for showing the question bank in courses
     // also needed for creating exam
     public static List<Question> getAllQuestionList(int courseId) {

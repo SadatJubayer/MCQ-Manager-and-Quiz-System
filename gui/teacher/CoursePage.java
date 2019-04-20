@@ -18,8 +18,11 @@ import java.awt.*;
 public class CoursePage extends JFrame implements ActionListener, MouseListener {
 
     private JLabel navBar, titleBar, welcome, boxOne, title, oneLabel, twoLabel, threeLabel, fourLabel;
-    private JButton addQuestion, addExam, students, requests, logoutButton, updateButton, deleteBtn, backButton;
+    private JButton addQuestion, addExam, studentListButton, requests, logoutButton, updateButton, deleteBtn,
+            backButton;
     private JTextField theQuestion, choice1, choice2, choice3, choice4;
+    private JCheckBox checkOne, checkTwo, checkThree, checkFour;
+    private ButtonGroup boxCombo;
 
     private JScrollPane scrollPane;
 
@@ -34,6 +37,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
     private MyFont font;
 
     private int questionId;
+    private Question question;
 
     // navigation
     private Teacher teacher;
@@ -116,6 +120,26 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         choice4.setFont(font.getMediumFont());
         panel.add(choice4);
 
+        checkOne = new JCheckBox();
+        checkTwo = new JCheckBox();
+        checkThree = new JCheckBox();
+        checkFour = new JCheckBox();
+
+        checkOne.setBounds(950, 250, 50, 30);
+        panel.add(checkOne);
+        checkTwo.setBounds(950, 300, 50, 30);
+        panel.add(checkTwo);
+        checkThree.setBounds(950, 350, 50, 30);
+        panel.add(checkThree);
+        checkFour.setBounds(950, 400, 50, 30);
+        panel.add(checkFour);
+
+        boxCombo = new ButtonGroup();
+        boxCombo.add(checkOne);
+        boxCombo.add(checkTwo);
+        boxCombo.add(checkThree);
+        boxCombo.add(checkFour);
+
         oneLabel = new JLabel("1)");
         oneLabel.setBounds(620, 200, 30, 20);
         oneLabel.setFont(font.getprimaryFont());
@@ -160,14 +184,14 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
         addExam.addActionListener(this);
         panel.add(addExam);
 
-        students = new JButton("Student List");
-        students.setFont(font.getMediumFont());
-        students.setBackground(color.getButtonColor());
-        students.setForeground(color.getBgColor());
-        students.setFocusPainted(false);
-        students.setBounds(30, 380, 200, 80);
-        students.addActionListener(this);
-        panel.add(students);
+        studentListButton = new JButton("Student List");
+        studentListButton.setFont(font.getMediumFont());
+        studentListButton.setBackground(color.getButtonColor());
+        studentListButton.setForeground(color.getBgColor());
+        studentListButton.setFocusPainted(false);
+        studentListButton.setBounds(30, 380, 200, 80);
+        studentListButton.addActionListener(this);
+        panel.add(studentListButton);
 
         requests = new JButton("Requests");
         requests.setFont(font.getMediumFont());
@@ -263,9 +287,35 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
         } else if (e.getSource() == requests) {
             System.out.println("Requests Clicked");
-        } else if (e.getSource() == students) {
-            System.out.println("Students Clicked");
-        } else if (e.getSource() == deleteBtn) {
+        } else if (e.getSource() == studentListButton) {
+
+            this.dispose();
+            StudentList sl = new StudentList(teacher, course);
+            sl.setLocationRelativeTo(null);
+            sl.setVisible(true);
+
+        } else if (e.getSource() == updateButton) {
+
+            String correctChoice = null;
+
+            if (checkOne.isSelected()) {
+                correctChoice = choice1.getText();
+            } else if (checkTwo.isSelected()) {
+                correctChoice = choice2.getText();
+            } else if (checkThree.isSelected()) {
+                correctChoice = choice3.getText();
+            } else if (checkFour.isSelected()) {
+                correctChoice = choice4.getText();
+            }
+
+            // TODO: set selected item and check empty
+
+            Question q = new Question(question.getId(), theQuestion.getText(), choice1.getText(), choice2.getText(),
+                    choice3.getText(), choice4.getText(), correctChoice);
+            Questiondb.updateQuestion(q);
+        }
+
+        else if (e.getSource() == deleteBtn) {
             System.out.println("Delete question Clicked");
 
             confirmDelete = new JOptionPane();
@@ -308,6 +358,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
             String choiceFour = c.get(selected).getChoiceFour();
             String currectChoice = c.get(selected).getCorrectChoice();
             questionId = selected;
+            question = c.get(selected);
 
             System.out.println(currectChoice);
 

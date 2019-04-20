@@ -188,8 +188,6 @@ public class AddQuestion extends JFrame implements ActionListener {
                     || choice3Field.getText().equals("") || choice4Field.getText().equals("")
                     || boxCombo.getSelection() == null) {
 
-                System.out.println("Dhukse");
-
                 errorMessage = new JOptionPane();
                 errorMessage.setFont(font.getprimaryFont());
                 errorMessage.showMessageDialog(null, "All fields are required!", "Wrong Input!",

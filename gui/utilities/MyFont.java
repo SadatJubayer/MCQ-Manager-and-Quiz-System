@@ -48,7 +48,7 @@ public class MyFont {
     }
 
     public static Font tinyFont() {
-        return new Font("Roboto", Font.PLAIN, 10);
+        return new Font("Roboto", Font.PLAIN, 12);
     }
 
     public static Font montserrat() {

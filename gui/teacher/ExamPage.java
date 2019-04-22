@@ -1,6 +1,6 @@
 package gui.teacher;
 
-import gui.components.*;
+import gui.utilities.*;
 import dbfunctions.Coursedb;
 import dbfunctions.Teacherdb;
 import dbfunctions.Examdb;
@@ -30,10 +30,6 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
     private List<Exam> exam;
 
-    // Components
-    private MyColor color;
-    private MyFont font;
-
     private JList examList;
 
     // navigation
@@ -53,74 +49,70 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
         panel = new JPanel();
         panel.setLayout(null);
 
-        color = new MyColor();
-        font = new MyFont();
-
         // Navbar
 
-        welcome = new JLabel("Course name Here");
-        welcome.setFont(font.getMediumFont());
-        welcome.setForeground(color.getBgColor());
-        welcome.setBounds(40, 18, 400, 25);
+        // Buttons
+
+        addExam = new JButton("Create Exam");
+        addExam.setBackground(MyColor.primaryColor());
+        addExam.setForeground(MyColor.whiteColor());
+        addExam.setFocusPainted(false);
+        addExam.setBounds(400, 45, 200, 50);
+        addExam.setFont(MyFont.mediumFont());
+        addExam.addActionListener(this);
+        panel.add(addExam);
+
+        welcome = new JLabel("Course: " + course.getName());
+        welcome.setFont(MyFont.mediumFont());
+        welcome.setForeground(MyColor.whiteColor());
+        welcome.setBounds(700, 18, 300, 25);
         panel.add(welcome);
 
         backButton = new JButton("Back");
-        backButton.setFont(font.getprimaryFont());
-        backButton.setBackground(color.getsecondaryButtonColor());
-        backButton.setForeground(color.getBgColor());
+        backButton.setFont(MyFont.primaryFont());
+        backButton.setBackground(MyColor.dangerColor());
+        backButton.setForeground(MyColor.whiteColor());
         backButton.setFocusPainted(false);
-        backButton.setBounds(850, 13, 100, 35);
+        backButton.setBounds(40, 13, 100, 35);
         backButton.addActionListener(this);
         panel.add(backButton);
 
         navBar = new JLabel();
         navBar.setOpaque(true);
-        navBar.setBackground(color.getNavbarColor());
+        navBar.setBackground(MyColor.navbarColor());
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
-        // Buttons
-
-        addExam = new JButton("Create Exam");
-
-        addExam.setFont(font.getMediumFont());
-        addExam.setBackground(color.getButtonColor());
-        addExam.setForeground(color.getBgColor());
-        addExam.setFocusPainted(false);
-        addExam.setBounds(40, 70, 200, 50);
-        addExam.addActionListener(this);
-        panel.add(addExam);
-
-        title = new JLabel("Exam List");
-        title.setFont(font.getTinyFont());
-        title.setBounds(150, 125, 120, 25);
+        title = new JLabel("Available Exams: ");
+        title.setFont(MyFont.smallFont());
+        title.setBounds(145, 120, 200, 25);
         panel.add(title);
 
         // Texts
 
         studentNumber = new JLabel("Questions");
-        studentNumber.setFont(font.getBigFont());
-        studentNumber.setForeground(color.getBgColor());
+        studentNumber.setFont(MyFont.bigFont());
+        studentNumber.setForeground(MyColor.whiteColor());
         studentNumber.setBounds(420, 380, 250, 50);
         panel.add(studentNumber);
 
         num1 = new JLabel();
         num1.setText("00");
-        num1.setFont(font.getBigBigFont());
-        num1.setForeground(color.getBgColor());
+        num1.setFont(MyFont.bigBigFont());
+        num1.setForeground(MyColor.whiteColor());
         num1.setBounds(390, 70, 400, 400);
         panel.add(num1);
 
-        questionNumber = new JLabel("Duration");
-        questionNumber.setFont(font.getBigFont());
-        questionNumber.setForeground(color.getBgColor());
-        questionNumber.setBounds(720, 380, 250, 50);
+        questionNumber = new JLabel("Minutes");
+        questionNumber.setFont(MyFont.bigFont());
+        questionNumber.setForeground(MyColor.whiteColor());
+        questionNumber.setBounds(735, 380, 250, 50);
         panel.add(questionNumber);
 
         num2 = new JLabel();
         num2.setText("00");
-        num2.setFont(font.getBigBigFont());
-        num2.setForeground(color.getBgColor());
+        num2.setFont(MyFont.bigBigFont());
+        num2.setForeground(MyColor.whiteColor());
         num2.setBounds(700, 70, 400, 400);
         panel.add(num2);
 
@@ -128,13 +120,13 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
         boxOne = new JLabel();
         boxOne.setOpaque(true);
-        boxOne.setBackground(color.gettBackgroundColor());
+        boxOne.setBackground(MyColor.defaultColor());
         boxOne.setBounds(360, 150, 290, 300);
         panel.add(boxOne);
 
         boxTwo = new JLabel();
         boxTwo.setOpaque(true);
-        boxTwo.setBackground(color.gettBackgroundColor());
+        boxTwo.setBackground(MyColor.defaultColor());
         boxTwo.setBounds(660, 150, 290, 300);
         panel.add(boxTwo);
 
@@ -150,19 +142,23 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
             i++;
         }
         examList = new JList(exams);
-        examList.setFont(font.getMediumFont());
+        examList.setFont(MyFont.smallFont());
         examList.setBorder(new EmptyBorder(10, 10, 10, 10));
-        examList.setForeground(color.getTextColor());
-        examList.setBounds(40, 150, 300, 450);
+        examList.setForeground(MyColor.textColor());
         examList.addMouseListener(this);
 
-        panel.add(examList);
+        JScrollPane scrollPaneTwo = new JScrollPane();
+        scrollPaneTwo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneTwo.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneTwo.setViewportView(examList);
+        scrollPaneTwo.setBounds(40, 150, 300, 450);
+        panel.add(scrollPaneTwo);
 
         publish = new JButton("Publish");
         publish.setBounds(360, 500, 180, 50);
-        publish.setFont(font.getprimaryFont());
-        publish.setForeground(color.getBgColor());
-        publish.setBackground(color.getButtonColor());
+        publish.setFont(MyFont.primaryFont());
+        publish.setForeground(MyColor.whiteColor());
+        publish.setBackground(MyColor.successColor());
         publish.setEnabled(false);
         publish.setFocusPainted(false);
         publish.addActionListener(this);
@@ -170,18 +166,18 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
         getMarks = new JButton("Get Marks");
         getMarks.setBounds(570, 500, 180, 50);
-        getMarks.setFont(font.getprimaryFont());
-        getMarks.setForeground(color.getBgColor());
+        getMarks.setFont(MyFont.primaryFont());
+        getMarks.setForeground(MyColor.whiteColor());
         getMarks.setEnabled(false);
-        getMarks.setBackground(color.getDelteButtonColor());
+        getMarks.setBackground(MyColor.deepPurpleColor());
         getMarks.addActionListener(this);
         panel.add(getMarks);
 
         deleteButton = new JButton("Delete");
-        deleteButton.setBounds(780, 500, 180, 50);
-        deleteButton.setFont(font.getprimaryFont());
-        deleteButton.setForeground(color.getBgColor());
-        deleteButton.setBackground(color.getDelteButtonColor());
+        deleteButton.setBounds(780, 500, 170, 50);
+        deleteButton.setFont(MyFont.primaryFont());
+        deleteButton.setForeground(MyColor.whiteColor());
+        deleteButton.setBackground(MyColor.dangerColor());
         deleteButton.setEnabled(false);
         deleteButton.addActionListener(this);
         panel.add(deleteButton);

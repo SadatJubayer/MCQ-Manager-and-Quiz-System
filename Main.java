@@ -32,6 +32,11 @@ public class Main {
         home.setResizable(false);
         home.setVisible(true);
 
+        // Homes home = new Homes();
+        // home.setLocationRelativeTo(null);
+        // home.setResizable(false);
+        // home.setVisible(true);
+
         // System.out.println(Coursedb.getNumberOfQuestions(3));
 
         // Coursedb.deleteCourse(3);

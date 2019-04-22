@@ -11,18 +11,19 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class SignupPage extends JFrame implements ActionListener, MouseListener {
-    private JLabel textLabel, usernameLabel, passwordLabel, singupText, boxOne, boxTwo, anotherLabel;
+    private JLabel textLabel, usernameLabel, passwordLabel, singupText, boxOne, anotherLabel;
     private JTextField usernameField, anotherField;
     private JPasswordField passwordField;
-    private JButton loginButton, signupButton, homeButton, backButton, tempBtn;
+    private JButton loginButton, signupButton;
     private JPanel panel;
-    private JOptionPane errorMessage, errorPane;
 
     public SignupPage() {
+
         super("Sign up");
 
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         panel = new JPanel();
         panel.setBackground(MyColor.secondaryColor());
         panel.setOpaque(false);
@@ -73,16 +74,8 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
         signupButton.setBorder(new LineBorder(MyColor.whiteColor()));
         signupButton.setFont(MyFont.primaryFont());
         signupButton.setForeground(MyColor.whiteColor());
-        signupButton.setBackground(MyColor.redColor());
+        signupButton.setBackground(MyColor.primaryColor());
         panel.add(signupButton);
-
-        // tempBtn = new JButton("Go to Student Page");
-        // tempBtn.setBounds(60, 500, 400, 100);
-        // tempBtn.setFont(font.getprimaryFont());
-        // tempBtn.setForeground(color.getBgColor());
-        // tempBtn.setBackground(color.getButtonColor());
-        // tempBtn.addActionListener(this);
-        // panel.add(tempBtn);
 
         textLabel = new JLabel("Welcome Back!");
         textLabel.setBounds(180, 200, 350, 60);
@@ -90,10 +83,10 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
         textLabel.setForeground(Color.white);
         panel.add(textLabel);
 
-        singupText = new JLabel("If you have already have an account");
+        singupText = new JLabel("If you already have an account");
         singupText.setFont(MyFont.mediumFont());
         singupText.setForeground(Color.white);
-        singupText.setBounds(125, 280, 380, 40);
+        singupText.setBounds(155, 280, 380, 40);
         panel.add(singupText);
 
         singupText = new JLabel("Then please sign in");
@@ -106,7 +99,7 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
         loginButton.setBounds(225, 380, 150, 45);
         loginButton.setFont(MyFont.primaryFont());
         loginButton.setForeground(MyColor.whiteColor());
-        loginButton.setBackground(MyColor.redColor());
+        loginButton.setBackground(MyColor.primaryColor());
         loginButton.setBorder(new LineBorder(MyColor.whiteColor()));
         panel.add(loginButton);
 
@@ -114,7 +107,7 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
         boxOne.setBounds(100, 80, 400, 500);
         boxOne.setFont(MyFont.headerFont());
         boxOne.setOpaque(true);
-        boxOne.setBackground(MyColor.redColor());
+        boxOne.setBackground(MyColor.primaryColor());
         panel.add(boxOne);
 
         boxOne = new JLabel();
@@ -133,7 +126,6 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
     }
 
     // Action Listeners
-
     public void actionPerformed(ActionEvent ae) {
         String actionCommand = ae.getActionCommand();
         if (actionCommand.equals(loginButton.getText())) {
@@ -146,7 +138,6 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
     }
 
     // Mouse listeners
-
     public void mouseClicked(MouseEvent e) {
     }
 

@@ -4,13 +4,11 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.List;
+import javax.swing.border.EmptyBorder;
 
 import gui.teacher.*;
 import gui.Home;
-
-// custom imports 
-import gui.utilities.MyColor;
-import gui.utilities.MyFont;
+import gui.utilities.*;
 
 // Navigations
 import classes.Course;
@@ -45,14 +43,18 @@ public class StudentList extends JFrame implements ActionListener {
 
         // Navbar
 
-        welcome = new JLabel("Welcome");
-        welcome.setForeground(MyColor.textColor());
-        welcome.setBounds(40, 18, 400, 25);
+        welcome = new JLabel("Course: " + course.getName());
+        welcome.setForeground(MyColor.whiteColor());
+        welcome.setFont(MyFont.primaryFont());
+        welcome.setBounds(600, 18, 400, 25);
         panel.add(welcome);
 
         backButton = new JButton("Back");
         backButton.setFocusPainted(false);
-        backButton.setBounds(850, 13, 100, 35);
+        backButton.setFont(MyFont.primaryFont());
+        backButton.setBackground(MyColor.dangerColor());
+        backButton.setForeground(MyColor.whiteColor());
+        backButton.setBounds(40, 13, 100, 35);
         backButton.addActionListener(this);
         panel.add(backButton);
 
@@ -62,10 +64,10 @@ public class StudentList extends JFrame implements ActionListener {
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
-        courses = new JLabel("Enrolled Student list: ");
-        courses.setBackground(MyColor.successColor());
-        courses.setFont(MyFont.mediumFont());
-        courses.setBounds(40, 70, 120, 25);
+        courses = new JLabel("Enrolled Students: ");
+        courses.setForeground(MyColor.textColor());
+        courses.setFont(MyFont.primaryFont());
+        courses.setBounds(40, 70, 200, 25);
         panel.add(courses);
 
         // creating string array for list
@@ -82,12 +84,15 @@ public class StudentList extends JFrame implements ActionListener {
 
         JScrollPane scrollPane = new JScrollPane();
         JList list = new JList(studentsString);
-        list.setForeground(MyColor.primaryColor());
+        list.setFont(MyFont.tinyFont());
+        list.setForeground(MyColor.textColor());
+        list.setBorder(new EmptyBorder(10, 10, 10, 10));
+        list.setForeground(MyColor.textColor());
 
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setViewportView(list);
-        scrollPane.setBounds(10, 200, 250, 400);
+        scrollPane.setBounds(40, 110, 280, 450);
         panel.add(scrollPane);
 
         this.add(panel);

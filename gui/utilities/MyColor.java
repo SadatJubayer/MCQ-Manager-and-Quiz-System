@@ -60,9 +60,14 @@ public class MyColor {
         return new Color(120, 144, 156);
     }
 
-    public static Color redColor() {
-        return new Color(255, 82, 82);
+    public static Color mainColor() {
+        return new Color(56, 203, 152);
     }
+
+    // public static Color secondaryColor() {
+    // return new Color(79, 153, 238);
+    // }
+
     public static Color whiteBg() {
         return new Color(246, 245, 247);
     }

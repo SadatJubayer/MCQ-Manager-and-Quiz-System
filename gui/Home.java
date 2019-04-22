@@ -2,11 +2,10 @@ package gui;
 
 import gui.student.*;
 import gui.teacher.*;
+import gui.utilities.*;
 
 import classes.*;
 import dbfunctions.Teacherdb;
-
-import gui.utilities.*;
 
 import java.awt.Color;
 import java.awt.event.*;
@@ -24,16 +23,18 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private Teacher teacher;
 
     public Home() {
-        super("Home");
+
+        super("Home Page");
 
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         panel = new JPanel();
         panel.setBackground(MyColor.whiteBg());
-        panel.setOpaque(false);
+        panel.setOpaque(true);
         panel.setLayout(null);
 
-        // Teacher Login Elements
+        // Login UI Elements
 
         textLabel = new JLabel("Sign in");
         textLabel.setBounds(245, 110, 300, 60);
@@ -67,11 +68,11 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         loginButton.setBounds(225, 410, 150, 45);
         loginButton.setFont(MyFont.primaryFont());
         loginButton.setForeground(MyColor.whiteColor());
-        loginButton.setBackground(MyColor.redColor());
+        loginButton.setBackground(MyColor.primaryColor());
         panel.add(loginButton);
 
         tempBtn = new JButton("Go to Student Page");
-        tempBtn.setBounds(60, 650, 400, 100);
+        tempBtn.setBounds(60, 600, 400, 100);
         tempBtn.setFont(MyFont.primaryFont());
         tempBtn.addActionListener(this);
         panel.add(tempBtn);
@@ -99,7 +100,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         signupButton.setBorder(new LineBorder(Color.white));
         signupButton.setFont(MyFont.primaryFont());
         signupButton.setForeground(MyColor.whiteColor());
-        signupButton.setBackground(MyColor.redColor());
+        signupButton.setBackground(MyColor.primaryColor());
         panel.add(signupButton);
 
         loginButton.addActionListener(this);
@@ -118,7 +119,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         boxOne.setBounds(500, 80, 400, 500);
         boxOne.setFont(MyFont.headerFont());
         boxOne.setOpaque(true);
-        boxOne.setBackground(MyColor.redColor());
+        boxOne.setBackground(MyColor.primaryColor());
         panel.add(boxOne);
 
         this.add(panel);
@@ -130,6 +131,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
 
         String actionCommand = e.getActionCommand();
 
+        // Sign up
         if (actionCommand.equals(signupButton.getText())) {
             this.dispose();
             SignupPage sp = new SignupPage();
@@ -138,6 +140,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             sp.setVisible(true);
         }
 
+        // Login
         else if (actionCommand.equals(loginButton.getText())) {
 
             if (usernameField.getText().equals("") || passwordField.getText().equals("")) {
@@ -147,7 +150,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                         JOptionPane.WARNING_MESSAGE);
             }
 
-            else {
+            else { // If fields are not empty
 
                 String username = usernameField.getText();
                 String password = passwordField.getText();
@@ -177,7 +180,6 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     }
 
     // Mouse listeners
-
     public void mouseClicked(MouseEvent e) {
     }
 

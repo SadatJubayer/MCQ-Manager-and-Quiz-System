@@ -1,6 +1,6 @@
 package gui.teacher;
 
-import gui.components.*;
+import gui.utilities.*;
 import dbfunctions.*;
 import classes.*;
 import java.awt.Color;
@@ -22,10 +22,6 @@ public class AddQuestion extends JFrame implements ActionListener {
     private JPanel panel;
     private JOptionPane errorMessage, errorPane, successPane;
 
-    // Components
-    private MyColor color;
-    private MyFont font;
-
     JToggleButton toggleButton;
 
     // navigation
@@ -40,100 +36,103 @@ public class AddQuestion extends JFrame implements ActionListener {
         this.teacher = teacher;
         this.course = course;
 
-        color = new MyColor();
-        font = new MyFont();
-
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         panel = new JPanel();
-        panel.setBackground(color.getBgColor());
+        panel.setBackground(MyColor.whiteColor());
         panel.setLayout(null);
 
         // Navbar
-        welcome = new JLabel(course.getName());
-        welcome.setFont(font.getprimaryFont());
-        welcome.setForeground(color.getBgColor());
-        welcome.setBounds(40, 18, 400, 25);
+        welcome = new JLabel("Course: " + course.getName());
+        welcome.setFont(MyFont.primaryFont());
+        welcome.setForeground(MyColor.whiteColor());
+        welcome.setBounds(300, 18, 400, 25);
         panel.add(welcome);
 
         backButton = new JButton("Back");
-        backButton.setFont(font.getprimaryFont());
-        backButton.setBackground(color.getsecondaryButtonColor());
-        backButton.setForeground(color.getBgColor());
+        backButton.setFont(MyFont.primaryFont());
+        backButton.setBackground(MyColor.dangerColor());
+        backButton.setForeground(MyColor.whiteColor());
         backButton.setFocusPainted(false);
-        backButton.setBounds(850, 13, 100, 35);
+        backButton.setBounds(30, 13, 100, 35);
         backButton.addActionListener(this);
         panel.add(backButton);
 
         navBar = new JLabel();
         navBar.setOpaque(true);
-        navBar.setBackground(color.getNavbarColor());
+        navBar.setBackground(MyColor.navbarColor());
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
         // Teacher Login Elements
 
-        headerOne = new JLabel("Add your Course here");
-        headerOne.setBounds(380, 90, 400, 40);
-        headerOne.setFont(font.getHeaderFont());
-        headerOne.setForeground(color.getTextColor());
+        headerOne = new JLabel("*Add your Question here");
+        headerOne.setBounds(300, 100, 200, 40);
+        headerOne.setFont(MyFont.primaryFont());
+        headerOne.setForeground(MyColor.textColor());
+        panel.add(headerOne);
+
+        headerOne = new JLabel("(Check the correct option)");
+        headerOne.setBounds(505, 100, 250, 40);
+        headerOne.setFont(MyFont.smallFont());
+        headerOne.setForeground(MyColor.dangerColor());
         panel.add(headerOne);
 
         // Labels with inputs
 
         ques = new JLabel("Question: ");
-        ques.setFont(font.getprimaryFont());
-        ques.setBounds(208, 210, 200, 20);
-        ques.setForeground(color.getTextColor());
+        ques.setFont(MyFont.primaryFont());
+        ques.setBounds(180, 210, 200, 20);
+        ques.setForeground(MyColor.textColor());
         panel.add(ques);
 
         quesField = new JTextField();
         quesField.setBounds(300, 190, 400, 60);
-        quesField.setFont(font.getprimaryFont());
+        quesField.setFont(MyFont.primaryFont());
         panel.add(quesField);
 
         choice1 = new JLabel("Option one: ");
-        choice1.setFont(font.getprimaryFont());
-        choice1.setBounds(185, 282, 150, 20);
-        choice1.setForeground(color.getTextColor());
+        choice1.setFont(MyFont.primaryFont());
+        choice1.setBounds(180, 282, 150, 20);
+        choice1.setForeground(MyColor.textColor());
         panel.add(choice1);
 
         choice1Field = new JTextField();
         choice1Field.setBounds(300, 280, 400, 40);
-        choice1Field.setFont(font.getprimaryFont());
+        choice1Field.setFont(MyFont.primaryFont());
         panel.add(choice1Field);
 
         choice2 = new JLabel("Option two: ");
-        choice2.setFont(font.getprimaryFont());
-        choice2.setBounds(185, 332, 200, 20);
-        choice2.setForeground(color.getTextColor());
+        choice2.setFont(MyFont.primaryFont());
+        choice2.setBounds(180, 332, 200, 20);
+        choice2.setForeground(MyColor.textColor());
         panel.add(choice2);
 
         choice2Field = new JTextField();
         choice2Field.setBounds(300, 330, 400, 40);
-        choice2Field.setFont(font.getprimaryFont());
+        choice2Field.setFont(MyFont.primaryFont());
         panel.add(choice2Field);
 
         choice3 = new JLabel("Option three: ");
-        choice3.setFont(font.getprimaryFont());
-        choice3.setBounds(175, 382, 200, 20);
-        choice3.setForeground(color.getTextColor());
+        choice3.setFont(MyFont.primaryFont());
+        choice3.setBounds(180, 382, 200, 20);
+        choice3.setForeground(MyColor.textColor());
         panel.add(choice3);
 
         choice3Field = new JTextField();
         choice3Field.setBounds(300, 380, 400, 40);
-        choice3Field.setFont(font.getprimaryFont());
+        choice3Field.setFont(MyFont.primaryFont());
         panel.add(choice3Field);
 
         choice4 = new JLabel("Option four: ");
-        choice4.setFont(font.getprimaryFont());
-        choice4.setBounds(185, 432, 200, 20);
-        choice4.setForeground(color.getTextColor());
+        choice4.setFont(MyFont.primaryFont());
+        choice4.setBounds(180, 432, 200, 20);
+        choice4.setForeground(MyColor.textColor());
         panel.add(choice4);
 
         choice4Field = new JTextField();
         choice4Field.setBounds(300, 430, 400, 40);
-        choice4Field.setFont(font.getprimaryFont());
+        choice4Field.setFont(MyFont.primaryFont());
         panel.add(choice4Field);
 
         // Check Boxes
@@ -149,28 +148,33 @@ public class AddQuestion extends JFrame implements ActionListener {
         boxCombo.add(checkThree);
         boxCombo.add(checkFour);
 
+        checkOne.setOpaque(false);
+        checkTwo.setOpaque(false);
+        checkThree.setOpaque(false);
+        checkFour.setOpaque(false);
+
         // Icon gu = new ImageIcon("icon.png");
         // // Icon guu = new ImageIcon("Sicon.png");
         // checkOne.setIcon(gu);
         // checkOne.setSelectedIcon(gu);
         // // c2.setSelectedIcon(guu);
 
-        checkOne.setBounds(750, 280, 50, 30);
+        checkOne.setBounds(720, 280, 50, 30);
         panel.add(checkOne);
-        checkTwo.setBounds(750, 330, 50, 30);
+        checkTwo.setBounds(720, 330, 50, 30);
         panel.add(checkTwo);
-        checkThree.setBounds(750, 380, 50, 30);
+        checkThree.setBounds(720, 380, 50, 30);
         panel.add(checkThree);
-        checkFour.setBounds(750, 430, 50, 30);
+        checkFour.setBounds(720, 430, 50, 30);
         panel.add(checkFour);
 
         // Button
 
         addQuestionButton = new JButton("ADD Question");
         addQuestionButton.setBounds(300, 520, 400, 40);
-        addQuestionButton.setFont(font.getprimaryFont());
-        addQuestionButton.setForeground(color.getBgColor());
-        addQuestionButton.setBackground(color.getButtonColor());
+        addQuestionButton.setFont(MyFont.primaryFont());
+        addQuestionButton.setForeground(MyColor.whiteColor());
+        addQuestionButton.setBackground(MyColor.primaryColor());
         addQuestionButton.addActionListener(this);
         panel.add(addQuestionButton);
 
@@ -189,7 +193,7 @@ public class AddQuestion extends JFrame implements ActionListener {
                     || boxCombo.getSelection() == null) {
 
                 errorMessage = new JOptionPane();
-                errorMessage.setFont(font.getprimaryFont());
+                errorMessage.setFont(MyFont.primaryFont());
                 errorMessage.showMessageDialog(null, "All fields are required!", "Wrong Input!",
                         JOptionPane.WARNING_MESSAGE);
 
@@ -222,7 +226,7 @@ public class AddQuestion extends JFrame implements ActionListener {
 
                 // Go back to home
                 successPane = new JOptionPane();
-                successPane.setFont(font.getprimaryFont());
+                successPane.setFont(MyFont.primaryFont());
                 successPane.showMessageDialog(null, "Question Added", "Success!", JOptionPane.WARNING_MESSAGE);
                 quesField.setText("");
                 choice1Field.setText("");

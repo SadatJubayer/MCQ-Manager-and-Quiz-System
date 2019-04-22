@@ -1,6 +1,7 @@
 package gui.teacher;
 
-import gui.components.*;
+import gui.utilities.*;
+
 import dbfunctions.Examdb;
 
 import classes.*;
@@ -19,11 +20,6 @@ public class AddExam extends JFrame implements ActionListener {
     private JButton createExam, backButton;
     private JPanel panel;
     private JOptionPane errorMessage, errorPane, successPane;
-
-    // Components
-    private MyColor color;
-    private MyFont font;
-
     JToggleButton toggleButton;
 
     // navigation
@@ -36,84 +32,80 @@ public class AddExam extends JFrame implements ActionListener {
 
         this.teacher = teacher;
         this.course = course;
-
-        color = new MyColor();
-        font = new MyFont();
-
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         panel = new JPanel();
-        panel.setBackground(color.getBgColor());
+        panel.setBackground(MyColor.whiteBg());
         panel.setLayout(null);
 
         // Navbar
-        welcome = new JLabel(course.getName());
-        welcome.setFont(font.getprimaryFont());
-        welcome.setForeground(color.getBgColor());
-        welcome.setBounds(40, 18, 400, 25);
+        welcome = new JLabel("Course: " + course.getName());
+        welcome.setFont(MyFont.primaryFont());
+        welcome.setForeground(MyColor.whiteColor());
+        welcome.setBounds(700, 18, 400, 25);
         panel.add(welcome);
 
         backButton = new JButton("Back");
-        backButton.setFont(font.getprimaryFont());
-        backButton.setBackground(color.getsecondaryButtonColor());
-        backButton.setForeground(color.getBgColor());
+        backButton.setFont(MyFont.primaryFont());
+        backButton.setBackground(MyColor.dangerColor());
+        backButton.setForeground(MyColor.whiteColor());
         backButton.setFocusPainted(false);
-        backButton.setBounds(850, 13, 100, 35);
+        backButton.setBounds(40, 13, 100, 35);
         backButton.addActionListener(this);
         panel.add(backButton);
 
         navBar = new JLabel();
         navBar.setOpaque(true);
-        navBar.setBackground(color.getNavbarColor());
+        navBar.setBackground(MyColor.navbarColor());
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
         // Teacher Login Elements
 
         headerOne = new JLabel("Create Exam here");
-        headerOne.setBounds(380, 120, 400, 40);
-        headerOne.setFont(font.getHeaderFont());
-        headerOne.setForeground(color.getTextColor());
+        headerOne.setBounds(372, 120, 400, 40);
+        headerOne.setFont(MyFont.headerFont());
+        headerOne.setForeground(MyColor.textColor());
         panel.add(headerOne);
 
-        examName = new JLabel("Exam description: ");
-        examName.setFont(font.getSmallFont());
+        examName = new JLabel("Exam Name: ");
+        examName.setFont(MyFont.smallFont());
         examName.setBounds(300, 200, 200, 20);
-        examName.setForeground(color.getTextColor());
+        examName.setForeground(MyColor.textColor());
         panel.add(examName);
 
         examNameField = new JTextField();
-        examNameField.setBounds(300, 250, 400, 40);
-        examNameField.setFont(font.getprimaryFont());
+        examNameField.setBounds(300, 230, 400, 40);
+        examNameField.setFont(MyFont.primaryFont());
         panel.add(examNameField);
 
-        examDuration = new JLabel("Exam Duration");
-        examDuration.setFont(font.getSmallFont());
-        examDuration.setBounds(300, 350, 200, 20);
-        examDuration.setForeground(color.getTextColor());
+        examDuration = new JLabel("Exam Duration: (in minutes)");
+        examDuration.setFont(MyFont.smallFont());
+        examDuration.setBounds(300, 300, 400, 20);
+        examDuration.setForeground(MyColor.textColor());
         panel.add(examDuration);
 
         examDurationField = new JTextField();
-        examDurationField.setBounds(300, 400, 400, 40);
-        examDurationField.setFont(font.getprimaryFont());
+        examDurationField.setBounds(300, 330, 400, 40);
+        examDurationField.setFont(MyFont.primaryFont());
         panel.add(examDurationField);
 
-        numberOfQuestion = new JLabel("Number of Questions");
-        numberOfQuestion.setFont(font.getSmallFont());
-        numberOfQuestion.setBounds(300, 500, 200, 20);
-        numberOfQuestion.setForeground(color.getTextColor());
+        numberOfQuestion = new JLabel("Number of Questions:");
+        numberOfQuestion.setFont(MyFont.smallFont());
+        numberOfQuestion.setBounds(300, 400, 200, 20);
+        numberOfQuestion.setForeground(MyColor.textColor());
         panel.add(numberOfQuestion);
 
         numberOfQuestionField = new JTextField();
-        numberOfQuestionField.setBounds(300, 550, 400, 40);
-        numberOfQuestionField.setFont(font.getprimaryFont());
+        numberOfQuestionField.setBounds(300, 430, 400, 40);
+        numberOfQuestionField.setFont(MyFont.primaryFont());
         panel.add(numberOfQuestionField);
 
         createExam = new JButton("Create Exam");
-        createExam.setBounds(300, 600, 400, 40);
-        createExam.setFont(font.getprimaryFont());
-        createExam.setForeground(color.getBgColor());
-        createExam.setBackground(color.getButtonColor());
+        createExam.setBounds(300, 530, 400, 40);
+        createExam.setFont(MyFont.primaryFont());
+        createExam.setForeground(MyColor.whiteColor());
+        createExam.setBackground(MyColor.primaryColor());
         createExam.addActionListener(this);
         panel.add(createExam);
 
@@ -128,7 +120,7 @@ public class AddExam extends JFrame implements ActionListener {
             if (examNameField.getText().equals("") || examDurationField.getText().equals("")
                     || numberOfQuestionField.getText().equals("")) {
                 errorMessage = new JOptionPane();
-                errorMessage.setFont(font.getprimaryFont());
+                errorMessage.setFont(MyFont.primaryFont());
                 errorMessage.showMessageDialog(null, "All fields are required!", "Wrong Input!",
                         JOptionPane.WARNING_MESSAGE);
             }
@@ -149,7 +141,7 @@ public class AddExam extends JFrame implements ActionListener {
 
                 // Go back to home
                 successPane = new JOptionPane();
-                successPane.setFont(font.getprimaryFont());
+                successPane.setFont(MyFont.primaryFont());
                 successPane.showMessageDialog(null, "Exam Created Successfully!", "Success!",
                         JOptionPane.WARNING_MESSAGE);
 

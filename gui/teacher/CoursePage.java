@@ -30,7 +30,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
     private JScrollPane scrollPane;
 
     private JList questionList;
-    JOptionPane confirmDelete;
+    JOptionPane confirmDelete, errorMessage, successPane;
 
     private JPanel panel;
 
@@ -312,23 +312,40 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
         } else if (e.getSource() == updateButton) {
 
-            String correctChoice = null;
+            if (theQuestion.getText().equals("") || choice1.getText().equals("") || choice2.getText().equals("")
+                    || choice3.getText().equals("") || choice4.getText().equals("")
+                    || boxCombo.getSelection() == null) {
 
-            if (checkOne.isSelected()) {
-                correctChoice = choice1.getText();
-            } else if (checkTwo.isSelected()) {
-                correctChoice = choice2.getText();
-            } else if (checkThree.isSelected()) {
-                correctChoice = choice3.getText();
-            } else if (checkFour.isSelected()) {
-                correctChoice = choice4.getText();
+                errorMessage = new JOptionPane();
+                errorMessage.setFont(MyFont.primaryFont());
+                errorMessage.showMessageDialog(null, "All fields are required!", "Wrong Input!",
+                        JOptionPane.WARNING_MESSAGE);
+
+            } else {
+                String correctChoice = null;
+
+                if (checkOne.isSelected()) {
+                    correctChoice = choice1.getText();
+                } else if (checkTwo.isSelected()) {
+                    correctChoice = choice2.getText();
+                } else if (checkThree.isSelected()) {
+                    correctChoice = choice3.getText();
+                } else if (checkFour.isSelected()) {
+                    correctChoice = choice4.getText();
+                }
+
+                // TODO: set selected item and check empty DONE!!!!!!!!!
+
+                Question q = new Question(question.getId(), theQuestion.getText(), choice1.getText(), choice2.getText(),
+                        choice3.getText(), choice4.getText(), correctChoice);
+                Questiondb.updateQuestion(q);
+
+                successPane = new JOptionPane();
+                successPane.setFont(MyFont.primaryFont());
+                successPane.showMessageDialog(null, "Question updated!", "Done!", JOptionPane.INFORMATION_MESSAGE);
+
             }
 
-            // TODO: set selected item and check empty
-
-            Question q = new Question(question.getId(), theQuestion.getText(), choice1.getText(), choice2.getText(),
-                    choice3.getText(), choice4.getText(), correctChoice);
-            Questiondb.updateQuestion(q);
         }
 
         else if (e.getSource() == deleteBtn) {
@@ -373,6 +390,17 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
             String choiceThree = c.get(selected).getChoiceThree();
             String choiceFour = c.get(selected).getChoiceFour();
             String currectChoice = c.get(selected).getCorrectChoice();
+
+            if (choiceOne.equals(currectChoice)) {
+                checkOne.setSelected(true);
+            } else if (choiceTwo.equals(currectChoice)) {
+                checkTwo.setSelected(true);
+            } else if (choiceThree.equals(currectChoice)) {
+                checkThree.setSelected(true);
+            } else if (choiceTwo.equals(currectChoice)) {
+                checkFour.setSelected(true);
+            }
+
             questionId = selected;
             question = c.get(selected);
 

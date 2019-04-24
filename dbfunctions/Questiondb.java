@@ -11,6 +11,8 @@ public class Questiondb {
     // for inserting a single question
     public static void insertQuestion(Question q) {
         DB db = DB.getDB();
+        System.out.println("DEBUG: description from q: " + q.getDescription());
+        System.out.println("DEBUG: courseId from q: " + q.getCourseId());
         String sql = "Insert into question (courseId,description,choiceOne,choiceTwo,choiceThree,choiceFour,correctChoice) Value(?,?,?,?,?,?,?)";
         try {
             db.run.update(db.getConn(), sql, q.getCourseId(), q.getDescription(), q.getChoiceOne(), q.getChoiceTwo(),

@@ -218,6 +218,7 @@ public class AddQuestion extends JFrame implements ActionListener {
                 } else if (checkFour.isSelected()) {
                     correctChoice = choice4;
                 }
+                System.out.println("DEBUG: course.getId(): " + course.getId());
                 System.out
                         .println(questionItself + choice1 + choice2 + choice3 + choice4 + "Correct: " + correctChoice);
                 Questiondb.insertQuestion(new Question(course.getId(), questionItself, choice1, choice2, choice3,

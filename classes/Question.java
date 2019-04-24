@@ -10,8 +10,8 @@ public class Question {
     private String choiceFour;
     private String correctChoice;
 
-    public Question(int id, String d, String c1, String c2, String c3, String c4, String correctAns) {
-        this.id = id;
+    public Question(int courseId, String d, String c1, String c2, String c3, String c4, String correctAns) {
+        this.courseId = courseId;
         this.Description = d;
         this.choiceOne = c1;
         this.choiceTwo = c2;

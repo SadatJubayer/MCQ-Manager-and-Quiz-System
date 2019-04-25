@@ -196,7 +196,9 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
             f.setVisible(true);
 
         } else if (e.getSource() == publish) {
-
+            // TODO: check if it works properly
+            // TODO: show dialog
+            //TODO: also add duration
             Examdb.publishExam(examId);
 
         } else if (e.getSource() == backButton) {

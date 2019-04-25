@@ -92,6 +92,20 @@ public class Examdb {
         }
     }
 
+    public static List<Exam> getPublishedExamList(int courseId) {
+        List<Exam> examList = null;
+        DB db = DB.getDB();
+
+        String sql = "SELECT * FROM exam WHERE courseId=? AND isPublished=1";
+        ResultSetHandler<List<Exam>> resultSetHandler = new BeanListHandler<Exam>(Exam.class);
+        try {
+            examList = db.run.query(db.getConn(), sql, resultSetHandler, courseId);
+        } catch (Exception e) {
+            System.out.println("getExamList(): " + e);
+        }
+        return examList;
+
+    }
 
     public static void runExam(int examId) {
         DB db = DB.getDB();

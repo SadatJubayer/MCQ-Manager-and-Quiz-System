@@ -34,7 +34,7 @@ public class Coursedb {
     }
 
     // general query functions for all the functions here
-    public static List<Course> query(String sql, String paramId) {
+    public static List<Course> query(String sql, int paramId) {
         DB db = DB.getDB();
         List<Course> course = null;
         ResultSetHandler<List<Course>> resultSetHandler = new BeanListHandler<Course>(Course.class);
@@ -68,7 +68,7 @@ public class Coursedb {
     // return str;
     // }
 
-    public static List<Course> getCourseList(String teacherId) {
+    public static List<Course> getCourseList(int teacherId) {
 
         String sql = "SELECT * FROM course WHERE teacherID=?";
         return query(sql, teacherId);
@@ -76,13 +76,13 @@ public class Coursedb {
     }
 
     // function intended to be used in studentdb
-    public static List<Course> getOfferedCourseList(String studentId) {
+    public static List<Course> getOfferedCourseList(int studentId) {
         String sql = "SELECT * FROM course WHERE id NOT IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
     }
 
-    // functoin intended to be used in teacherdb
-    public static List<Course> getEnrolledCourseList(String studentId) {
+    // functoin intended to be used in student
+    public static List<Course> getEnrolledCourseList(int studentId) {
         String sql = "SELECT * FROM course WHERE id IN(SELECT courseId FROM course_student WHERE studentId=?)";
         return query(sql, studentId);
     }
@@ -139,6 +139,7 @@ public class Coursedb {
         return numberOfQuestion;
     }
 
+    // for teacher page
     public static List<Student> getEnrolledStudentList(int courseId) {
         DB db = DB.getDB();
 

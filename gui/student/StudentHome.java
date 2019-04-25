@@ -3,9 +3,15 @@ package gui.student;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
+import java.util.List;
 
 import classes.Teacher;
+import classes.Student;
+import classes.Course;
+import classes.Exam;
+import dbfunctions.*;
 
 import java.awt.event.*;
 import java.awt.*;
@@ -16,28 +22,40 @@ import gui.Home;
 // custom imports 
 import gui.utilities.*;
 
-public class StudentHome extends JFrame implements ActionListener {
+public class StudentHome extends JFrame implements ActionListener, MouseListener {
 
-    private JLabel navBar, welcome, courseText;
+    private JLabel navBar, welcome, teacherNameText, text, examDurationText, noOfExamText, totalTimeText, titleOne,
+            titleTwo, titleThree;
     private JButton logoutButton, registration, startExam, resultButton;
     private JComboBox courseList;
 
     private Teacher teacher;
-    private JTable table;
-    private String columes[] = { "Exam Name", "No. of Questions", "Total Marks", "Time(minute)" };
+    private String coursess[];
+    // private String exams[];
+    private Exam selectedExam;
+    private List<Exam> exam;
+    // for course list and selection
+    private List<Course> course;
     private JScrollPane scroll;
     private JPanel panel;
+    private Course selectedCourse;
+    private JList courseJList, examList;
+    private JScrollPane scrollPane;
 
-    public StudentHome(Teacher teacher) {
+    // navigation
+    private Student student;
+
+    public StudentHome(Student student) {
 
         super("Student Home");
-        this.teacher = teacher;
+        System.out.println("came here");
+        this.student = student;
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         panel = new JPanel();
         panel.setLayout(null);
 
-        // Regiser button
+        // Register button
         registration = new JButton("Register for Courses");
         registration.setFocusPainted(false);
         registration.setFont(MyFont.smallFont());
@@ -69,73 +87,63 @@ public class StudentHome extends JFrame implements ActionListener {
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
-        courseText = new JLabel("Select From registered courses: ");
-        courseText.setForeground(MyColor.textColor());
-        courseText.setFont(MyFont.smallFont());
-        courseText.setBounds(40, 110, 250, 25);
-        panel.add(courseText);
+        teacherNameText = new JLabel("Select From registered courses: ");
+        teacherNameText.setForeground(MyColor.textColor());
+        teacherNameText.setFont(MyFont.smallFont());
+        teacherNameText.setBounds(40, 110, 250, 25);
+        panel.add(teacherNameText);
 
-        // Course list comboBox
-        String[] petStrings = { "Gali 101", "Common Sense 001", "Golpe Golpe bash khawa", "Priciples of manush howa",
-                "Introduction to probation" };
-        courseList = new JComboBox(petStrings);
-        courseList.setFont(MyFont.primaryFont());
-        courseList.setBounds(40, 150, 300, 40);
-        courseList.addActionListener(this);
-        panel.add(courseList);
+        // Getting student course list
+        course = Coursedb.getEnrolledCourseList(student.getId());
 
-        courseText = new JLabel("Course teacher: Sadat Jubayer");
-        courseText.setForeground(MyColor.textColor());
-        courseText.setFont(MyFont.mediumFont());
-        courseText.setBounds(355, 153, 450, 25);
-        courseText.setVisible(false);
-        panel.add(courseText);
+        int length = course.size();
+        coursess = new String[length];
+        int i = 0;
+        for (Course c : course) {
+            coursess[i] = c.getName(); // c = courseList
+            i++;
+        }
 
-        // The table
-        String[][] rows = { { "sdfs", "10", "50", "25" }, { "dfsdf", "100", "550", "250" },
-                { "sdfs", "10", "50", "25" }, { "dfsdf", "100", "550", "250" }, { "sdfs", "10", "50", "25" },
-                { "dfsdf", "100", "550", "250" }, { "sdfs", "10", "50", "25" }, { "dfsdf", "100", "550", "250" },
-                { "sdfs", "10", "50", "25" }, { "dfsdf", "100", "550", "250" }, { "sdfs", "10", "50", "25" },
-                { "dfsdf", "100", "550", "250" }, { "sdfs", "10", "50", "25" }, { "dfsdf", "100", "550", "250" },
-                { "sdfs", "10", "50", "25" }, { "dfsdf", "100", "550", "250" }, { "sdfs", "10", "50", "25" },
-                { "dfsdf", "100", "550", "250" }, { "sdfs", "10", "50", "25" }, { "dfsdf", "100", "550", "250" } };
+        if (length == 0) {
+            teacherNameText.setText("You have no registered course! Go to Registration");
+            teacherNameText.setForeground(MyColor.dangerColor());
+        }
 
-        table = new JTable(rows, columes);
-        table.setFont(MyFont.primaryFont());
-        Dimension dim = new Dimension(30, 1);
-        table.setIntercellSpacing(new Dimension(dim));
-        table.getColumnModel().getColumn(0).setPreferredWidth(250);
+        courseJList = new JList(coursess);
+        courseJList.setFont(MyFont.smallFont());
+        courseJList.setBorder(new EmptyBorder(10, 10, 10, 10));
+        courseJList.setForeground(MyColor.textColor());
+        courseJList.addMouseListener(this);
 
-        JTableHeader header = table.getTableHeader();
-        header.setBackground(MyColor.buleGreyColor());
-        header.setFont(MyFont.primaryFont());
-        header.setForeground(MyColor.whiteColor());
-        table.setSelectionBackground(MyColor.primaryColor());
+        scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setViewportView(courseJList);
+        scrollPane.setBounds(40, 150, 280, 450);
+        panel.add(scrollPane);
+        // List done
 
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                if (table.getSelectedRow() > -1) {
-                    // Here we are getting the exam name TODO: Send the exam name to the next page
-                    System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
-                }
-            }
-        });
+        titleOne = new JLabel("TeacherName: ");
+        titleOne.setForeground(MyColor.textColor());
+        titleOne.setFont(MyFont.smallFont());
+        titleOne.setBounds(365, 150, 250, 25);
+        panel.add(titleOne);
 
-        scroll = new JScrollPane(table);
-        scroll.setBounds(40, 210, 900, 300);
-        scroll.setVisible(false);
-        panel.add(scroll);
+        titleTwo = new JLabel("No of students: ");
+        titleTwo.setForeground(MyColor.textColor());
+        titleTwo.setFont(MyFont.smallFont());
+        titleTwo.setBounds(365, 200, 250, 25);
+        panel.add(titleTwo);
 
-        startExam = new JButton("Start Exam");
-        startExam.setFocusPainted(false);
-        startExam.setFont(MyFont.smallFont());
-        startExam.setBackground(MyColor.primaryColor());
-        startExam.setForeground(MyColor.whiteColor());
-        startExam.setFocusPainted(false);
-        startExam.setBounds(40, 550, 350, 50);
-        startExam.addActionListener(this);
-        startExam.setVisible(false);
-        panel.add(startExam);
+        titleThree = new JLabel("Available Exams:");
+        titleThree.setForeground(MyColor.textColor());
+        titleThree.setFont(MyFont.smallFont());
+        titleThree.setBounds(365, 250, 250, 25);
+        panel.add(titleThree);
+
+        // Exam List
+
+        // Exam list done
 
         resultButton = new JButton("Percentage: 20%");
         resultButton.setFocusPainted(false);
@@ -147,6 +155,67 @@ public class StudentHome extends JFrame implements ActionListener {
         resultButton.addActionListener(this);
         resultButton.setVisible(false);
         panel.add(resultButton);
+
+        examDurationText = new JLabel("00");
+        examDurationText.setForeground(MyColor.whiteColor());
+        examDurationText.setBounds(820, 280, 280, 50);
+        examDurationText.setFont(MyFont.bigFont());
+        panel.add(examDurationText);
+
+        noOfExamText = new JLabel("00");
+        noOfExamText.setForeground(MyColor.whiteColor());
+        noOfExamText.setBounds(800, 350, 280, 50);
+        noOfExamText.setFont(MyFont.bigFont());
+        panel.add(noOfExamText);
+
+        totalTimeText = new JLabel("00");
+        totalTimeText.setForeground(MyColor.whiteColor());
+        totalTimeText.setBounds(750, 420, 280, 50);
+        totalTimeText.setFont(MyFont.bigFont());
+        panel.add(totalTimeText);
+
+        text = new JLabel("   Exam Duration(minutes): ");
+        text.setOpaque(true);
+        text.setBackground(MyColor.defaultColor());
+        text.setForeground(MyColor.whiteColor());
+        text.setBounds(660, 280, 280, 50);
+        panel.add(text);
+
+        text = new JLabel("   Number of Question: ");
+        text.setForeground(MyColor.whiteColor());
+        text.setOpaque(true);
+        text.setBackground(MyColor.defaultColor());
+        text.setBounds(660, 350, 280, 50);
+        panel.add(text);
+
+        text = new JLabel("   Total Marks: ");
+        text.setOpaque(true);
+        text.setBackground(MyColor.defaultColor());
+        text.setForeground(MyColor.whiteColor());
+        text.setBounds(660, 420, 280, 50);
+        panel.add(text);
+
+        startExam = new JButton("Start Exam");
+        startExam.setFocusPainted(false);
+        startExam.setFont(MyFont.bigFont());
+        startExam.setBackground(MyColor.darkColor());
+        startExam.setForeground(MyColor.whiteColor());
+        startExam.setFocusPainted(false);
+        startExam.setBounds(660, 500, 280, 80);
+        startExam.addActionListener(this);
+        panel.add(startExam);
+
+        examList = new JList();
+        examList.setFont(MyFont.smallFont());
+        examList.setBorder(new EmptyBorder(10, 10, 10, 10));
+        examList.setForeground(MyColor.textColor());
+        examList.addMouseListener(this);
+        scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setViewportView(examList);
+        scrollPane.setBounds(365, 280, 280, 300);
+        panel.add(scrollPane);
 
         this.add(panel);
 
@@ -160,13 +229,91 @@ public class StudentHome extends JFrame implements ActionListener {
             home.setVisible(true);
             home.setLocationRelativeTo(null);
         } else if (ae.getSource() == courseList) {
-            System.out.println(courseList.getSelectedItem());
-            courseText.setVisible(true);
-            scroll.setVisible(true);
-            startExam.setVisible(true);
-            resultButton.setVisible(true);
+            System.out.println(courseList.getSelectedIndex());
+
+            selectedCourse = course.get(courseList.getSelectedIndex());
+
+            int tId = selectedCourse.getTeacherId();
+
+            // teacherNameText.setVisible(true);
+            // teacherNameText.setText("Teacher name: " + Teacherdb.getTeacherName(tId));
+            // scroll.setVisible(true);
+            // startExam.setVisible(true);
+            // resultButton.setVisible(true);
+        } else if (ae.getSource() == registration) {
+            dispose();
+            CourseRegistration registerPage = new CourseRegistration(student);
+            registerPage.setVisible(true);
+            registerPage.setLocationRelativeTo(null);
+        } else if (ae.getSource() == startExam) {
+            dispose();
+            ParticularExam examPage = new ParticularExam(student, selectedExam);
+            examPage.setVisible(true);
+            examPage.setLocationRelativeTo(null);
         }
 
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+        // click on a particular exam
+
+        if (e.getSource() == examList) {
+
+            System.out.println("Clicked on exam");
+            int selected = examList.getSelectedIndex();
+            selectedExam = exam.get(selected);
+            System.out.println(selectedExam.getDuration());
+            examDurationText.setText(Integer.toString(selectedExam.getDuration()));
+            // noOfExamText.setText(selectedCourse.getNumberOfQuestions());
+
+        }
+
+        if (e.getSource() == courseJList) {
+
+            int selected = courseJList.getSelectedIndex();
+            selectedCourse = course.get(selected);
+
+            String numberOfStudents = Coursedb.getNumberOfStudents(selectedCourse.getId());
+            String teacherName = Teacherdb.getTeacherName(selectedCourse.getTeacherId());
+
+            titleOne.setText("Teacher name: " + teacherName);
+            titleTwo.setText("No of Students: " + numberOfStudents);
+
+            String arr[] = loadExams();
+            for (String s : arr) {
+                System.out.println(s);
+            }
+            examList.setListData(loadExams());
+            // Exam list
+
+        }
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public String[] loadExams() {
+        exam = Examdb.getPublishedExamList(selectedCourse.getId());
+        String exams[] = new String[exam.size()];
+        int i = 0;
+        for (Exam e : exam) {
+            exams[i] = e.getDescription();
+            i++;
+        }
+        return exams;
     }
 
 }

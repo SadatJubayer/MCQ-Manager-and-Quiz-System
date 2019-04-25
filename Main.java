@@ -3,12 +3,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
 
+import javax.swing.JLabel;
+
 import gui.Home;
 import gui.teacher.*;
 import classes.Course;
 import dbfunctions.*;
 import database.*;
-
+import javax.swing.*;
+import gui.utilities.*;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
 
@@ -19,14 +22,21 @@ public class Main {
         // System.out.println(Studentdb.isRejected("1", "2"));
 
         // Studentdb.signUp(mobin, mobin);
-        // List<Course> course = Coursedb.getCourseList("1");
+        // List<Course> course = Coursedb.getEnrolledCourseList(1);
         // course.forEach((c) -> {
         // System.out.println(c.getId()); // System.out.println(c.getName());
-        // System.out.println(c.getTeacherId());
+        // System.out.println(c.getName());
+        // System.out.println("teacher id: " + c.getTeacherId());
+        // System.out.println("teacher name: " +
+        // Teacherdb.getTeacherName(c.getTeacherId()));
         // });
         // List<Course> course = Coursedb.getCourseList("1");
         // String str = Coursedb.getNumberOfQuestions(course.get(0).getId());
 
+        // new CountDown(10);
+
+        // System.out.println(Studentdb.requestCourse(1, 1));
+        // FIXME: home
         Home home = new Home();
         home.setLocationRelativeTo(null);
         home.setResizable(false);

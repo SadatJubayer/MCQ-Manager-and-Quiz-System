@@ -6,6 +6,7 @@ import gui.utilities.*;
 
 import classes.*;
 import dbfunctions.Teacherdb;
+import dbfunctions.Studentdb;
 
 import java.awt.Color;
 import java.awt.event.*;
@@ -21,6 +22,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
     private JOptionPane errorMessage, errorPane;
 
     private Teacher teacher;
+    private Student student;
 
     public Home() {
 
@@ -156,26 +158,31 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 String password = passwordField.getText();
 
                 teacher = Teacherdb.login(username, password);
+                System.out.println(teacher);
+                student = Studentdb.login(username, password);
+                System.out.println(student);
 
-                if (teacher == null) {
+                if (teacher == null && student == null) {
                     errorPane = new JOptionPane();
                     errorPane.setFont(MyFont.primaryFont());
                     errorPane.showMessageDialog(null, "Username or Password is incorrect", "Wrong Information!",
                             JOptionPane.WARNING_MESSAGE);
-                } else {
+                } else if (student == null) {
                     dispose();
-                    System.out.println("in home: " + teacher.getName());
+                    System.out.println("in teacher home: " + teacher.getName());
                     TeacherHome teacherHome = new TeacherHome(teacher);
                     teacherHome.setLocationRelativeTo(null);
                     teacherHome.setVisible(true);
+
+                } else if (teacher == null) {
+                    dispose();
+                    System.out.println("in student home: " + student.getName());
+                    StudentHome studentHome = new StudentHome(student);
+                    studentHome.setLocationRelativeTo(null);
+                    studentHome.setVisible(true);
                 }
             }
 
-        } else if (actionCommand.equals(tempBtn.getText())) {
-            dispose();
-            StudentHome sh = new StudentHome(teacher);
-            sh.setLocationRelativeTo(null);
-            sh.setVisible(true);
         }
     }
 

@@ -8,6 +8,7 @@ import java.util.prefs.Preferences;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.*;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import classes.Question;
 import classes.Student;
@@ -43,9 +44,19 @@ public class Teacherdb {
     }
 
     // might be useful
-    public String getTeacherName(String teacherId) {
-        String teacherName = null;
-        return teacherName;
+    public static String getTeacherName(int teacherId) {
+        DB db = DB.getDB();
+        Teacher teacher = null;
+        String sql = "SELECT * FROM teacher WHERE id=?";
+        ResultSetHandler<Teacher> resultSetHandler = new BeanHandler<Teacher>(Teacher.class);
+
+        try {
+            teacher = db.run.query(db.getConn(), sql, resultSetHandler, teacherId);
+        } catch (Exception e) {
+            System.out.println("getTeacherName(): " + e);
+        }
+
+        return teacher.getName();
     }
 
     // to show the requestListOfTheCourse

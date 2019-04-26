@@ -27,6 +27,7 @@ def run():
     my_command = "javac *.java"
     os.system(my_command)
 
+ #test
     print('EXECUTING java Main')
     # if the driver class name is different then edit the below command replacing Msin
     my_command = "java Main"

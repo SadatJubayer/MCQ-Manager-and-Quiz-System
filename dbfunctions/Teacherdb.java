@@ -77,4 +77,24 @@ public class Teacherdb {
         return studentList;
     }
 
+    public static void acceptRequest(int courseId, int studentId) {
+        String sql = "UPDATE `request` SET `isAccepted` = '1' WHERE `request`.`courseId`=? AND `request`.`studentId`=?";
+        DB db = DB.getDB();
+        try {
+            db.run.update(db.getConn(), sql, courseId, studentId);
+        } catch (Exception e) {
+            System.out.println("teacherDB.acceptRequest():" + e);
+        }
+    }
+
+    public static void rejectRuquest(int courseId, int studentId) {
+        String sql = "UPDATE `request` SET `isRejected` = '1' WHERE `request`.`courseId`=? AND `request`.`studentId`=?";
+        DB db = DB.getDB();
+        try {
+            db.run.update(db.getConn(), sql, courseId, studentId);
+        } catch (Exception e) {
+            System.out.println("teacherDB.rejectRequest():" + e);
+        }
+    }
+
 }

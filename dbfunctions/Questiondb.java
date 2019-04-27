@@ -15,6 +15,7 @@ public class Questiondb {
         System.out.println("DEBUG: courseId from q: " + q.getCourseId());
         String sql = "Insert into question (courseId,description,choiceOne,choiceTwo,choiceThree,choiceFour,correctChoice) Value(?,?,?,?,?,?,?)";
         try {
+
             db.run.update(db.getConn(), sql, q.getCourseId(), q.getDescription(), q.getChoiceOne(), q.getChoiceTwo(),
                     q.getChoiceThree(), q.getChoiceFour(), q.getCorrectChoice());
         } catch (Exception e) {

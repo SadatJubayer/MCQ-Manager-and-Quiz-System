@@ -12,6 +12,15 @@ def run():
 
     count = 0
 
+    print('EXECUTING javac *.java  COMMAND....... ')
+    my_command = "javac *.java"
+    os.system(my_command)
+
+    print('EXECUTING java Main')
+    # if the driver class name is different then edit the below command replacing Msin
+    my_command = "java Main"
+    os.system(my_command)
+
     print('scanning....')
     for folder_name, sub_folders, file_names in os.walk(root_dir):
 
@@ -20,18 +29,13 @@ def run():
                 print('DELETING CLASS FILE: ' + folder_name + filename)
                 count += 1
                 os.remove(folder_name+'/'+filename)
+
     print()
     print("TOTAL .class FILES: ", count)
     print()
-    print('EXECUTING javac *.java  COMMAND....... ')
-    my_command = "javac *.java"
-    os.system(my_command)
 
  #test
-    print('EXECUTING java Main')
-    # if the driver class name is different then edit the below command replacing Msin
-    my_command = "java Main"
-    os.system(my_command)
+ 
     print('DONE')
 
 

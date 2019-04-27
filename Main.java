@@ -33,14 +33,14 @@ public class Main {
         // List<Course> course = Coursedb.getCourseList("1");
         // String str = Coursedb.getNumberOfQuestions(course.get(0).getId());
 
-        // new CountDown(10);
-
+        // Studentdb.deleteRequest(4,dd 1);
+        Teacherdb.rejectRuquest(9, 1);
         // System.out.println(Studentdb.requestCourse(1, 1));
         // FIXME: home
-        Home home = new Home();
-        home.setLocationRelativeTo(null);
-        home.setResizable(false);
-        home.setVisible(true);
+        // Home home = new Home();
+        // home.setLocationRelativeTo(null);
+        // home.setResizable(false);
+        // home.setVisible(true);
 
         // Homes home = new Homes();
         // home.setLocationRelativeTo(null);

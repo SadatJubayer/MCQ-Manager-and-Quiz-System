@@ -54,7 +54,6 @@ public class Studentdb {
 
     }
 
-    // TODO: function for requesting course from the course list
     // if the return value is false, means the student was rejected and can't
     // request again
     public static void requestCourse(int studentId, int courseId) {
@@ -116,6 +115,17 @@ public class Studentdb {
         if (isRequested(studentId, courseId) == true)
             return false;
         return true;
+    }
+
+    public static void deleteRequest(int courseId, int studentId) {
+        String sql = "DELETE FROM request WHERE courseId=? AND courseId=?";
+        DB db = DB.getDB();
+
+        try {
+            db.run.update(db.getConn(), sql, courseId, studentId);
+        } catch (Exception e) {
+            System.out.println("Sutdentdb.deleteRequest()" + e);
+        }
     }
 
     // TODO: will be done after gui

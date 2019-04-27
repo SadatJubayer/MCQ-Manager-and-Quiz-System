@@ -12,11 +12,18 @@ import javax.swing.*;
 
 public class AddExam extends JFrame implements ActionListener {
 
-    private String teacherName, teacherId;
-    private int courseId;
+    // private String teacherName, teacherId;
+    // private int courseId;
 
-    private JLabel navBar, headerOne, examName, examDuration, welcome, numberOfQuestion;
-    private JTextField examNameField, examDurationField, numberOfQuestionField;
+    private JLabel navBar, headerOne, examName, welcome, numberOfQuestion;
+    private JTextField examNameField, numberOfQuestionField;
+
+    // FIXME: set bounds for the below two lebels
+    // default value should be 00:00
+    private JLabel examDurationEntryField;
+    private JTextField examHourField;
+    private JTextField examMinuteField;
+
     private JButton createExam, backButton;
     private JPanel panel;
     private JOptionPane errorMessage, errorPane, successPane;
@@ -29,9 +36,11 @@ public class AddExam extends JFrame implements ActionListener {
     public AddExam(Teacher teacher, Course course) {
 
         super("Add Exam");
+        System.out.println("asheche");
 
         this.teacher = teacher;
         this.course = course;
+
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         panel = new JPanel();
@@ -79,16 +88,22 @@ public class AddExam extends JFrame implements ActionListener {
         examNameField.setFont(MyFont.primaryFont());
         panel.add(examNameField);
 
-        examDuration = new JLabel("Exam Duration: (in minutes)");
-        examDuration.setFont(MyFont.smallFont());
-        examDuration.setBounds(300, 300, 400, 20);
-        examDuration.setForeground(MyColor.textColor());
-        panel.add(examDuration);
+        examDurationEntryField = new JLabel("Exam Duration: (HH:MM)");
+        examDurationEntryField.setFont(MyFont.smallFont());
+        examDurationEntryField.setBounds(300, 300, 400, 20);
+        examDurationEntryField.setForeground(MyColor.textColor());
+        panel.add(examDurationEntryField);
 
-        examDurationField = new JTextField();
-        examDurationField.setBounds(300, 330, 400, 40);
-        examDurationField.setFont(MyFont.primaryFont());
-        panel.add(examDurationField);
+        // FIXME: setbounds for the below two labels
+        examHourField = new JTextField();
+        examHourField.setBounds(300, 330, 400, 40);
+        examHourField.setFont(MyFont.primaryFont());
+        panel.add(examHourField);
+
+        examMinuteField = new JTextField();
+        examMinuteField.setBounds(350, 330, 400, 40);
+        examMinuteField.setFont(MyFont.primaryFont());
+        panel.add(examMinuteField);
 
         numberOfQuestion = new JLabel("Number of Questions:");
         numberOfQuestion.setFont(MyFont.smallFont());
@@ -117,8 +132,8 @@ public class AddExam extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createExam) {
 
-            if (examNameField.getText().equals("") || examDurationField.getText().equals("")
-                    || numberOfQuestionField.getText().equals("")) {
+            if (examNameField.getText().equals("") || examHourField.getText().equals("")
+                    || examMinuteField.getText().equals("") || numberOfQuestionField.getText().equals("")) {
                 errorMessage = new JOptionPane();
                 errorMessage.setFont(MyFont.primaryFont());
                 errorMessage.showMessageDialog(null, "All fields are required!", "Wrong Input!",
@@ -129,14 +144,20 @@ public class AddExam extends JFrame implements ActionListener {
 
                 // TODO: add hh:MM
                 String descripton = examNameField.getText();
-                int duration = Integer.parseInt(examDurationField.getText());
+                // FIXME: change the gui, for hh:mm, I am doing the math here
+                int examHour = Integer.parseInt(examHourField.getText());
+                int duration = examHour * 60;
+                int examMinute = Integer.parseInt(examMinuteField.getText());
+                duration += examMinute;
+                // FIXME: while showing the exam duration, we have to do the revers of this
                 int numberOfQuestion = Integer.parseInt(numberOfQuestionField.getText());
 
                 // Database checking here
                 Examdb.createExam(course.getId(), descripton, numberOfQuestion, duration);
 
                 examNameField.setText("");
-                examDurationField.setText("");
+                examHourField.setText("");
+                examMinuteField.setText("");
                 numberOfQuestionField.setText("");
 
                 // Go back to home

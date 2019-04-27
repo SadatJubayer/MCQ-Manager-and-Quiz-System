@@ -178,13 +178,4 @@ public class Coursedb {
         return studentList;
     }
 
-    // TODO: below functions
-    public static void deleteRequest(int studentId) {
-
-    }
-
-    public static void acceptRequest(int studentId) {
-
-    }
-
 }

@@ -153,7 +153,6 @@ public class Coursedb {
 
         try {
             studentList = db.run.query(db.getConn(), sql, resultSetHandler, Integer.toString(courseId));
-            System.out.println("pagla ghura re");
         } catch (Exception e) {
             System.out.println("get Enrolled StudentList: " + e);
         }

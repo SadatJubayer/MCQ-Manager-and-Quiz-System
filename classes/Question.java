@@ -88,4 +88,8 @@ public class Question {
         this.correctChoice = correctAnswer;
     }
 
+    public boolean isCorrect(String choice) {
+        return (choice.equals(correctChoice));
+    }
+
 }

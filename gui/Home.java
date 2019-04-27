@@ -14,10 +14,10 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class Home extends JFrame implements ActionListener, MouseListener {
-    private JLabel textLabel, usernameLabel, passwordLabel, singupText, boxOne, boxTwo;
+    private JLabel textLabel, usernameLabel, passwordLabel, boxOne, boxTwo;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JButton loginButton, signupButton, tempBtn;
+    private JButton loginButton, signupButton, forgetButton;
     private JPanel panel;
     private JOptionPane errorMessage, errorPane;
 
@@ -53,6 +53,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         usernameField = new JTextField();
         usernameField.setBounds(130, 240, 340, 40);
         usernameField.setFont(MyFont.primaryFont());
+        usernameField.setText(SignupPage.getUname());
         panel.add(usernameField);
 
         passwordLabel = new JLabel("Password: ");
@@ -64,6 +65,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         passwordField = new JPasswordField();
         passwordField.setFont(MyFont.primaryFont());
         passwordField.setBounds(130, 330, 340, 40);
+        passwordField.setText(SignupPage.getUpass());
         panel.add(passwordField);
 
         loginButton = new JButton("SIGN IN");
@@ -73,17 +75,15 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         loginButton.setBackground(MyColor.primaryColor());
         panel.add(loginButton);
 
-        tempBtn = new JButton("Go to Student Page");
-        tempBtn.setBounds(60, 600, 400, 100);
-        tempBtn.setFont(MyFont.primaryFont());
-        tempBtn.addActionListener(this);
-        panel.add(tempBtn);
-
-        singupText = new JLabel("Forget your password?");
-        singupText.setFont(MyFont.smallFont());
-        singupText.setForeground(MyColor.textColor());
-        singupText.setBounds(220, 480, 300, 40);
-        panel.add(singupText);
+        forgetButton = new JButton("Forget your password?");
+        forgetButton.setFont(MyFont.smallFont());
+        forgetButton.setForeground(MyColor.textColor());
+        forgetButton.setBounds(150, 480, 300, 40);
+        forgetButton.setFocusPainted(false);
+        forgetButton.setContentAreaFilled(false);
+        forgetButton.setBorder(BorderFactory.createEmptyBorder());
+        forgetButton.addActionListener(this);
+        panel.add(forgetButton);
 
         textLabel = new JLabel("Hello, there!");
         textLabel.setBounds(600, 200, 300, 60);
@@ -101,6 +101,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         signupButton.setBounds(630, 350, 145, 45);
         signupButton.setBorder(new LineBorder(Color.white));
         signupButton.setFont(MyFont.primaryFont());
+        signupButton.setFocusPainted(false);
         signupButton.setForeground(MyColor.whiteColor());
         signupButton.setBackground(MyColor.primaryColor());
         panel.add(signupButton);
@@ -153,6 +154,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             }
 
             else { // If fields are not empty
+                SignupPage.resetData();
 
                 String username = usernameField.getText();
                 String password = passwordField.getText();
@@ -172,6 +174,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                     System.out.println("in teacher home: " + teacher.getName());
                     TeacherHome teacherHome = new TeacherHome(teacher);
                     teacherHome.setLocationRelativeTo(null);
+                    teacherHome.setResizable(false);
                     teacherHome.setVisible(true);
 
                 } else if (teacher == null) {
@@ -179,10 +182,21 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                     System.out.println("in student home: " + student.getName());
                     StudentHome studentHome = new StudentHome(student);
                     studentHome.setLocationRelativeTo(null);
+                    studentHome.setResizable(false);
                     studentHome.setVisible(true);
                 }
             }
 
+        }
+
+        else if (actionCommand.equals(forgetButton.getText())) {
+            SignupPage.resetData();
+            System.out.println("Forgot button clicked");
+            PasswordReset ps = new PasswordReset();
+            this.dispose();
+            ps.setLocationRelativeTo(null);
+            ps.setResizable(false);
+            ps.setVisible(true);
         }
     }
 

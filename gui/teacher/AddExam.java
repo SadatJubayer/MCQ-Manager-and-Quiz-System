@@ -172,6 +172,7 @@ public class AddExam extends JFrame implements ActionListener {
             dispose();
             ExamPage tm = new ExamPage(teacher, course);
             tm.setLocationRelativeTo(null);
+            tm.setResizable(false);
             tm.setVisible(true);
         }
 

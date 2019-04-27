@@ -11,11 +11,17 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class SignupPage extends JFrame implements ActionListener, MouseListener {
-    private JLabel textLabel, usernameLabel, passwordLabel, singupText, boxOne, anotherLabel;
+    private JLabel textLabel, usernameLabel, passwordLabel, singupText, boxOne, positionLabel;
+    private JComboBox comboBox;
+    private String positions[] = { "Student", "Teacher" };
     private JTextField usernameField, anotherField;
     private JPasswordField passwordField;
     private JButton loginButton, signupButton;
     private JPanel panel;
+    private JOptionPane errorPane, successPane;
+
+    // Inital values
+    private static String Uname, Upassword;
 
     public SignupPage() {
 
@@ -58,11 +64,17 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
         passwordField.setBounds(535, 330, 340, 40);
         panel.add(passwordField);
 
-        anotherLabel = new JLabel("Baaper Naam: ");
-        anotherLabel.setFont(MyFont.primaryFont());
-        anotherLabel.setBounds(535, 380, 120, 30);
-        anotherLabel.setForeground(MyColor.textColor());
-        panel.add(anotherLabel);
+        positionLabel = new JLabel("Position: ");
+        positionLabel.setFont(MyFont.primaryFont());
+        positionLabel.setForeground(MyColor.textColor());
+        positionLabel.setBounds(535, 380, 120, 40);
+        panel.add(positionLabel);
+
+        comboBox = new JComboBox(positions);
+        comboBox.setBounds(535, 420, 340, 40);
+        comboBox.setBackground(Color.white);
+        comboBox.setFont(MyFont.primaryFont());
+        panel.add(comboBox);
 
         anotherField = new JTextField();
         anotherField.setBounds(535, 420, 340, 40);
@@ -93,6 +105,7 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
         singupText.setFont(MyFont.mediumFont());
         singupText.setForeground(Color.white);
         singupText.setBounds(210, 320, 300, 40);
+
         panel.add(singupText);
 
         loginButton = new JButton("SIGN IN");
@@ -123,18 +136,59 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
         signupButton.addMouseListener(this);
 
         this.add(panel);
+
     }
 
     // Action Listeners
     public void actionPerformed(ActionEvent ae) {
         String actionCommand = ae.getActionCommand();
+
         if (actionCommand.equals(loginButton.getText())) {
             this.dispose();
             Home sp = new Home();
             sp.setLocationRelativeTo(null);
             sp.setResizable(false);
             sp.setVisible(true);
+
+        } else if (actionCommand.equals(signupButton.getText())) {
+            // check empty of not
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            String selectedPosition = (String) comboBox.getSelectedItem();
+
+            if (username.equals("") || password.equals("")) {
+                errorPane = new JOptionPane();
+                errorPane.setFont(MyFont.primaryFont());
+                errorPane.showMessageDialog(null, "All fields are required!", "Error!", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if (selectedPosition.equals("Student")) {
+                    // insert into Student database
+                    System.out.println("Student clicked");
+                    System.out.println(username);
+                    System.out.println(password);
+
+                } else {
+                    // Insert into teacher database
+                    System.out.println("Teacher clicked");
+                    System.out.println(username);
+                    System.out.println(password);
+                }
+                setUserData(username, password);
+                successPane = new JOptionPane();
+                successPane.setFont(MyFont.primaryFont());
+                successPane.showMessageDialog(null, "Registration Successful!", "No you can Login",
+                        JOptionPane.INFORMATION_MESSAGE);
+                // and go back to Login page
+                this.dispose();
+                Home sp = new Home();
+                System.out.println(username);
+                sp.setLocationRelativeTo(null);
+                sp.setResizable(false);
+                sp.setVisible(true);
+
+            }
         }
+
     }
 
     // Mouse listeners
@@ -155,4 +209,27 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
 
     }
 
+    public static String getUname() {
+        if (Uname != null)
+            return Uname;
+        else
+            return "";
+    }
+
+    public static String getUpass() {
+        if (Upassword != null)
+            return Upassword;
+        else
+            return "";
+    }
+
+    public void setUserData(String name, String password) {
+        Uname = name;
+        Upassword = password;
+    }
+
+    public static void resetData() {
+        Uname = "";
+        Upassword = "";
+    }
 }

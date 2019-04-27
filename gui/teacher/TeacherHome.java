@@ -48,6 +48,14 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
         panel.setBackground(MyColor.whiteBg());
 
         // Add Course Button
+        addCourse = new JButton("ADD Course");
+        addCourse.setFont(MyFont.mediumFont());
+        addCourse.setBackground(MyColor.primaryColor());
+        addCourse.setForeground(MyColor.whiteColor());
+        addCourse.setFocusPainted(false);
+        addCourse.setBounds(400, 45, 200, 50);
+        addCourse.addActionListener(this);
+        panel.add(addCourse);
 
         // Navbar
         welcome = new JLabel("Welcome, " + teacher.getName());
@@ -181,6 +189,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
             System.out.println("action performed: add course: " + teacher.getName());
             AddCourse f = new AddCourse(teacher, home);
             f.setLocationRelativeTo(null);
+            f.setResizable(false);
             f.setVisible(true);
 
         } else if (e.getSource() == goToButton) {
@@ -189,6 +198,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
             // navigation
             CoursePage cc = new CoursePage(teacher, selectedCourse);
             cc.setLocationRelativeTo(null);
+            cc.setResizable(false);
             cc.setVisible(true);
 
         } else if (e.getSource() == logoutButton) {
@@ -204,6 +214,7 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
             // NAVIGATION
             TeacherHome teacherHome = new TeacherHome(teacher);
             teacherHome.setLocationRelativeTo(null);
+            teacherHome.setResizable(false);
             teacherHome.setVisible(true);
 
         }

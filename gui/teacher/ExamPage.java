@@ -191,9 +191,10 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addExam) {
             this.dispose();
-            AddExam f = new AddExam(teacher, course);
-            f.setLocationRelativeTo(null);
-            f.setVisible(true);
+            AddExam addExam = new AddExam(teacher, course);
+            addExam.setLocationRelativeTo(null);
+            addExam.setResizable(false);
+            addExam.setVisible(true);
 
         } else if (e.getSource() == publish) {
             // TODO: check if it works properly
@@ -205,6 +206,7 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
             this.dispose();
             CoursePage cc = new CoursePage(teacher, course);
             cc.setLocationRelativeTo(null);
+            cc.setResizable(false);
             cc.setVisible(true);
 
         } else if (e.getSource() == deleteButton) {
@@ -218,9 +220,10 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
                 Examdb.deleteExam(examId);
                 this.dispose();
-                ExamPage cp = new ExamPage(teacher, course);
-                cp.setLocationRelativeTo(null);
-                cp.setVisible(true);
+                ExamPage ep = new ExamPage(teacher, course);
+                ep.setLocationRelativeTo(null);
+                ep.setResizable(false);
+                ep.setVisible(true);
             }
         }
 

@@ -241,9 +241,10 @@ public class AddQuestion extends JFrame implements ActionListener {
 
         {
             dispose();
-            CoursePage tm = new CoursePage(teacher, course);
-            tm.setLocationRelativeTo(null);
-            tm.setVisible(true);
+            CoursePage cp = new CoursePage(teacher, course);
+            cp.setLocationRelativeTo(null);
+            cp.setResizable(false);
+            cp.setVisible(true);
         } else {
 
         }

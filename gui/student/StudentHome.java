@@ -87,7 +87,7 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
-        teacherNameText = new JLabel("Select From registered courses: ");
+        teacherNameText = new JLabel("Registered courses: ");
         teacherNameText.setForeground(MyColor.textColor());
         teacherNameText.setFont(MyFont.smallFont());
         teacherNameText.setBounds(40, 110, 250, 25);
@@ -214,7 +214,7 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setViewportView(examList);
-        scrollPane.setBounds(365, 280, 280, 300);
+        scrollPane.setBounds(365, 280, 255, 313);
         panel.add(scrollPane);
 
         this.add(panel);
@@ -227,6 +227,7 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
             dispose();
             Home home = new Home();
             home.setVisible(true);
+            home.setResizable(false);
             home.setLocationRelativeTo(null);
         } else if (ae.getSource() == courseList) {
             System.out.println(courseList.getSelectedIndex());
@@ -244,10 +245,12 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
             dispose();
             CourseRegistration registerPage = new CourseRegistration(student);
             registerPage.setVisible(true);
+            registerPage.setResizable(false);
             registerPage.setLocationRelativeTo(null);
         } else if (ae.getSource() == startExam) {
             dispose();
             ParticularExam examPage = new ParticularExam(student, selectedExam);
+            examPage.setResizable(false);
             examPage.setVisible(true);
             examPage.setLocationRelativeTo(null);
         }

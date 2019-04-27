@@ -18,7 +18,7 @@ import classes.Student;
 // database
 import dbfunctions.*;
 
-public class StudentList extends JFrame implements ActionListener {
+public class RequestedStudent extends JFrame implements ActionListener {
 
     private JLabel navBar, welcome, courses;
     private JButton backButton;
@@ -29,9 +29,9 @@ public class StudentList extends JFrame implements ActionListener {
     private Course course;
     private List<Student> students;
 
-    public StudentList(Teacher teacher, Course course) {
+    public RequestedStudent(Teacher teacher, Course course) {
 
-        super("Student List page");
+        super("Requested Student");
 
         this.teacher = teacher;
         this.course = course;
@@ -64,7 +64,7 @@ public class StudentList extends JFrame implements ActionListener {
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
-        courses = new JLabel("Enrolled Students: ");
+        courses = new JLabel("Requested Students: ");
         courses.setForeground(MyColor.textColor());
         courses.setFont(MyFont.primaryFont());
         courses.setBounds(40, 70, 200, 25);

@@ -283,15 +283,17 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
             this.dispose();
             // navigation
             TeacherHome f = new TeacherHome(teacher);
+            f.setResizable(false);
             f.setLocationRelativeTo(null);
             f.setVisible(true);
         } else if (e.getSource() == addQuestion) {
 
             System.out.println("Add Question Clicked");
             this.dispose();
-            AddQuestion f = new AddQuestion(teacher, course);
-            f.setLocationRelativeTo(null);
-            f.setVisible(true);
+            AddQuestion aq = new AddQuestion(teacher, course);
+            aq.setResizable(false);
+            aq.setLocationRelativeTo(null);
+            aq.setVisible(true);
 
         } else if (e.getSource() == addExam) {
             System.out.println("Add Exam Clicked");
@@ -299,15 +301,22 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
             this.dispose();
             ExamPage exam = new ExamPage(teacher, course);
             exam.setLocationRelativeTo(null);
+            exam.setResizable(false);
             exam.setVisible(true);
 
         } else if (e.getSource() == requests) {
+            this.dispose();
+            RequestedStudent requestedStudent = new RequestedStudent(teacher, course);
+            requestedStudent.setLocationRelativeTo(null);
+            requestedStudent.setResizable(false);
+            requestedStudent.setVisible(true);
             System.out.println("Requests Clicked");
         } else if (e.getSource() == studentListButton) {
 
             this.dispose();
             StudentList sl = new StudentList(teacher, course);
             sl.setLocationRelativeTo(null);
+            sl.setResizable(false);
             sl.setVisible(true);
 
         } else if (e.getSource() == updateButton) {

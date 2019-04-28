@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 28, 2019 at 02:53 PM
+-- Generation Time: Apr 28, 2019 at 04:32 PM
 -- Server version: 5.7.25-0ubuntu0.18.04.2
 -- PHP Version: 7.2.17-0ubuntu0.18.04.1
 
@@ -138,7 +138,24 @@ INSERT INTO `question` (`id`, `courseId`, `description`, `choiceOne`, `choiceTwo
 (22, 47, 'The United States Department of Agriculture’s Daily Food Guide suggests that the Fats, Oils and Sweets Group be used ___', 'once a week', 'four times a day', 'never on Sundays', 'sparingly', 'sparingly'),
 (23, 47, 'Which vitamin is needed to prevent a birth defect called Spina Bifida', 'Vitamin D', 'Vitamin A', 'Folate', 'Vitamin E', 'Folate'),
 (24, 47, 'Which of the following nutrients is known as the sunshine vitamin?', 'Vitamin C', 'Vitamin A', 'Vitamin K', 'Vitamin D', 'Vitamin D'),
-(25, 47, 'Which of the following nutrients is needed to build and maintain the structuralcomponents of the body?', 'Carbohydrates', 'Protein', 'Fat', 'Fiber', 'Protein');
+(25, 47, 'Which of the following nutrients is needed to build and maintain the structuralcomponents of the body?', 'Carbohydrates', 'Protein', 'Fat', 'Fiber', 'Protein'),
+(26, 47, 'A substance needed by the body for growth, energy, repair and maintenance is called a _______________.', 'nutrient', 'nutrient', 'calorie', 'fatty acid', 'nutrient'),
+(27, 47, '\r\nAll of the following are nutrients found in food except ____', 'plasma', 'proteins', 'carbohydrates', 'vitamins', 'plasma'),
+(28, 47, 'A diet high in saturated fats can be linked to which of the following?', 'kidney failure', 'bulimia\r\n', 'anorexia', 'cardiovascular disease', 'cardiovascular disease'),
+(29, 47, 'Amylases in saliva begin the breakdown of carbohydrates into __________.', 'fatty acids\r\n', 'polypeptides', 'amino acids', 'simple sugars', 'polypeptides'),
+(30, 47, 'Your body needs vitamins and minerals because ___________.', 'they give the body energy', 'they help carry out metabolic reactions', 'they insulate the body\'s organs', 'they withdraw heat from the body', 'they help carry out metabolic reactions'),
+(31, 47, 'Food passes through the stomach directly by _________.', 'the pancreas', 'the small intestine', 'the heart', 'the pancreas', 'the small intestine'),
+(32, 47, 'About half of your diet should be made up of __________.', 'grains and vegetables', 'fruits and milk\r\n', 'milk and cheese', 'fats and sugars', 'grains and vegetables'),
+(33, 47, 'A mineral that the body needs to work properly is _____________.', 'calcium', 'silver', 'gold', 'lead', 'calcium'),
+(34, 47, 'According to the MyPyramind food guidance system, a person should obtain most of their fat from ____________.', ' beef, chicken, and fish\r\n', 'vegetables oils, nuts, and fish', 'fats, oils, and sweets', 'milk, yogurt, and cheese', 'vegetables oils, nuts, and fish'),
+(35, 47, 'A(n) ___________ is a unit of energy that indicates the amount of energy contained in food.', 'label', 'food guide pyramid', 'calorie', ' basket', 'calorie'),
+(36, 49, 'Which well known scientist came up with this formula: E=Mc^2?', 'Isaac Newton', 'Albert Einstein', 'Galileo Galilei', 'Charles Darwin', 'Albert Einstein'),
+(37, 49, 'What was the name of the space craft that exploded on lift off in 1986 killing, among others, teacher Christa McAuliffe?', 'Apollo 13\r\n', 'Discovery\r\n', 'Voyager\r\n', 'Challenger', 'Challenger'),
+(38, 49, 'Which famous philosopher came up with the famous Latin phrase \'cogito ergo sum\' or in English \'I think, therefore, I am\' ?', 'Karl Marx', 'Voltaire', 'Nicolo Machiavelli', 'Rene Descartes', 'Rene Descartes'),
+(39, 49, '. \'The Potato Eaters\', \'Sunflowers\' and \'Starry Night\' are a part of this famous Artist\'s work?', 'Renoir', 'Picasso', 'Leonardo de Vinci\r\n', 'Vincent van Gogh\r\n', 'Vincent van Gogh\r\n'),
+(40, 49, '15. Who is the American author of the quote \' The reward of a thing well done is to have done it\'?', 'Plato', 'William Butler Yeats', 'Ralph Waldo Emerson', 'Henry David Thoreau', 'Ralph Waldo Emerson'),
+(41, 49, 'abbey road is the album of which famous band?', 'Beetles', 'Led Zepplin', 'The Doors', 'Pink Floyd', 'Beetles'),
+(42, 49, 'What is light?', 'what we see with our eyes', ' a form of energy that travels in waves', 'a form of work that reflects', 'None', ' a form of energy that travels in waves');
 
 -- --------------------------------------------------------
 
@@ -297,7 +314,7 @@ ALTER TABLE `marks`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `request`
 --

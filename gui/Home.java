@@ -13,13 +13,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class Home extends JFrame implements ActionListener, MouseListener {
+public class Home extends JFrame implements ActionListener, MouseListener, KeyListener {
     private JLabel textLabel, usernameLabel, passwordLabel, boxOne, boxTwo;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton, signupButton, forgetButton;
     private JPanel panel;
-    private JOptionPane errorMessage, errorPane;
 
     private Teacher teacher;
     private Student student;
@@ -66,6 +65,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         passwordField.setFont(MyFont.primaryFont());
         passwordField.setBounds(130, 330, 340, 40);
         passwordField.setText(SignupPage.getUpass());
+        passwordField.addKeyListener(this);
         panel.add(passwordField);
 
         loginButton = new JButton("SIGN IN");
@@ -147,9 +147,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
         else if (actionCommand.equals(loginButton.getText())) {
 
             if (usernameField.getText().equals("") || passwordField.getText().equals("")) {
-                errorMessage = new JOptionPane();
-                errorMessage.setFont(MyFont.primaryFont());
-                errorMessage.showMessageDialog(null, "username or password can not be empty", "Wrong Input!",
+                JOptionPane.showMessageDialog(null, "username or password can not be empty", "Wrong Input!",
                         JOptionPane.WARNING_MESSAGE);
             }
 
@@ -165,9 +163,7 @@ public class Home extends JFrame implements ActionListener, MouseListener {
                 System.out.println(student);
 
                 if (teacher == null && student == null) {
-                    errorPane = new JOptionPane();
-                    errorPane.setFont(MyFont.primaryFont());
-                    errorPane.showMessageDialog(null, "Username or Password is incorrect", "Wrong Information!",
+                    JOptionPane.showMessageDialog(null, "Username or Password is incorrect", "Wrong Information!",
                             JOptionPane.WARNING_MESSAGE);
                 } else if (student == null) {
                     dispose();
@@ -198,6 +194,22 @@ public class Home extends JFrame implements ActionListener, MouseListener {
             ps.setResizable(false);
             ps.setVisible(true);
         }
+    }
+
+    // keylistener
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            JOptionPane.showMessageDialog(null,
+                    "You've clicked on Enter button, you should be hanged up motherfucker! " + passwordField.getText());
+        }
+
+    }
+
+    public void keyReleased(KeyEvent e) {
+    }
+
+    public void keyTyped(KeyEvent e) {
     }
 
     // Mouse listeners

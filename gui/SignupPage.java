@@ -1,6 +1,7 @@
 package gui;
 
 import gui.student.*;
+import dbfunctions.Studentdb;
 import dbfunctions.Teacherdb;
 import gui.utilities.*;
 import gui.teacher.*;
@@ -163,12 +164,17 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
             } else {
                 if (selectedPosition.equals("Student")) {
                     // insert into Student database
-                    System.out.println("Student clicked");
-                    System.out.println(username);
-                    System.out.println(password);
+                    if (Studentdb.signUp(username, password)) {
+                        System.out.println("Student Inserted");
+                        System.out.println(username);
+                        System.out.println(password);
+                    } else {
+                        System.out.println("Already Fucked up");
+
+                    }
 
                 } else {
-                    // Insert into teacher database
+                    // TODO: Insert into teacher database
                     System.out.println("Teacher clicked");
                     System.out.println(username);
                     System.out.println(password);

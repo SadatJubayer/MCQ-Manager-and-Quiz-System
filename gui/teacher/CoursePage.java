@@ -345,7 +345,7 @@ public class CoursePage extends JFrame implements ActionListener, MouseListener 
 
                 // TODO: set selected item and check empty DONE!!!!!!!!!
 
-                Question q = new Question(question.getId(), theQuestion.getText(), choice1.getText(), choice2.getText(),
+                Question q = new Question(question.getId(),course.getId(), theQuestion.getText(), choice1.getText(), choice2.getText(),
                         choice3.getText(), choice4.getText(), correctChoice);
                 Questiondb.updateQuestion(q);
 

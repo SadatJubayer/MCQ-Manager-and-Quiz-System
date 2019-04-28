@@ -29,6 +29,7 @@ public class StudentList extends JFrame implements ActionListener, MouseListener
     private Teacher teacher;
     private Course course;
     private List<Student> students;
+    private Student selectedStudent;
 
     public StudentList(Teacher teacher, Course course) {
 
@@ -133,6 +134,8 @@ public class StudentList extends JFrame implements ActionListener, MouseListener
             cp.setResizable(false);
             cp.setVisible(true);
         } else if (action.equals(removeStudent.getText())) {
+
+            Teacherdb.removeStudent(course.getId(), selectedStudent.getId());
             System.out.println("Remove student clicked");
         }
     }
@@ -146,7 +149,7 @@ public class StudentList extends JFrame implements ActionListener, MouseListener
 
             int selected = list.getSelectedIndex();
 
-            System.out.println(selected);
+            selectedStudent = students.get(selected);
 
         }
 

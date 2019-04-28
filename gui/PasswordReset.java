@@ -74,7 +74,7 @@ public class PasswordReset extends JFrame implements ActionListener, MouseListen
         passText = new JLabel();
         passText.setFont(MyFont.mediumFont());
         passText.setForeground(MyColor.whiteColor());
-        passText.setBounds(365, 510, 300, 40);
+        passText.setBounds(250, 510, 500, 40);
         passText.setVisible(false);
         panel.add(passText);
 
@@ -114,9 +114,7 @@ public class PasswordReset extends JFrame implements ActionListener, MouseListen
                 errorPane.setFont(MyFont.primaryFont());
                 errorPane.showMessageDialog(null, "Enter your username first!", "Error!", JOptionPane.WARNING_MESSAGE);
             } else {
-                // FIXME: getting password from database by the username...
-                String password = "asuda";
-                passText.setText("Your password is: " + password);
+                passText.setText("Contact with SADAT or MOBIN for your password!!");
                 passText.setVisible(true);
             }
         }

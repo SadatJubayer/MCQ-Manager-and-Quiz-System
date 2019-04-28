@@ -4,8 +4,11 @@ import database.DB;
 import classes.*;
 import java.util.List;
 
+
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 
 import java.util.*;
 
@@ -126,14 +129,32 @@ public class Examdb {
         }
     }
 
-    public static void insertMarks(int examId,int studentId,int marks){
+    public static void insertMarks(int examId, int studentId, int marks) {
         String sql = "INSERT INTO `marks` (`id`, `examId`, `studentId`, `marks`) VALUES (NULL, ?, ?, ?)";
         DB db = DB.getDB();
         try {
-            db.run.update(db.getConn(),sql,examId,studentId,marks);
+            db.run.update(db.getConn(), sql, examId, studentId, marks);
         } catch (Exception e) {
-            System.out.println("insertMarks(): "+e);
+            System.out.println("insertMarks(): " + e);
         }
+    }
+
+    // get marks function by Mobin
+    public static List<Marks> getMarks(int examId) {
+
+        List<Marks> marks = null;
+        String sql = "SELECT * FROM marks WHERE examId=?";
+        ResultSetHandler<List<Marks>> resultSetHandler = new BeanListHandler<Marks>(Marks.class);
+
+        DB db = DB.getDB();
+        try {
+            marks = db.run.query(db.getConn(), sql, resultSetHandler, examId);
+        } catch (Exception e) {
+            System.out.println("getMarks(): " + e);
+        }
+
+        return marks;
+
     }
 
     //

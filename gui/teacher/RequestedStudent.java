@@ -18,16 +18,19 @@ import classes.Student;
 // database
 import dbfunctions.*;
 
-public class RequestedStudent extends JFrame implements ActionListener {
+public class RequestedStudent extends JFrame implements ActionListener, MouseListener {
 
-    private JLabel navBar, welcome, courses;
-    private JButton backButton;
+    private JLabel navBar, welcome, courses, studentNameText, studentIdText;
+    private JButton backButton, acceptRequestButton, rejectRequestButton;
 
     private JPanel panel;
 
     private Teacher teacher;
     private Course course;
     private List<Student> students;
+    private JList list;
+
+    private Student selectedStudent;
 
     public RequestedStudent(Teacher teacher, Course course) {
 
@@ -70,10 +73,45 @@ public class RequestedStudent extends JFrame implements ActionListener {
         courses.setBounds(40, 70, 200, 25);
         panel.add(courses);
 
+        // other labels
+        studentNameText = new JLabel("Student Name: ");
+        studentNameText.setForeground(MyColor.textColor());
+        studentNameText.setFont(MyFont.primaryFont());
+        studentNameText.setBounds(400, 200, 500, 25);
+        panel.add(studentNameText);
+
+        studentIdText = new JLabel("Student ID: ");
+        studentIdText.setForeground(MyColor.textColor());
+        studentIdText.setFont(MyFont.primaryFont());
+        studentIdText.setBounds(400, 250, 500, 25);
+        panel.add(studentIdText);
+
+        acceptRequestButton = new JButton("Accept Student");
+        acceptRequestButton.setBounds(400, 370, 180, 50);
+        acceptRequestButton.setFont(MyFont.primaryFont());
+        acceptRequestButton.setForeground(MyColor.whiteColor());
+        acceptRequestButton.setBackground(MyColor.primaryColor());
+        acceptRequestButton.addActionListener(this);
+        acceptRequestButton.setEnabled(false);
+        panel.add(acceptRequestButton);
+
+        rejectRequestButton = new JButton("Remove Student");
+        rejectRequestButton.setBounds(620, 370, 180, 50);
+        rejectRequestButton.setFont(MyFont.primaryFont());
+        rejectRequestButton.setForeground(MyColor.whiteColor());
+        rejectRequestButton.setBackground(MyColor.dangerColor());
+        rejectRequestButton.addActionListener(this);
+        rejectRequestButton.setEnabled(false);
+        panel.add(rejectRequestButton);
+
         // creating string array for list
 
-        students = Coursedb.getEnrolledStudentList(course.getId());
+        try {
+            students = Coursedb.getRequestStudentList(course.getId());
 
+        } catch (Exception e) {
+            System.out.println("you got an error on RequestStudentList because there is no requested student " + e);
+        }
         int length = students.size();
         String studentsString[] = new String[length];
         int i = 0;
@@ -83,10 +121,11 @@ public class RequestedStudent extends JFrame implements ActionListener {
         }
 
         JScrollPane scrollPane = new JScrollPane();
-        JList list = new JList(studentsString);
+        list = new JList(studentsString);
         list.setFont(MyFont.tinyFont());
         list.setForeground(MyColor.textColor());
         list.setBorder(new EmptyBorder(10, 10, 10, 10));
+        list.addMouseListener(this);
         list.setForeground(MyColor.textColor());
 
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -109,9 +148,50 @@ public class RequestedStudent extends JFrame implements ActionListener {
             cp.setLocationRelativeTo(null);
             cp.setResizable(false);
             cp.setVisible(true);
-        } else {
+        } else if (action.equals(acceptRequestButton.getText())) {
+            System.out.println("courseID:::: " + course.getId() + "studentID::::" + selectedStudent.getId());
+            Teacherdb.acceptRequest(course.getId(), selectedStudent.getId());
+            System.out.println("Request accepted");
+            acceptRequestButton.setEnabled(false);
+            rejectRequestButton.setEnabled(false);
+
+        } else if (action.equals(rejectRequestButton.getText())) {
+            Teacherdb.rejectRuquest(course.getId(), selectedStudent.getId());
+            System.out.println("Request Rejected");
+            acceptRequestButton.setEnabled(false);
+            rejectRequestButton.setEnabled(false);
+        }
+
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+        // String str2 = "123";
+        if (e.getSource() == list) {
+
+            acceptRequestButton.setEnabled(true);
+            rejectRequestButton.setEnabled(true);
+
+            int selected = list.getSelectedIndex();
+
+            selectedStudent = students.get(selected);
 
         }
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
     }
 
 }

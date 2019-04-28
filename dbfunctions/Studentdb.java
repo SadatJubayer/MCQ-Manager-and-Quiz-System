@@ -34,7 +34,8 @@ public class Studentdb {
         ResultSetHandler<Student> resultSetHandler = new BeanHandler<Student>(Student.class);
         Student student = null;
         try {
-            db.run.query(db.getConn(), sql, resultSetHandler, username);
+            student = db.run.query(db.getConn(), sql, resultSetHandler, username);
+
         } catch (Exception e) {
             System.out.println("signup(): student:  " + e);
         }
@@ -128,7 +129,19 @@ public class Studentdb {
         }
     }
 
-    
+    public static String getStudentName(int studentId) {
+        String sql = "select name from student where id=?";
+        ResultSetHandler<Student> resultSetHandler = new BeanHandler<Student>(Student.class);
+        DB db = DB.getDB();
+        Student student = null;
 
+        try {
+            student = db.run.query(db.getConn(), sql, resultSetHandler, studentId);
+        } catch (Exception e) {
+            System.out.println("getName: " + e);
+        }
+        System.out.println("Ekhane kisu likhe daw to " + student.getName());
+        return student.getName();
+    }
 
 }

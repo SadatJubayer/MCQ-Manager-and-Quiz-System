@@ -133,11 +133,15 @@ public class ParticularExam extends JFrame implements ActionListener {
         boxCombo.add(checkFour);
 
         checkOne.setOpaque(false);
+        checkOne.setBounds(180, 280, 50, 30);
+        // TODO: set a sweet icon
+        // Icon unselIcon = new ImageIcon("no-selected.png");
+        // checkOne.setIcon(unselIcon);
+
         checkTwo.setOpaque(false);
         checkThree.setOpaque(false);
         checkFour.setOpaque(false);
 
-        checkOne.setBounds(180, 280, 50, 30);
         panel.add(checkOne);
         checkTwo.setBounds(180, 330, 50, 30);
         panel.add(checkTwo);
@@ -210,9 +214,6 @@ public class ParticularExam extends JFrame implements ActionListener {
                 System.out.println(questions.get(index).getChoiceFour());
                 System.out.println(questions.get(index).getDescription());
 
-                // FIXME: will be done with marks
-                // database insertion will happen here
-
             }
 
             else {
@@ -220,11 +221,19 @@ public class ParticularExam extends JFrame implements ActionListener {
                 System.out.println("you got " + marks + " marks");
                 Examdb.insertMarks(examId, studentId, marks);
 
-                JOptionPane successPane = new JOptionPane();
-                successPane = new JOptionPane();
-                successPane.setFont(MyFont.primaryFont());
-                successPane.showMessageDialog(null, "You have got " + marks + " marks!", "Done!",
-                        JOptionPane.WARNING_MESSAGE);
+                if (timeLeft() == 0) {
+                    JOptionPane successPane = new JOptionPane();
+                    successPane = new JOptionPane();
+                    successPane.setFont(MyFont.primaryFont());
+                    successPane.showMessageDialog(null, "Time Up! You have got " + marks + " marks!", "Done",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane successPane = new JOptionPane();
+                    successPane = new JOptionPane();
+                    successPane.setFont(MyFont.primaryFont());
+                    successPane.showMessageDialog(null, "Exam finished! You have got " + marks + " marks!", "Done!",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
 
                 this.dispose();
                 StudentHome shome = new StudentHome(student);

@@ -10,6 +10,18 @@ public class Question {
     private String choiceFour;
     private String correctChoice;
 
+    public Question(int id, int courseId, String d, String c1, String c2, String c3, String c4, String correctAns) {
+        this.id = id;
+        this.courseId = courseId;
+        this.Description = d;
+        this.choiceOne = c1;
+        this.choiceTwo = c2;
+        this.choiceThree = c3;
+        this.choiceFour = c4;
+        this.correctChoice = correctAns;
+
+    }
+
     public Question(int courseId, String d, String c1, String c2, String c3, String c4, String correctAns) {
         this.courseId = courseId;
         this.Description = d;

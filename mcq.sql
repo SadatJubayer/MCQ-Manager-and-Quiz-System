@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2019 at 04:56 PM
+-- Generation Time: Apr 28, 2019 at 01:53 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -66,7 +66,10 @@ INSERT INTO `course` (`id`, `name`, `teacherId`) VALUES
 (42, 'sdffsd', 4),
 (44, 'Sadat Keno Chakor', 4),
 (45, 'Sasdfa', 4),
-(46, 'SDFSD', 4);
+(46, 'SDFSD', 4),
+(47, 'sdat', 4),
+(48, 'my brand new Course for testing', 4),
+(49, 'brandNewCourse', 4);
 
 -- --------------------------------------------------------
 
@@ -86,11 +89,11 @@ CREATE TABLE `course_student` (
 
 INSERT INTO `course_student` (`id`, `courseId`, `studentId`) VALUES
 (1, 3, 1),
-(2, 3, 2),
 (3, 27, 1),
 (4, 2, 1),
 (5, 1, 2),
-(6, 1, 1);
+(6, 1, 1),
+(9, 49, 13);
 
 -- --------------------------------------------------------
 
@@ -131,9 +134,10 @@ INSERT INTO `exam` (`id`, `courseId`, `Description`, `isPublished`, `Duration`) 
 (31, 1, 'ada', 0, 34),
 (34, 3, 'fdg', 1, 45),
 (35, 3, 'sdf3', 0, 3),
-(36, 3, 'SDF', 0, 34),
-(37, 3, 'SDFSDFSD', 1, 34),
-(38, 3, 'shundor name', 1, 65);
+(38, 3, 'shundor name', 1, 65),
+(39, 3, 'Sadats Exam', 1, 90),
+(40, 49, 'brandNewExam', 1, 5),
+(42, 49, 'one', 1, 61);
 
 -- --------------------------------------------------------
 
@@ -264,28 +268,6 @@ INSERT INTO `exam_question` (`id`, `examId`, `questionId`) VALUES
 (118, 35, 7),
 (119, 35, 11),
 (120, 35, 10),
-(121, 36, 13),
-(122, 36, 15),
-(123, 36, 14),
-(124, 36, 6),
-(125, 36, 7),
-(126, 36, 11),
-(127, 36, 8),
-(128, 36, 5),
-(129, 36, 12),
-(130, 36, 10),
-(131, 36, 9),
-(132, 37, 11),
-(133, 37, 14),
-(134, 37, 8),
-(135, 37, 10),
-(136, 37, 7),
-(137, 37, 6),
-(138, 37, 15),
-(139, 37, 5),
-(140, 37, 13),
-(141, 37, 9),
-(142, 37, 12),
 (143, 38, 6),
 (144, 38, 14),
 (145, 38, 7),
@@ -296,7 +278,37 @@ INSERT INTO `exam_question` (`id`, `examId`, `questionId`) VALUES
 (150, 38, 15),
 (151, 38, 10),
 (152, 38, 11),
-(153, 38, 9);
+(153, 38, 9),
+(154, 39, 5),
+(155, 39, 7),
+(156, 39, 12),
+(157, 39, 14),
+(158, 39, 11),
+(159, 40, 25),
+(161, 42, 25);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marks`
+--
+
+CREATE TABLE `marks` (
+  `id` int(10) NOT NULL,
+  `examId` int(10) NOT NULL,
+  `studentId` int(10) NOT NULL,
+  `marks` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `marks`
+--
+
+INSERT INTO `marks` (`id`, `examId`, `studentId`, `marks`) VALUES
+(18, 31, 2, 20),
+(19, 31, 6, 20),
+(20, 42, 13, 0),
+(21, 42, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -329,7 +341,7 @@ INSERT INTO `question` (`id`, `courseId`, `description`, `choiceOne`, `choiceTwo
 (7, 3, '\'empire of the sun\' is a film by-', 'steven spielberg', 'christopher nolan', 'david fincher', 'paul thomas anderson', 'steven spielberg'),
 (8, 3, 'netflix \'sacred games\' original reflected the life of which hooligan of india?', 'haji mastan', 'karim lala', 'dawood ibrahim', 'ganesh gaitonde', 'ganesh gaitonde'),
 (9, 3, 'who is playing the central cast of \'joker\'(2019)?', 'steve blum', 'heath ledger', 'jared leto', 'joaquin phoenix', 'joaquin phoenix'),
-(10, 3, '76th golden globe held in which year?', '2017', '2013', '2018', '2005', '2018'),
+(10, 3, '76th golden globe held in which year?', '2018', '2013', '2018', '2005', '2018'),
 (11, 3, 'the film followed by the novel\'unbearable lightness of being\' was based on which historical circumstance?', 'the labor movement', 'scandinavian revival', 'czechoslovak period', 'suffragists\' movement by women', 'czechoslovak period'),
 (12, 3, 'tarkovsky\'s first feature film was-', 'the killers', 'ivan\'s childhood', 'andrei rublev', 'solaris', 'ivan\'s childhood'),
 (13, 3, 'what is the full name of charlie chaplin?', 'alfred charlie joseph chaplin', 'charlie frank chaplin', 'charles spencer chaplin', 'charles frank chaplin', 'charles spencer chaplin'),
@@ -337,7 +349,10 @@ INSERT INTO `question` (`id`, `courseId`, `description`, `choiceOne`, `choiceTwo
 (15, 3, '\'live from dhaka\' is a debut film by', 'srijit mukherjee', 'mostofa sarwar farooky', 'abdullah mohammad saad', 'tauquir ahmed', 'abdullah mohammad saad'),
 (16, 1, 'amader guu', 'gu1', 'gu2', 'gu3', 'gu4', 'gu3'),
 (18, 1, 'fafds', 'fsdffff', 'fdf', 'f', 'f', 'f'),
-(21, 1, 'xxxx', 'ffsd', 'dfrdsfds', 'f', 'sdfs', 'sdfs');
+(21, 1, 'xxxx', 'ffsd', 'dfrdsfds', 'f', 'sdfs', 'sdfs'),
+(22, 46, 'sdf', '3', '3', '3', '3', '3'),
+(24, 48, 'EASRD', 'WE', 'W', 'W', 'WW', 'W'),
+(25, 49, 'Hello', 'h11111', 'h2', 'h3', 'h4', 'h2');
 
 -- --------------------------------------------------------
 
@@ -361,7 +376,18 @@ INSERT INTO `request` (`id`, `courseId`, `studentId`, `isAccepted`, `isRejected`
 (22, 4, 1, 0, 0),
 (23, 9, 1, 0, 0),
 (24, 8, 1, 0, 0),
-(25, 16, 1, 0, 0);
+(25, 16, 1, 0, 0),
+(26, 21, 2, 0, 0),
+(27, 3, 3, 1, 0),
+(28, 3, 6, 1, 0),
+(29, 3, 7, 0, 1),
+(30, 49, 8, 0, 1),
+(31, 49, 9, 1, 0),
+(32, 49, 10, 1, 0),
+(33, 48, 10, 0, 0),
+(34, 49, 11, 1, 0),
+(35, 49, 12, 1, 0),
+(36, 49, 13, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -381,7 +407,18 @@ CREATE TABLE `student` (
 
 INSERT INTO `student` (`id`, `name`, `password`) VALUES
 (1, 'g', 'g'),
-(2, 'e', 'e');
+(2, 'e', 'e'),
+(3, 'honeySingh', 'hs'),
+(4, 'honeySingh', 'kutta'),
+(5, 'honeySingh', '34'),
+(6, 'google', 'g'),
+(7, 'kutta', '44'),
+(8, 'mobin', 'mobnkutta'),
+(9, 'newUser', 'new'),
+(10, 'ss', 'ss'),
+(11, 'hell', 'hellyah'),
+(12, 'eee', 'eeeeee'),
+(13, 'tt', 't');
 
 -- --------------------------------------------------------
 
@@ -439,6 +476,14 @@ ALTER TABLE `exam_question`
   ADD KEY `fk_exam_question_question_id` (`questionId`);
 
 --
+-- Indexes for table `marks`
+--
+ALTER TABLE `marks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_exam_marks` (`examId`),
+  ADD KEY `fk_marks_student` (`studentId`);
+
+--
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
@@ -473,43 +518,49 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `course_student`
 --
 ALTER TABLE `course_student`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `exam`
 --
 ALTER TABLE `exam`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `exam_question`
 --
 ALTER TABLE `exam_question`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
+
+--
+-- AUTO_INCREMENT for table `marks`
+--
+ALTER TABLE `marks`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `teacher`
@@ -546,6 +597,13 @@ ALTER TABLE `exam`
 ALTER TABLE `exam_question`
   ADD CONSTRAINT `fk_exam_question` FOREIGN KEY (`examId`) REFERENCES `exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_exam_question_question_id` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `marks`
+--
+ALTER TABLE `marks`
+  ADD CONSTRAINT `fk_exam_marks` FOREIGN KEY (`examId`) REFERENCES `exam` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_marks_student` FOREIGN KEY (`studentId`) REFERENCES `student` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `question`

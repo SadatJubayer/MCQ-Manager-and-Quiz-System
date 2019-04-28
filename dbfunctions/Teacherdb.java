@@ -85,6 +85,12 @@ public class Teacherdb {
         } catch (Exception e) {
             System.out.println("teacherDB.acceptRequest():" + e);
         }
+        sql = "insert into course_student (courseId,studentId) values(?,?)";
+        try {
+            db.run.update(db.getConn(), sql, courseId, studentId);
+        } catch (Exception e) {
+            System.out.println("teacherDB.adfdfdcceptRequest():" + e);
+        }
     }
 
     public static void rejectRuquest(int courseId, int studentId) {
@@ -94,6 +100,16 @@ public class Teacherdb {
             db.run.update(db.getConn(), sql, courseId, studentId);
         } catch (Exception e) {
             System.out.println("teacherDB.rejectRequest():" + e);
+        }
+    }
+
+    public static void removeStudent(int courseId, int studentId) {
+        String sql = "DELETE FROM `course_student` WHERE courseId=? AND studentId=?";
+        DB db = DB.getDB();
+        try {
+            db.run.update(db.getConn(), sql, courseId, studentId);
+        } catch (Exception e) {
+            System.out.println("removeStudent(): " + e);
         }
     }
 

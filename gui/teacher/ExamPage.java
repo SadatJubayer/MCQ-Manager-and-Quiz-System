@@ -196,6 +196,14 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
             addExam.setResizable(false);
             addExam.setVisible(true);
 
+        } else if (e.getSource() == getMarks) {
+            this.dispose();
+            System.out.println("getMarks: "+examId);
+            MarksList getmark = new MarksList(teacher, course, examId);
+            getmark.setLocationRelativeTo(null);
+            getmark.setResizable(false);
+            getmark.setVisible(true);
+
         } else if (e.getSource() == publish) {
             // TODO: check if it works properly
             // TODO: show dialog
@@ -245,6 +253,7 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
             int indice = c.get(selected).getId();
             examId = indice;
+            System.out.println("examID: "+examId);
             int str = c.get(selected).getDuration();
 
             // for disabling button

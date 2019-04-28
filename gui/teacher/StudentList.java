@@ -18,12 +18,13 @@ import classes.Student;
 // database
 import dbfunctions.*;
 
-public class StudentList extends JFrame implements ActionListener {
+public class StudentList extends JFrame implements ActionListener, MouseListener {
 
-    private JLabel navBar, welcome, courses;
-    private JButton backButton;
+    private JLabel navBar, welcome, courses, studentNameText, studentIdText;
+    private JButton backButton, removeStudent;
 
     private JPanel panel;
+    private JList list;
 
     private Teacher teacher;
     private Course course;
@@ -70,6 +71,27 @@ public class StudentList extends JFrame implements ActionListener {
         courses.setBounds(40, 70, 200, 25);
         panel.add(courses);
 
+        studentNameText = new JLabel("Student Name: ");
+        studentNameText.setForeground(MyColor.textColor());
+        studentNameText.setFont(MyFont.primaryFont());
+        studentNameText.setBounds(400, 200, 500, 25);
+        panel.add(studentNameText);
+
+        studentIdText = new JLabel("Student ID: ");
+        studentIdText.setForeground(MyColor.textColor());
+        studentIdText.setFont(MyFont.primaryFont());
+        studentIdText.setBounds(400, 250, 500, 25);
+        panel.add(studentIdText);
+
+        removeStudent = new JButton("Remove Student");
+        removeStudent.setBounds(500, 350, 200, 45);
+        removeStudent.setFont(MyFont.primaryFont());
+        removeStudent.setForeground(MyColor.whiteColor());
+        removeStudent.setBackground(MyColor.dangerColor());
+        removeStudent.addActionListener(this);
+        removeStudent.setEnabled(false);
+        panel.add(removeStudent);
+
         // creating string array for list
 
         students = Coursedb.getEnrolledStudentList(course.getId());
@@ -83,16 +105,17 @@ public class StudentList extends JFrame implements ActionListener {
         }
 
         JScrollPane scrollPane = new JScrollPane();
-        JList list = new JList(studentsString);
+        list = new JList(studentsString);
         list.setFont(MyFont.tinyFont());
         list.setForeground(MyColor.textColor());
         list.setBorder(new EmptyBorder(10, 10, 10, 10));
         list.setForeground(MyColor.textColor());
+        list.addMouseListener(this);
 
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setViewportView(list);
-        scrollPane.setBounds(40, 110, 280, 450);
+        scrollPane.setBounds(40, 110, 280, 480);
         panel.add(scrollPane);
 
         this.add(panel);
@@ -109,9 +132,38 @@ public class StudentList extends JFrame implements ActionListener {
             cp.setLocationRelativeTo(null);
             cp.setResizable(false);
             cp.setVisible(true);
-        } else {
+        } else if (action.equals(removeStudent.getText())) {
+            System.out.println("Remove student clicked");
+        }
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+        // String str2 = "123";
+        if (e.getSource() == list) {
+
+            removeStudent.setEnabled(true);
+
+            int selected = list.getSelectedIndex();
+
+            System.out.println(selected);
 
         }
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
     }
 
 }

@@ -96,12 +96,12 @@ public class AddExam extends JFrame implements ActionListener {
 
         // FIXME: setbounds for the below two labels
         examHourField = new JTextField();
-        examHourField.setBounds(300, 330, 400, 40);
+        examHourField.setBounds(300, 330, 190, 40);
         examHourField.setFont(MyFont.primaryFont());
         panel.add(examHourField);
 
         examMinuteField = new JTextField();
-        examMinuteField.setBounds(350, 330, 400, 40);
+        examMinuteField.setBounds(500, 330, 190, 40);
         examMinuteField.setFont(MyFont.primaryFont());
         panel.add(examMinuteField);
 

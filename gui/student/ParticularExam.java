@@ -1,84 +1,81 @@
 package gui.student;
 
+import classes.*;
+import dbfunctions.*;
+import gui.utilities.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.*;
+import java.util.Collections;
 import java.util.List;
 
-import java.util.Timer;
-import java.util.TimerTask;
+//TODO: it will take, student and exam parameter, for the time being I am just working with id
+//TODO: gui will come here as well
 
-import classes.Teacher;
-import classes.Student;
-import classes.Course;
-import classes.Exam;
-import dbfunctions.*;
+public class ParticularExam extends JFrame implements ActionListener {
 
-import java.awt.event.*;
-import java.awt.*;
+    private LocalTime endTime;
+    private List<Question> questions;
+    private List<Question> doneAnswering = new ArrayList<Question>();
+    private int marks;
 
-import gui.teacher.*;
-import gui.Home;
-
-// custom imports 
-import gui.utilities.*;
-
-public class ParticularExam extends JFrame implements ActionListener, MouseListener {
-
-    private JLabel navBar, welcome, ques, choice1, choice2, choice3, choice4, timerLabel;
-    private JButton backButton, finishButton, startExam, resultButton, nextButton;
-    private JComboBox courseList;
+    private JPanel panel;
+    private JLabel navBar, welcome, ques, choice1, choice2, choice3, choice4, examTime;
+    private JButton nextButton;
     private ButtonGroup boxCombo;
     private JCheckBox checkOne, checkTwo, checkThree, checkFour;
-    private Exam exam;
-    private JPanel panel;
-
-    private int timerTime;
-    private int timeLeft;
-    static Timer timer;
+    private JButton next;
+    // assigned from checkbox
+    private String choice = "";
+    private int length;
+    private int index = -1;
 
     // navigation
-    private Student student; 
-    
+    Student student;
+    Exam exam;
+
+    private int studentId, examId;
 
     public ParticularExam(Student student, Exam exam) {
 
-        super("Particular Exam Page");
-        System.out.println("came here");
-        this.student = student;
-        this.exam = exam;
+        super("Particular Exam");
+
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         panel = new JPanel();
         panel.setLayout(null);
 
-        // Register button
-        finishButton = new JButton("Finish Exam");
-        finishButton.setFocusPainted(false);
-        finishButton.setFont(MyFont.smallFont());
-        finishButton.setBackground(MyColor.dangerColor());
-        finishButton.setForeground(MyColor.whiteColor());
-        finishButton.setFocusPainted(false);
-        finishButton.setBounds(600, 600, 200, 50);
-        finishButton.addActionListener(this);
-        panel.add(finishButton);
+        this.student = student;
+        this.exam = exam;
+        this.studentId = student.getId();
+        this.examId = exam.getId();
 
-        // Navbar
-        welcome = new JLabel("Welcome Sadat");
+        endTime = LocalTime.now().plusMinutes(exam.getDuration());
+        System.out.println("endtime::::" + endTime);
+        questions = Examdb.getExamQuestions(examId);
+        length = questions.size();
+        Collections.shuffle(questions);
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        String examEndTime = (endTime.format(dtf));
+
+        // navbar
+        welcome = new JLabel("Exam: " + exam.getDescription());
         welcome.setForeground(MyColor.whiteColor());
         welcome.setBounds(40, 18, 400, 25);
         panel.add(welcome);
-
-        backButton = new JButton("Back");
-        backButton.setFocusPainted(false);
-        backButton.setFont(MyFont.primaryFont());
-        backButton.setBackground(MyColor.lightColor());
-        backButton.setForeground(MyColor.dangerColor());
-        backButton.setBounds(850, 13, 100, 35);
-        backButton.addActionListener(this);
-        panel.add(backButton);
+        // String et = (String) endTime;
+        examTime = new JLabel("Exam will be finished at: " + examEndTime);
+        examTime.setFont(MyFont.primaryFont());
+        examTime.setForeground(MyColor.whiteColor());
+        examTime.setBounds(500, 13, 500, 35);
+        panel.add(examTime);
 
         navBar = new JLabel();
         navBar.setOpaque(true);
@@ -86,35 +83,35 @@ public class ParticularExam extends JFrame implements ActionListener, MouseListe
         navBar.setBounds(5, 5, 975, 50);
         panel.add(navBar);
 
-        // Questions here:
+        // others
 
-        ques = new JLabel("Question: ");
+        ques = new JLabel();
         ques.setFont(MyFont.primaryFont());
-        ques.setBounds(180, 210, 200, 20);
+        ques.setBounds(180, 210, 550, 20);
         ques.setForeground(MyColor.textColor());
         panel.add(ques);
 
-        choice1 = new JLabel("Option one: ");
+        choice1 = new JLabel();
         choice1.setFont(MyFont.primaryFont());
-        choice1.setBounds(180, 282, 150, 20);
+        choice1.setBounds(210, 282, 150, 20);
         choice1.setForeground(MyColor.textColor());
         panel.add(choice1);
 
-        choice2 = new JLabel("Option two: ");
+        choice2 = new JLabel();
         choice2.setFont(MyFont.primaryFont());
-        choice2.setBounds(180, 332, 200, 20);
+        choice2.setBounds(210, 332, 200, 20);
         choice2.setForeground(MyColor.textColor());
         panel.add(choice2);
 
-        choice3 = new JLabel("Option three: ");
+        choice3 = new JLabel();
         choice3.setFont(MyFont.primaryFont());
-        choice3.setBounds(180, 382, 200, 20);
+        choice3.setBounds(210, 382, 200, 20);
         choice3.setForeground(MyColor.textColor());
         panel.add(choice3);
 
-        choice4 = new JLabel("Option four: ");
+        choice4 = new JLabel();
         choice4.setFont(MyFont.primaryFont());
-        choice4.setBounds(180, 432, 200, 20);
+        choice4.setBounds(210, 432, 200, 20);
         choice4.setForeground(MyColor.textColor());
         panel.add(choice4);
 
@@ -124,6 +121,10 @@ public class ParticularExam extends JFrame implements ActionListener, MouseListe
         checkTwo = new JCheckBox();
         checkThree = new JCheckBox();
         checkFour = new JCheckBox();
+        checkOne.addActionListener(this);
+        checkTwo.addActionListener(this);
+        checkThree.addActionListener(this);
+        checkFour.addActionListener(this);
 
         boxCombo = new ButtonGroup();
         boxCombo.add(checkOne);
@@ -136,87 +137,131 @@ public class ParticularExam extends JFrame implements ActionListener, MouseListe
         checkThree.setOpaque(false);
         checkFour.setOpaque(false);
 
-        timerLabel = new JLabel("200");
-        timerLabel.setBounds(100, 100, 100, 30);
-        timerLabel.setFont(MyFont.bigFont());
-        panel.add(timerLabel);
-
-        checkOne.setBounds(720, 280, 50, 30);
+        checkOne.setBounds(180, 280, 50, 30);
         panel.add(checkOne);
-        checkTwo.setBounds(720, 330, 50, 30);
+        checkTwo.setBounds(180, 330, 50, 30);
         panel.add(checkTwo);
-        checkThree.setBounds(720, 380, 50, 30);
+        checkThree.setBounds(180, 380, 50, 30);
         panel.add(checkThree);
-        checkFour.setBounds(720, 430, 50, 30);
+        checkFour.setBounds(180, 430, 50, 30);
         panel.add(checkFour);
 
-        // Button
+        next = new JButton("next");
+        next.setBounds(250, 550, 300, 45);
+        next.setBackground(MyColor.primaryColor());
+        next.setFont(MyFont.primaryFont());
+        next.setForeground(MyColor.whiteColor());
+        next.addActionListener(this);
 
-        nextButton = new JButton("Next");
-        nextButton.setBounds(300, 520, 400, 40);
-        nextButton.setFont(MyFont.primaryFont());
-        nextButton.setForeground(MyColor.whiteColor());
-        nextButton.setBackground(MyColor.primaryColor());
-        nextButton.addActionListener(this);
-        panel.add(nextButton);
-
-        // Set time here
-        timerTime = 2000;
-
-        CountDown cd = new CountDown(10);
-        while (true) {
-            timerLabel.setText(Integer.toString(CountDown.staticSecond));
-            System.out.println("ddddL:" + CountDown.staticSecond);
-            if (cd.staticSecond == 0)
-                break;
-        }
-
-        // Timer showing on GUI
-
-        // timer for changing gui or reloading gui*
-        // Timer timerTwo = new Timer(1000, al);
-        // timerTwo.setRepeats(false);
-        // timerTwo.start();
+        panel.add(next);
 
         this.add(panel);
+
+        next.doClick();
+        // the duration will comefrom Exam objects
+        // TODO: first take the system time, then add duration in minutes with it
+
     }
 
-    ActionListener al = new ActionListener() {
+    // when it will return 0, there is no time
+    public long timeLeft() {
+        LocalTime time = LocalTime.now();
+        System.out.println("endddd::::" + endTime);
+        System.out.println("startTime:::" + time);
 
-        public void actionPerformed(ActionEvent e) { // reload page
-            ParticularExam sh = new ParticularExam(student, exam);
-            dispose();
-            sh.setVisible(true);
-            sh.setLocationRelativeTo(null);
+        long elapsedMinutes = Duration.between(time, endTime).toMinutes();
+        System.out.println("elapsed time:::" + elapsedMinutes);
+        return elapsedMinutes;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == next) {
+            System.out.println("next clickedededed");
+
+            boxCombo.clearSelection();
+            next.setEnabled(false);
+
+            if (choice != "") {
+                if (questions.get(index).isCorrect(choice)) {
+                    marks++;
+                }
+            }
+
+            index++;
+            System.out.println("Index:: " + index);
+
+            if (timeLeft() != 0 && index < length) {
+
+                System.out.println("index::::" + index);
+                System.out.println("length:::" + length);
+                System.out.println("timeleft():: " + timeLeft());
+
+                ques.setText((index + 1) + ". " + questions.get(index).getDescription());
+                // choices
+                choice1.setText(questions.get(index).getChoiceOne());
+                choice2.setText(questions.get(index).getChoiceTwo());
+                choice3.setText(questions.get(index).getChoiceThree());
+                choice4.setText(questions.get(index).getChoiceFour());
+
+                System.out.println(questions.get(index).getChoiceOne());
+                System.out.println(questions.get(index).getChoiceTwo());
+                System.out.println(questions.get(index).getChoiceThree());
+                System.out.println(questions.get(index).getChoiceFour());
+                System.out.println(questions.get(index).getDescription());
+
+                // FIXME: will be done with marks
+                // database insertion will happen here
+
+            }
+
+            else {
+
+                System.out.println("you got " + marks + " marks");
+                Examdb.insertMarks(examId, studentId, marks);
+
+                JOptionPane successPane = new JOptionPane();
+                successPane = new JOptionPane();
+                successPane.setFont(MyFont.primaryFont());
+                successPane.showMessageDialog(null, "You have got " + marks + " marks!", "Done!",
+                        JOptionPane.WARNING_MESSAGE);
+
+                this.dispose();
+                StudentHome shome = new StudentHome(student);
+                shome.setVisible(true);
+                shome.setLocationRelativeTo(null);
+
+            }
+
+            // get answer
+
+            // it will be replaced by pass
+            // the action will happen upon clicking on the next button
+            // when user will not select any answer and click next, the they are NOT done
+            // answering the question
+
         }
-    };
 
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == backButton) {
-            StudentHome sh = new StudentHome(student);
-            dispose();
-            sh.setVisible(true);
-            sh.setLocationRelativeTo(null);
+        if (e.getSource() == checkOne || e.getSource() == checkTwo || e.getSource() == checkFour
+                || e.getSource() == checkThree) {
+            next.setEnabled(true);
+            if (checkOne.isSelected()) {
+                choice = choice1.getText();
+                System.out.println("Selected Choice:::" + choice);
+            }
+            if (checkTwo.isSelected()) {
+                choice = choice2.getText();
+                System.out.println("Selected Choice:::" + choice);
+            }
+            if (checkThree.isSelected()) {
+                choice = choice3.getText();
+                System.out.println("Selected Choice:::" + choice);
+            }
+            if (checkFour.isSelected()) {
+                choice = choice4.getText();
+                System.out.println("Selected Choice:::" + choice);
+            }
+
         }
-
     }
-
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    public void mousePressed(MouseEvent e) {
-    }
-
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-
 }

@@ -128,9 +128,7 @@ public class Studentdb {
         }
     }
 
-    // TODO: will be done after gui
-    public static void sitForExam(String examId, String studentId) {
+    
 
-    }
 
 }

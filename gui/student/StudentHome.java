@@ -11,6 +11,7 @@ import classes.Teacher;
 import classes.Student;
 import classes.Course;
 import classes.Exam;
+import classes.Question;
 import dbfunctions.*;
 
 import java.awt.event.*;
@@ -41,14 +42,15 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
     private Course selectedCourse;
     private JList courseJList, examList;
     private JScrollPane scrollPane;
-
+    List<Question> questions;
+    private int noOfQuestions;
     // navigation
     private Student student;
 
     public StudentHome(Student student) {
 
         super("Student Home");
-        System.out.println("came here");
+        System.out.println("At Sudent Home page");
         this.student = student;
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -168,12 +170,6 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         noOfExamText.setFont(MyFont.bigFont());
         panel.add(noOfExamText);
 
-        totalTimeText = new JLabel("00");
-        totalTimeText.setForeground(MyColor.whiteColor());
-        totalTimeText.setBounds(750, 420, 280, 50);
-        totalTimeText.setFont(MyFont.bigFont());
-        panel.add(totalTimeText);
-
         text = new JLabel("   Exam Duration(minutes): ");
         text.setOpaque(true);
         text.setBackground(MyColor.defaultColor());
@@ -188,21 +184,15 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         text.setBounds(660, 350, 280, 50);
         panel.add(text);
 
-        text = new JLabel("   Total Marks: ");
-        text.setOpaque(true);
-        text.setBackground(MyColor.defaultColor());
-        text.setForeground(MyColor.whiteColor());
-        text.setBounds(660, 420, 280, 50);
-        panel.add(text);
-
         startExam = new JButton("Start Exam");
         startExam.setFocusPainted(false);
         startExam.setFont(MyFont.bigFont());
         startExam.setBackground(MyColor.darkColor());
         startExam.setForeground(MyColor.whiteColor());
         startExam.setFocusPainted(false);
-        startExam.setBounds(660, 500, 280, 80);
+        startExam.setBounds(660, 480, 280, 100);
         startExam.addActionListener(this);
+        startExam.setEnabled(false);
         panel.add(startExam);
 
         examList = new JList();
@@ -270,6 +260,12 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
             examDurationText.setText(Integer.toString(selectedExam.getDuration()));
             // noOfExamText.setText(selectedCourse.getNumberOfQuestions());
 
+            questions = Examdb.getExamQuestions(selectedExam.getId());
+            noOfQuestions = questions.size();
+            noOfExamText.setText(Integer.toString(noOfQuestions));
+
+            startExam.setEnabled(true);
+
         }
 
         if (e.getSource() == courseJList) {
@@ -288,8 +284,8 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
                 System.out.println(s);
             }
             examList.setListData(loadExams());
-            // Exam list
 
+            startExam.setEnabled(false);
         }
 
     }

@@ -126,5 +126,15 @@ public class Examdb {
         }
     }
 
+    public static void insertMarks(int examId,int studentId,int marks){
+        String sql = "INSERT INTO `marks` (`id`, `examId`, `studentId`, `marks`) VALUES (NULL, ?, ?, ?)";
+        DB db = DB.getDB();
+        try {
+            db.run.update(db.getConn(),sql,examId,studentId,marks);
+        } catch (Exception e) {
+            System.out.println("insertMarks(): "+e);
+        }
+    }
+
     //
 }

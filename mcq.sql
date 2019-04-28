@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 28, 2019 at 02:11 PM
+-- Generation Time: Apr 28, 2019 at 02:53 PM
 -- Server version: 5.7.25-0ubuntu0.18.04.2
 -- PHP Version: 7.2.17-0ubuntu0.18.04.1
 
@@ -38,30 +38,8 @@ CREATE TABLE `course` (
 
 INSERT INTO `course` (`id`, `name`, `teacherId`) VALUES
 (3, 'filmology', 4),
-(8, 'sadat', 1),
-(9, 'Sadat', 4),
-(16, 'sdfsd', 1),
-(17, 'sdfsd', 1),
-(19, 'sdfesd', 1),
-(20, 'sdfsd', 1),
-(21, 'sdf', 1),
-(22, 'dfsdfsd', 1),
-(23, 'sfsdf', 1),
-(24, 'sdfsdf', 1),
-(25, 'sd', 1),
-(26, 'fsd', 1),
-(27, 'Computer Organization and Architecture', 1),
-(28, 'r', 4),
-(29, 'r', 4),
-(31, 'fdsfs', 4),
-(32, 'Sadat', 4),
-(34, 'sdfsd', 4),
-(38, 'sdfsd', 4),
-(41, 'sdfsd', 4),
-(42, 'sdffsd', 4),
-(44, 'Sadat Keno Chakor', 4),
-(45, 'Sasdfa', 4),
-(46, 'SDFSD', 4);
+(47, 'food and nutrition', 4),
+(49, 'art and science', 4);
 
 -- --------------------------------------------------------
 
@@ -104,6 +82,29 @@ CREATE TABLE `exam_question` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `marks`
+--
+
+CREATE TABLE `marks` (
+  `id` int(10) NOT NULL,
+  `examId` int(10) NOT NULL,
+  `studentId` int(10) NOT NULL,
+  `marks` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `marks`
+--
+
+INSERT INTO `marks` (`id`, `examId`, `studentId`, `marks`) VALUES
+(18, 31, 2, 20),
+(19, 31, 6, 20),
+(20, 42, 13, 0),
+(21, 42, 13, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `question`
 --
 
@@ -133,7 +134,11 @@ INSERT INTO `question` (`id`, `courseId`, `description`, `choiceOne`, `choiceTwo
 (12, 3, 'tarkovsky\'s first feature film was-', 'the killers', 'ivan\'s childhood', 'andrei rublev', 'solaris', 'ivan\'s childhood'),
 (13, 3, 'what is the full name of charlie chaplin?', 'alfred charlie joseph chaplin', 'charlie frank chaplin', 'charles spencer chaplin', 'charles frank chaplin', 'charles spencer chaplin'),
 (14, 3, 'padatik was diected by noted parallel cinema director-', 'ritwik ghatak', 'tapan sinha', 'mrinal sen', 'shyan benegal', 'mrinal sen'),
-(15, 3, '\'live from dhaka\' is a debut film by', 'srijit mukherjee', 'mostofa sarwar farooky', 'abdullah mohammad saad', 'tauquir ahmed', 'abdullah mohammad saad');
+(15, 3, '\'live from dhaka\' is a debut film by', 'srijit mukherjee', 'mostofa sarwar farooky', 'abdullah mohammad saad', 'tauquir ahmed', 'abdullah mohammad saad'),
+(22, 47, 'The United States Department of Agriculture’s Daily Food Guide suggests that the Fats, Oils and Sweets Group be used ___', 'once a week', 'four times a day', 'never on Sundays', 'sparingly', 'sparingly'),
+(23, 47, 'Which vitamin is needed to prevent a birth defect called Spina Bifida', 'Vitamin D', 'Vitamin A', 'Folate', 'Vitamin E', 'Folate'),
+(24, 47, 'Which of the following nutrients is known as the sunshine vitamin?', 'Vitamin C', 'Vitamin A', 'Vitamin K', 'Vitamin D', 'Vitamin D'),
+(25, 47, 'Which of the following nutrients is needed to build and maintain the structuralcomponents of the body?', 'Carbohydrates', 'Protein', 'Fat', 'Fiber', 'Protein');
 
 -- --------------------------------------------------------
 
@@ -225,6 +230,14 @@ ALTER TABLE `exam_question`
   ADD KEY `fk_exam_question_question_id` (`questionId`);
 
 --
+-- Indexes for table `marks`
+--
+ALTER TABLE `marks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_exam_marks` (`examId`),
+  ADD KEY `fk_marks_student` (`studentId`);
+
+--
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
@@ -259,37 +272,42 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `course_student`
 --
 ALTER TABLE `course_student`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `exam`
 --
 ALTER TABLE `exam`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `exam_question`
 --
 ALTER TABLE `exam_question`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
+--
+-- AUTO_INCREMENT for table `marks`
+--
+ALTER TABLE `marks`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `teacher`
 --

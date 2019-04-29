@@ -11,6 +11,7 @@ import classes.Teacher;
 import classes.Student;
 import classes.Course;
 import classes.Exam;
+import classes.Marks;
 import classes.Question;
 import dbfunctions.*;
 
@@ -25,7 +26,7 @@ import gui.utilities.*;
 
 public class StudentHome extends JFrame implements ActionListener, MouseListener {
 
-    private JLabel navBar, welcome, teacherNameText, text, examDurationText, noOfExamText, totalTimeText, titleOne,
+    private JLabel navBar, welcome, teacherNameText, text, examDurationText, noOfExamText, resultText, titleOne,
             titleTwo, titleThree;
     private JButton logoutButton, registration, startExam, resultButton;
     private JComboBox courseList;
@@ -58,10 +59,10 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         panel.setLayout(null);
 
         // Register button
-        registration = new JButton("Register for Courses");
+        registration = new JButton("Registration");
         registration.setFocusPainted(false);
         registration.setFont(MyFont.smallFont());
-        registration.setBackground(MyColor.primaryColor());
+        registration.setBackground(MyColor.dangerColor());
         registration.setForeground(MyColor.whiteColor());
         registration.setFocusPainted(false);
         registration.setBounds(400, 60, 200, 50);
@@ -92,7 +93,7 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         teacherNameText = new JLabel("Registered courses: ");
         teacherNameText.setForeground(MyColor.textColor());
         teacherNameText.setFont(MyFont.smallFont());
-        teacherNameText.setBounds(40, 110, 250, 25);
+        teacherNameText.setBounds(40, 110, 400, 25);
         panel.add(teacherNameText);
 
         // Getting student course list
@@ -143,6 +144,13 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         titleThree.setBounds(365, 250, 250, 25);
         panel.add(titleThree);
 
+        resultText = new JLabel();
+        resultText.setForeground(MyColor.textColor());
+        resultText.setFont(MyFont.mediumFont());
+        resultText.setForeground(MyColor.dangerColor());
+        resultText.setBounds(660, 423, 250, 25);
+        panel.add(resultText);
+
         // Exam List
 
         // Exam list done
@@ -187,7 +195,7 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
         startExam = new JButton("Start Exam");
         startExam.setFocusPainted(false);
         startExam.setFont(MyFont.bigFont());
-        startExam.setBackground(MyColor.darkColor());
+        startExam.setBackground(MyColor.primaryColor());
         startExam.setForeground(MyColor.whiteColor());
         startExam.setFocusPainted(false);
         startExam.setBounds(660, 480, 280, 100);
@@ -258,13 +266,30 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
             selectedExam = exam.get(selected);
             System.out.println(selectedExam.getDuration());
             examDurationText.setText(Integer.toString(selectedExam.getDuration()));
-            // noOfExamText.setText(selectedCourse.getNumberOfQuestions());
-
             questions = Examdb.getExamQuestions(selectedExam.getId());
             noOfQuestions = questions.size();
             noOfExamText.setText(Integer.toString(noOfQuestions));
+            // noOfExamText.setText(selectedCourse.getNumberOfQuestions());
 
-            startExam.setEnabled(true);
+            int marksBefore = Examdb.getSingleMark(selectedExam.getId(), student.getId());
+
+            if (marksBefore == -999) {
+                System.out.println("Boos marks Nai");
+                startExam.setEnabled(true);
+                startExam.setText("Start");
+                startExam.setFont(MyFont.bigFont());
+                resultText.setVisible(false);
+
+            } else {
+                System.out.println("Boss marks ase: " + marksBefore);
+
+                resultText.setVisible(true);
+                startExam.setEnabled(false);
+                startExam.setFont(MyFont.smallFont());
+                startExam.setText("Exam already Given");
+
+                resultText.setText("Marks Obtained: " + marksBefore);
+            }
 
         }
 
@@ -286,6 +311,7 @@ public class StudentHome extends JFrame implements ActionListener, MouseListener
             examList.setListData(loadExams());
 
             startExam.setEnabled(false);
+
         }
 
     }

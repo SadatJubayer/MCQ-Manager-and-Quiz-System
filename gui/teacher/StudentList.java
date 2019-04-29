@@ -72,13 +72,13 @@ public class StudentList extends JFrame implements ActionListener, MouseListener
         courses.setBounds(40, 70, 200, 25);
         panel.add(courses);
 
-        studentNameText = new JLabel("Student Name: ");
+        studentNameText = new JLabel();
         studentNameText.setForeground(MyColor.textColor());
         studentNameText.setFont(MyFont.primaryFont());
         studentNameText.setBounds(400, 200, 500, 25);
         panel.add(studentNameText);
 
-        studentIdText = new JLabel("Student ID: ");
+        studentIdText = new JLabel();
         studentIdText.setForeground(MyColor.textColor());
         studentIdText.setFont(MyFont.primaryFont());
         studentIdText.setBounds(400, 250, 500, 25);
@@ -135,8 +135,20 @@ public class StudentList extends JFrame implements ActionListener, MouseListener
             cp.setVisible(true);
         } else if (action.equals(removeStudent.getText())) {
 
-            Teacherdb.removeStudent(course.getId(), selectedStudent.getId());
-            System.out.println("Remove student clicked");
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to delete the course?", "Warning",
+                    dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                Teacherdb.removeStudent(course.getId(), selectedStudent.getId());
+                System.out.println("Student Removed successfully");
+                // refresh GUI;
+                StudentList sList = new StudentList(teacher, course);
+                this.dispose();
+                sList.setLocationRelativeTo(null);
+                sList.setResizable(false);
+                sList.setVisible(true);
+
+            }
         }
     }
 
@@ -150,6 +162,9 @@ public class StudentList extends JFrame implements ActionListener, MouseListener
             int selected = list.getSelectedIndex();
 
             selectedStudent = students.get(selected);
+
+            studentNameText.setText("Student Name: " + selectedStudent.getName());
+            studentIdText.setText("Student ID: " + selectedStudent.getId());
 
         }
 

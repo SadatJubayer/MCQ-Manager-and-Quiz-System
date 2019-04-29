@@ -4,16 +4,16 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.List;
-import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import gui.teacher.*;
 import gui.Home;
 import gui.utilities.*;
-
-// Navigations
+// Navigation's
 import classes.Course;
 import classes.Teacher;
-import classes.Student;
 import classes.Marks;
 
 // database
@@ -36,7 +36,7 @@ public class MarksList extends JFrame implements ActionListener {
 
     public MarksList(Teacher teacher, Course course, int examId) {
 
-        super("Marks Page");
+        super("Mark List Page");
 
         this.teacher = teacher;
         this.course = course;
@@ -73,30 +73,55 @@ public class MarksList extends JFrame implements ActionListener {
         courses = new JLabel("Marks of Enrolled Students: ");
         courses.setForeground(MyColor.textColor());
         courses.setFont(MyFont.primaryFont());
-        courses.setBounds(300, 70, 200, 25);
+        courses.setBounds(380, 70, 500, 25);
         panel.add(courses);
 
         marksList = Examdb.getMarks(examId);
 
+        int length = marksList.size();
+
+        int i = 0;
+
+        String data[][] = new String[length][3];
+
+        // Inserting into data from database
         for (Marks mark : marksList) {
             System.out.println(mark.getMarks());
             System.out.println(Studentdb.getStudentName(mark.getStudentId()));
+            data[i][0] = Integer.toString(mark.getStudentId());
+            data[i][1] = Studentdb.getStudentName(mark.getStudentId());
+            data[i][2] = Integer.toString(mark.getMarks());
+            i++;
         }
 
-        // TODO: Marks table will be implemented here
+        // creating table model with data and the table headers
+        DefaultTableModel model = new DefaultTableModel(data, tableHeaders) {
+            public boolean isCellEditable(int row, int column) {
+                return false; // Table cell editable false
+            }
+        };
 
-        // table = new JTable(rows, tableHeaders);
-        // JScrollPane scrollPane = new JScrollPane();
-        // table.setFont(MyFont.tinyFont());
-        // table.setForeground(MyColor.textColor());
-        // table.setBorder(new EmptyBorder(10, 10, 10, 10));
-        // table.setForeground(MyColor.textColor());
+        table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane();
+        table.setFont(MyFont.mediumFont());
+        table.setForeground(MyColor.textColor());
+        table.getTableHeader().setBackground(MyColor.primaryColor());
+        table.getTableHeader().setForeground(MyColor.whiteColor());
+        table.getTableHeader().setFont(MyFont.primaryFont());
+        table.setRowHeight(30);
 
-        // scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        // scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        // scrollPane.setViewportView(table);
-        // scrollPane.setBounds(40, 110, 500, 480);
-        // panel.add(scrollPane);
+        // For centering table
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+
+        // Adding scroll to the table
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setViewportView(table);
+        scrollPane.setBounds(250, 110, 500, 480);
+        panel.add(scrollPane);
 
         this.add(panel);
 
@@ -108,10 +133,10 @@ public class MarksList extends JFrame implements ActionListener {
 
         if (action.equals(backButton.getText())) {
             dispose();
-            CoursePage cp = new CoursePage(teacher, course);
-            cp.setLocationRelativeTo(null);
-            cp.setResizable(false);
-            cp.setVisible(true);
+            ExamPage ep = new ExamPage(teacher, course);
+            ep.setLocationRelativeTo(null);
+            ep.setResizable(false);
+            ep.setVisible(true);
         }
     }
 

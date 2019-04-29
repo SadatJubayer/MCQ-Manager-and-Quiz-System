@@ -49,7 +49,7 @@ public class RequestedStudent extends JFrame implements ActionListener, MouseLis
         welcome = new JLabel("Course: " + course.getName());
         welcome.setForeground(MyColor.whiteColor());
         welcome.setFont(MyFont.primaryFont());
-        welcome.setBounds(600, 18, 400, 25);
+        welcome.setBounds(550, 18, 400, 25);
         panel.add(welcome);
 
         backButton = new JButton("Back");
@@ -74,13 +74,13 @@ public class RequestedStudent extends JFrame implements ActionListener, MouseLis
         panel.add(courses);
 
         // other labels
-        studentNameText = new JLabel("Student Name: ");
+        studentNameText = new JLabel();
         studentNameText.setForeground(MyColor.textColor());
         studentNameText.setFont(MyFont.primaryFont());
         studentNameText.setBounds(400, 200, 500, 25);
         panel.add(studentNameText);
 
-        studentIdText = new JLabel("Student ID: ");
+        studentIdText = new JLabel();
         studentIdText.setForeground(MyColor.textColor());
         studentIdText.setFont(MyFont.primaryFont());
         studentIdText.setBounds(400, 250, 500, 25);
@@ -95,7 +95,7 @@ public class RequestedStudent extends JFrame implements ActionListener, MouseLis
         acceptRequestButton.setEnabled(false);
         panel.add(acceptRequestButton);
 
-        rejectRequestButton = new JButton("Remove Student");
+        rejectRequestButton = new JButton("Reject Student");
         rejectRequestButton.setBounds(620, 370, 180, 50);
         rejectRequestButton.setFont(MyFont.primaryFont());
         rejectRequestButton.setForeground(MyColor.whiteColor());
@@ -149,17 +149,23 @@ public class RequestedStudent extends JFrame implements ActionListener, MouseLis
             cp.setResizable(false);
             cp.setVisible(true);
         } else if (action.equals(acceptRequestButton.getText())) {
+
             System.out.println("courseID:::: " + course.getId() + "studentID::::" + selectedStudent.getId());
             Teacherdb.acceptRequest(course.getId(), selectedStudent.getId());
             System.out.println("Request accepted");
             acceptRequestButton.setEnabled(false);
             rejectRequestButton.setEnabled(false);
 
+            JOptionPane.showMessageDialog(null, "Student added in you Enrolled student list!", "Done!",
+                    JOptionPane.INFORMATION_MESSAGE);
+
         } else if (action.equals(rejectRequestButton.getText())) {
             Teacherdb.rejectRuquest(course.getId(), selectedStudent.getId());
             System.out.println("Request Rejected");
             acceptRequestButton.setEnabled(false);
             rejectRequestButton.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Student Request rejected!", "Informations!",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
@@ -175,6 +181,9 @@ public class RequestedStudent extends JFrame implements ActionListener, MouseLis
             int selected = list.getSelectedIndex();
 
             selectedStudent = students.get(selected);
+
+            studentNameText.setText("Student Name: " + selectedStudent.getName());
+            studentIdText.setText("Student ID: " + selectedStudent.getId());
 
         }
 

@@ -174,10 +174,15 @@ public class SignupPage extends JFrame implements ActionListener, MouseListener 
                     }
 
                 } else {
-                    // TODO: Insert into teacher database
-                    System.out.println("Teacher clicked");
-                    System.out.println(username);
-                    System.out.println(password);
+                    if (Teacherdb.signUp(username, password)) {
+
+                        System.out.println("Teacher clicked");
+                        System.out.println(username);
+                        System.out.println(password);
+                    } else {
+                        System.out.println("Already Fucked up");
+
+                    }
                 }
                 setUserData(username, password);
                 successPane = new JOptionPane();

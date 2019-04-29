@@ -198,17 +198,25 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
         } else if (e.getSource() == getMarks) {
             this.dispose();
-            System.out.println("getMarks: "+examId);
+            System.out.println("getMarks: " + examId);
             MarksList getmark = new MarksList(teacher, course, examId);
             getmark.setLocationRelativeTo(null);
             getmark.setResizable(false);
             getmark.setVisible(true);
 
         } else if (e.getSource() == publish) {
-            // TODO: check if it works properly
-            // TODO: show dialog
-            // TODO: also add duration
-            Examdb.publishExam(examId);
+
+            confirmDelete = new JOptionPane();
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = confirmDelete.showConfirmDialog(null, "Are you sure to publish the exam?",
+                    "Confirmation", dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+
+                Examdb.publishExam(examId);
+                JOptionPane.showMessageDialog(null, "Exam Published!", "Done!", JOptionPane.INFORMATION_MESSAGE);
+                publish.setEnabled(false);
+                getMarks.setEnabled(true);
+            }
 
         } else if (e.getSource() == backButton) {
             this.dispose();
@@ -222,8 +230,8 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
             confirmDelete = new JOptionPane();
             int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = confirmDelete.showConfirmDialog(null, "Are you sure to delete the course?", "Warning",
-                    dialogButton);
+            int dialogResult = confirmDelete.showConfirmDialog(null, "Are you sure to delete the course?",
+                    "Confirmation", dialogButton);
             if (dialogResult == JOptionPane.YES_OPTION) {
 
                 Examdb.deleteExam(examId);
@@ -253,12 +261,16 @@ public class ExamPage extends JFrame implements ActionListener, MouseListener {
 
             int indice = c.get(selected).getId();
             examId = indice;
-            System.out.println("examID: "+examId);
+            System.out.println("examID: " + examId);
             int str = c.get(selected).getDuration();
 
             // for disabling button
             if (c.get(selected).getIsPublished() == 1) {
                 publish.setEnabled(false);
+                getMarks.setEnabled(true);
+            } else {
+                getMarks.setEnabled(false);
+
             }
 
             num2.setText(Integer.toString(str));

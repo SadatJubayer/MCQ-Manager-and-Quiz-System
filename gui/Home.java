@@ -13,15 +13,17 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class Home extends JFrame implements ActionListener, MouseListener, KeyListener {
-    private JLabel textLabel, usernameLabel, passwordLabel, boxOne, boxTwo;
+public class Home extends JFrame implements ActionListener, MouseListener {
+    private JLabel textLabel, usernameLabel, passwordLabel, boxOne;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JButton loginButton, signupButton, forgetButton;
+    private JButton loginButton, signupButton, forgetButton, credits, about;
     private JPanel panel;
 
     private Teacher teacher;
     private Student student;
+    String username;
+    String password;
 
     public Home() {
 
@@ -36,7 +38,6 @@ public class Home extends JFrame implements ActionListener, MouseListener, KeyLi
         panel.setLayout(null);
 
         // Login UI Elements
-
         textLabel = new JLabel("Sign in");
         textLabel.setBounds(245, 110, 300, 60);
         textLabel.setFont(MyFont.headerFont());
@@ -65,7 +66,6 @@ public class Home extends JFrame implements ActionListener, MouseListener, KeyLi
         passwordField.setFont(MyFont.primaryFont());
         passwordField.setBounds(130, 330, 340, 40);
         passwordField.setText(SignupPage.getUpass());
-        passwordField.addKeyListener(this);
         panel.add(passwordField);
 
         loginButton = new JButton("SIGN IN");
@@ -106,6 +106,26 @@ public class Home extends JFrame implements ActionListener, MouseListener, KeyLi
         signupButton.setBackground(MyColor.primaryColor());
         panel.add(signupButton);
 
+        credits = new JButton("Credits");
+        credits.setBounds(675, 10, 100, 40);
+        credits.setBorder(new LineBorder(Color.white));
+        credits.setFont(MyFont.primaryFont());
+        credits.setFocusPainted(false);
+        credits.setForeground(MyColor.primaryColor());
+        credits.setBackground(MyColor.whiteColor());
+        credits.addActionListener(this);
+        panel.add(credits);
+
+        about = new JButton("About");
+        about.setBounds(800, 10, 100, 40);
+        about.setBorder(new LineBorder(Color.white));
+        about.setFont(MyFont.primaryFont());
+        about.setFocusPainted(false);
+        about.setForeground(MyColor.primaryColor());
+        about.setBackground(MyColor.whiteColor());
+        about.addActionListener(this);
+        panel.add(about);
+
         loginButton.addActionListener(this);
         signupButton.addActionListener(this);
         loginButton.addMouseListener(this);
@@ -129,10 +149,12 @@ public class Home extends JFrame implements ActionListener, MouseListener, KeyLi
     }
 
     // Action Listeners
-
     public void actionPerformed(ActionEvent e) {
 
         String actionCommand = e.getActionCommand();
+
+        username = usernameField.getText();
+        password = passwordField.getText();
 
         // Sign up
         if (actionCommand.equals(signupButton.getText())) {
@@ -153,9 +175,6 @@ public class Home extends JFrame implements ActionListener, MouseListener, KeyLi
 
             else { // If fields are not empty
                 SignupPage.resetData();
-
-                String username = usernameField.getText();
-                String password = passwordField.getText();
 
                 teacher = Teacherdb.login(username, password);
                 System.out.println(teacher);
@@ -181,11 +200,10 @@ public class Home extends JFrame implements ActionListener, MouseListener, KeyLi
                     studentHome.setResizable(false);
                     studentHome.setVisible(true);
                 }
+
             }
 
-        }
-
-        else if (actionCommand.equals(forgetButton.getText())) {
+        } else if (actionCommand.equals(forgetButton.getText())) {
             SignupPage.resetData();
             System.out.println("Forgot button clicked");
             PasswordReset ps = new PasswordReset();
@@ -193,23 +211,21 @@ public class Home extends JFrame implements ActionListener, MouseListener, KeyLi
             ps.setLocationRelativeTo(null);
             ps.setResizable(false);
             ps.setVisible(true);
+        } else if (actionCommand.equals(credits.getText())) {
+            System.out.println("Credits button clicked");
+            Credits cre = new Credits();
+            this.dispose();
+            cre.setLocationRelativeTo(null);
+            cre.setResizable(false);
+            cre.setVisible(true);
+        } else if (actionCommand.equals(about.getText())) {
+            System.out.println("Credits button clicked");
+            About aboutPage = new About();
+            this.dispose();
+            aboutPage.setLocationRelativeTo(null);
+            aboutPage.setResizable(false);
+            aboutPage.setVisible(true);
         }
-    }
-
-    // keylistener
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            JOptionPane.showMessageDialog(null,
-                    "You've clicked on Enter button, you should be hanged up motherfucker! " + passwordField.getText());
-        }
-
-    }
-
-    public void keyReleased(KeyEvent e) {
-    }
-
-    public void keyTyped(KeyEvent e) {
     }
 
     // Mouse listeners

@@ -39,7 +39,30 @@ public class Teacherdb {
     // }
 
     // TODO: will be done with the gui
-    public static void SignUp() {
+    public static boolean signUp(String username, String password) {
+        DB db = DB.getDB();
+        String sql = "SELECT * FROM student WHERE name=?";
+        ResultSetHandler<Teacher> resultSetHandler = new BeanHandler<Teacher>(Teacher.class);
+        Teacher teacher = null;
+        try {
+            teacher = db.run.query(db.getConn(), sql, resultSetHandler, username);
+
+        } catch (Exception e) {
+            System.out.println("signup(): teacher:  " + e);
+        }
+
+        if (teacher != null) {
+            System.out.println("username existes!");
+            return false;
+        }
+
+        sql = "INSERT into teacher(name,password) VALUES(?,?)";
+        try {
+            db.run.update(db.getConn(), sql, username, password);
+        } catch (Exception e) {
+            System.out.println("teacher signup: " + e);
+        }
+        return true;
 
     }
 

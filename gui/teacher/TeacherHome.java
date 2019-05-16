@@ -36,6 +36,8 @@ public class TeacherHome extends JFrame implements ActionListener, MouseListener
 
     public TeacherHome(Teacher teacher) {
 
+        super("Teacher Home");
+
         // got from navigation
         this.teacher = teacher;
 

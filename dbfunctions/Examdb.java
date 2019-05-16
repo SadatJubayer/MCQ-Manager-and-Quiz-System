@@ -4,11 +4,11 @@ import database.DB;
 import classes.*;
 import java.util.List;
 
-
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import java.util.*;
 
@@ -53,14 +53,15 @@ public class Examdb {
         return questionList.size();
     }
 
-    public static void createExam(int courseId, String description, int numberOfQuestions, int duration) {
+    public static boolean createExam(int courseId, String description, int numberOfQuestions, int duration) {
         DB db = DB.getDB();
         // fist insert the exam description, then retrieve id
         String sql = "Insert into exam(courseId,description,duration) Values(?,?,?)";
         try {
             db.run.update(db.getConn(), sql, courseId, description, duration);
         } catch (Exception e) {
-            System.out.println("createExam(): " + e);
+            // System.out.println("createExam(): " + e);
+            return false;
         }
         // retrieving done
         int examId = db.lastInsertId();
@@ -79,9 +80,12 @@ public class Examdb {
             try {
                 db.run.update(db.getConn(), sql, examId, x);
             } catch (Exception e) {
-                System.out.println("createExam: " + e);
+                return false;
+
+                // System.out.println("createExam: " + e);
             }
         }
+        return true;
     }
 
     public static void publishExam(int examId) {
@@ -154,6 +158,31 @@ public class Examdb {
         }
 
         return marks;
+
+    }
+
+    public static int getSingleMark(int examId, int studentId) {
+
+        Marks marks = null;
+
+        String sql = "SELECT * FROM marks WHERE examId=? AND studentId=?";
+        ResultSetHandler<Marks> resultSetHandler = new BeanHandler<Marks>(Marks.class);
+
+        DB db = DB.getDB();
+        try {
+            marks = db.run.query(db.getConn(), sql, resultSetHandler, examId, studentId);
+        } catch (Exception e) {
+            System.out.println("getMarks(): " + e);
+        }
+
+        if (marks == null)
+            return -999;
+
+        else {
+            System.out.println("debugggggggggggggggggggggggggging  " + marks.getMarks());
+
+            return marks.getMarks();
+        }
 
     }
 

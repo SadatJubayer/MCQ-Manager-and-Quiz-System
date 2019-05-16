@@ -3,12 +3,16 @@ package gui.teacher;
 import gui.utilities.*;
 
 import dbfunctions.Examdb;
+import dbfunctions.Coursedb;
 
 import classes.*;
 
 import java.awt.Color;
 import java.awt.event.*;
+import java.text.NumberFormat;
+
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 
 public class AddExam extends JFrame implements ActionListener {
 
@@ -26,12 +30,12 @@ public class AddExam extends JFrame implements ActionListener {
 
     private JButton createExam, backButton;
     private JPanel panel;
-    private JOptionPane errorMessage, errorPane, successPane;
     JToggleButton toggleButton;
 
     // navigation
     private Teacher teacher;
     private Course course;
+    private String totalQuestions;
 
     public AddExam(Teacher teacher, Course course) {
 
@@ -40,6 +44,11 @@ public class AddExam extends JFrame implements ActionListener {
 
         this.teacher = teacher;
         this.course = course;
+
+        System.out.println("Course ID here: " + course.getId());
+
+        totalQuestions = Coursedb.getNumberOfQuestions(course.getId());
+        System.out.println("Total Quesions: " + totalQuestions);
 
         this.setSize(1000, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -51,7 +60,7 @@ public class AddExam extends JFrame implements ActionListener {
         welcome = new JLabel("Course: " + course.getName());
         welcome.setFont(MyFont.primaryFont());
         welcome.setForeground(MyColor.whiteColor());
-        welcome.setBounds(700, 18, 400, 25);
+        welcome.setBounds(550, 18, 400, 25);
         panel.add(welcome);
 
         backButton = new JButton("Back");
@@ -95,6 +104,7 @@ public class AddExam extends JFrame implements ActionListener {
         panel.add(examDurationEntryField);
 
         // FIXME: setbounds for the below two labels
+
         examHourField = new JTextField();
         examHourField.setBounds(300, 330, 190, 40);
         examHourField.setFont(MyFont.primaryFont());
@@ -105,9 +115,9 @@ public class AddExam extends JFrame implements ActionListener {
         examMinuteField.setFont(MyFont.primaryFont());
         panel.add(examMinuteField);
 
-        numberOfQuestion = new JLabel("Number of Questions:");
+        numberOfQuestion = new JLabel("Number of Questions: (Max " + totalQuestions + ")");
         numberOfQuestion.setFont(MyFont.smallFont());
-        numberOfQuestion.setBounds(300, 400, 200, 20);
+        numberOfQuestion.setBounds(300, 400, 400, 20);
         numberOfQuestion.setForeground(MyColor.textColor());
         panel.add(numberOfQuestion);
 
@@ -134,37 +144,42 @@ public class AddExam extends JFrame implements ActionListener {
 
             if (examNameField.getText().equals("") || examHourField.getText().equals("")
                     || examMinuteField.getText().equals("") || numberOfQuestionField.getText().equals("")) {
-                errorMessage = new JOptionPane();
-                errorMessage.setFont(MyFont.primaryFont());
-                errorMessage.showMessageDialog(null, "All fields are required!", "Wrong Input!",
+                JOptionPane.showMessageDialog(null, "All fields are required!", "Wrong Input!",
                         JOptionPane.WARNING_MESSAGE);
             }
 
             else {
+                int enterQuestions = Integer.valueOf(numberOfQuestionField.getText());
+                int maxQuesions = Integer.valueOf(totalQuestions);
 
-                // TODO: add hh:MM
-                String descripton = examNameField.getText();
-                // FIXME: change the gui, for hh:mm, I am doing the math here
-                int examHour = Integer.parseInt(examHourField.getText());
-                int duration = examHour * 60;
-                int examMinute = Integer.parseInt(examMinuteField.getText());
-                duration += examMinute;
-                // FIXME: while showing the exam duration, we have to do the revers of this
-                int numberOfQuestion = Integer.parseInt(numberOfQuestionField.getText());
+                if (enterQuestions <= maxQuesions && enterQuestions >= 1) {
 
-                // Database checking here
-                Examdb.createExam(course.getId(), descripton, numberOfQuestion, duration);
+                    String descripton = examNameField.getText();
+                    // FIXME: change the gui, for hh:mm, I am doing the math here
+                    int examHour = Integer.parseInt(examHourField.getText());
+                    int duration = examHour * 60;
+                    int examMinute = Integer.parseInt(examMinuteField.getText());
+                    duration += examMinute;
+                    // FIXME: while showing the exam duration, we have to do the revers of this
+                    int numberOfQuestion = Integer.parseInt(numberOfQuestionField.getText());
 
-                examNameField.setText("");
-                examHourField.setText("");
-                examMinuteField.setText("");
-                numberOfQuestionField.setText("");
+                    // Database checking here
+                    if (Examdb.createExam(course.getId(), descripton, numberOfQuestion, duration)) {
+                        examNameField.setText("");
+                        examHourField.setText("");
+                        examMinuteField.setText("");
+                        numberOfQuestionField.setText("");
+                        JOptionPane.showMessageDialog(null, "Exam Created Successfully!", "Success!",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please insert valid data types", "Error!",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
 
-                // Go back to home
-                successPane = new JOptionPane();
-                successPane.setFont(MyFont.primaryFont());
-                successPane.showMessageDialog(null, "Exam Created Successfully!", "Success!",
-                        JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No of questions  should be between 1 to maximum number)",
+                            "Error!", JOptionPane.WARNING_MESSAGE);
+                }
 
             }
 

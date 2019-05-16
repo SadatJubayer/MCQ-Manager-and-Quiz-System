@@ -162,12 +162,17 @@ public class CourseRegistration extends JFrame implements ActionListener, MouseL
             shome.setLocationRelativeTo(null);
         }
         if (ae.getSource() == requestButton) {
-            System.out.println(student.getId());
-            System.out.println(selectedCourse.getId());
-            Studentdb.requestCourse(student.getId(), selectedCourse.getId());
-            requestButton.setEnabled(false);
-            requestButton.setText("Request Sent!");
-            System.out.println("done");
+
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to Request for the course?", "Warning",
+                    dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                Studentdb.requestCourse(student.getId(), selectedCourse.getId());
+                requestButton.setEnabled(false);
+                requestButton.setText("Request Sent!");
+                System.out.println("Request sent for the course");
+            }
+
         }
 
     }
